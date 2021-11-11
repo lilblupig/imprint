@@ -112,8 +112,11 @@ In line with structure planning...
 ### **Surface**
 
 #### Colours
-Thought process behind colour choices and palette development.
-![Colours option 1](assets/readme-images/colors-opt-1.png)
+The colours used for the site are based on the colours which comprise the historic Shaftesbury coat of arms.  These are primarily blue and white, with yellow highlights.  A deep red was chosen as a second complimentary colour, and is the colour used by the Town Council.
+
+The colours were tested on [Coolors](https://coolors.co/) to ensure that a colourblind user would be able to differentiate between all colours, and that the colours remained visually pleasing.
+
+![Colours option 1](readme-images/colors-opt-1.png)
 
 #### Typography
 Thought process behind font choices.
@@ -121,7 +124,7 @@ Thought process behind font choices.
 1. 
 1. 
 
-![Example fonts](assets/readme-images/typography.png)
+![Example fonts](readme-images/typography.png)
 
 ## Features
 
