@@ -1,7 +1,9 @@
-# **The To-Do List**
+# **Imprint**
 
 # Overview
+This is a mobile first website designed to encourage tourists and locals alike to bask in the rich and varied history of a small town in Dorset called Shaftesbury.  An historic saxon hilltop town, Shaftesbury and it's inhabitants pride themselves on the extensive history of the town and surrounds.
 
+Imprint takes a map of the town centre, and allows users to select an area, which will generate a gallery of images related to that part of the town.  These images will hopefully have been generated and uploaded by site users, providing a true community history of this incredible town.
 
 
 ![Am I Responsive Image](assets/readme-images/am-i-responsive.png)
@@ -302,4 +304,4 @@ The images for this README are from the following sources:
 
 **Created by Amy Hacker.**
 
-[Back to Top](#the-to-do-list)
+[Back to Top](#imprint)
