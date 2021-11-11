@@ -58,25 +58,27 @@ For these groups the following needs are identified:
 These stories are addressed fully in the [Testing](TESTING.md) document.
 
 ### **Strategy**
-Who is the website for?
-What does the owner of the website need/want?
-What do the users of the website need/want?
+Who is the website for? <br>
+The website is for people who want to celebrate the past and link it to the present.  More specifically, it is aimed at providing an alternate view of the town in all its changing glory.
 
-Broadly, how does the website meet these needs?
+What does the owner of the website need/want? <br>
+The website owner wants to help grow interest in the town, the businesses it has grown and the people it serves.
+
+What do the users of the website need/want? <br>
+The users of the website want to utilise the history of the town to enhance their experience of it, though in a number of different ways.
+
+Broadly, how does the website meet these needs? <br>
+The website focuses on historic imagery of the town as uploaded by the users into location specific categories.  This meets the needs of the owner by promoting curiosity about the town and its past, and of the users by providing them with evocative pictures to compliment their visit or experience, and to help build the brand of a business.
 
 Owner aims:
-* 
-* 
-* 
-* 
-* 
+* Add a new dimension to local tourism
+* Bring attention to local businesses
+* Attract back the interest of locals
 
 User aims:
-* 
-* 
-* 
-* 
-* 
+* Learn about surroundings
+* Share experiences and memories
+* Promote business
 
 ### **Scope**
 Why does the website exist?  What does it need to meet the user/owner aims?
