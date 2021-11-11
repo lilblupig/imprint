@@ -35,15 +35,25 @@ Note, testing information can be found in a separate document:
 ## UX
 
 ### **Overview and Broad Design Choices**
+The website should be immediately useable from very first navigation with an unobtrusive interface, and the focus on the images from start to finish.
 
+Fonts and colours are chosen to be striking but unfussy, and assist with intuitive navigation and use of the site.
+
+The whole point is to become lost in nostalgia and wonder at how much has changed, yet how much has stayed the same.
 
 ### **User Stories**
-1. As a new user, I want to 
-1. As a new user, I want to 
-1. As a new user, I want to 
-1. As a returning user, I want to 
-1. As a returning user, I want to 
-1. As a frequent user, I want to 
+There are three types of anticipated user:
+1. Tourists/visitors
+1. Locals
+1. Local business owners
+
+For these groups the following needs are identified:
+1. As a new tourist user, I want to link what I can see to what has been - clearly and easily.
+1. As a new local user, I want to find images of places I know.
+1. As a new business user, I want to be able to find the area which relates to my business.
+1. As a returning tourist user, I want to upload my own photographs, and easily find them to relive my memories.
+1. As a returning local user, I want to share images and memories of my past and feel part of a community.
+1. As a returning business user I want to be able to add value to the profile of my business and attract custom.
 
 These stories are addressed fully in the [Testing](TESTING.md) document.
 
