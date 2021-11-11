@@ -119,12 +119,14 @@ The colours were tested on [Coolors](https://coolors.co/) to ensure that a colou
 ![Colours option 1](readme-images/colors-opt-1.png)
 
 #### Typography
-Thought process behind font choices.
-1. 
-1. 
-1. 
+The fonts for the site were chosen for a clean but striking aesthetic.  Appropriate letter and word spacing for dyslexic users was researched and [Google fonts](https://fonts.google.com/) scanned for eye catching examples, which were then checked against researched criteria from the British Dyslexia Association.
 
-![Example fonts](readme-images/typography.png)
+Cinzel was chosen for headings because of its historic feel, but relative lack of accents.
+
+Nunito will be used for the body font, providing a clean open feel.  It is likely that one of the lighter weights will be used once seen in the working environment.
+
+![Example heading font](readme-images/typography-heading.png)
+![Example body font](readme-images/typography-body.png)
 
 ## Features
 
