@@ -122,14 +122,14 @@ In line with structure planning.
 #### Wireframes
 
 ##### Original
-1. [Mobile](readme-files/documents/XXXXX-mobile.pdf) 375px
-1. [Tablet](readme-files/documents/XXXXX-tablet.pdf) 768px
-1. [PC/Laptop](readme-files/documents/XXXXX-pc.pdf) 1200px
+1. [Mobile](readme-files/documents/imprint-mobile.pdf) 375px
+1. [Tablet](readme-files/documents/imprint-tablet.pdf) 768px
+1. [PC/Laptop](readme-files/documents/imprint-pc.pdf) 1200px
 
 ##### Final
-1. [Mobile](readme-files/documents/XXXXX-mobile-final.pdf) 375px
-1. [Tablet](readme-files/documents/XXXXX-tablet-final.pdf) 768px
-1. [PC/Laptop](readme-files/documents/XXXXX-pc-final.pdf) 1200px
+1. [Mobile](readme-files/documents/imprint-mobile-final.pdf) 375px
+1. [Tablet](readme-files/documents/imprint-tablet-final.pdf) 768px
+1. [PC/Laptop](readme-files/documents/imprint-pc-final.pdf) 1200px
 
 ##### Summary of Changes
 * 
