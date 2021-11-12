@@ -81,26 +81,37 @@ User aims:
 * Promote business
 
 ### **Scope**
-Why does the website exist?  What does it need to meet the user/owner aims?
+The website exists to encourage tourism and active discovery of local history.  Nostalgia and enjoyment are the primary aims.
 
 #### Feature Viability
 
 | # | Feature | Importance | Viability | Comment |
 |---| ------- | :--------: | :-------: | ------- |
-1.| Feature  | 0 | 0 | Y - Why
-2.| Feature  | 0 | 0 | Y - Why
-3.| Feature  | 0 | 0 | Y - Why
-T.| Total score | 0 | 0 |
+1.| Clickable map which loads images  | 5 | 4 | Y - Whole purpose of site
+2.| Users create and manage profiles | 5 | 5 | Y - Needed for community aspect
+3.| Users can add and manage images  | 5 | 5 | Y - Community contributions will add value
+4.| Display content relative to signed in user  | 5 | 5 | Y - Allows user to manage contributions
+5.| Designed strcitly mobile first | 5 | 5 | Y - Most likely device to be used to access site by far
+6.| Comments section for images | 4 | 2 | N - Unsure how this would work with non-relational database
+7.| Have form/user group for businesses | 2 | 2 | N - Not required for site function, but would be nice in future
+T.| Total score | 31 | 28 |
 
 #### Feature Plan
 First increment:
-* 
+* Interactive map
+* User profiles
+* Users can upload images
+* Display relevant content for user
+* Mobile first design
 
 Second increment:
-* 
+* Drill down to individual image and view image info as uploaded
+* Filter returned images
 
 Third increment:
-* 
+* Business accounts
+* Comments
+* Use Google maps to show user location on map
 
 ### **Structure**
 * See Information Grouping [mind map here](assets/documents/structure.pdf).
