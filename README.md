@@ -6,7 +6,7 @@ This is a mobile first website designed to encourage tourists and locals alike t
 Imprint takes a map of the town centre, and allows users to select an area, which will generate a gallery of images related to that part of the town.  These images will hopefully have been generated and uploaded by site users, providing a true community history of this incredible town.
 
 
-![Am I Responsive Image](assets/readme-images/am-i-responsive.png)
+![Am I Responsive Image](readme-images/am-i-responsive.png)
 
 # Index
 1. [UX](#ux)
@@ -114,22 +114,22 @@ Third increment:
 * Use Google maps to show user location on map
 
 ### **Structure**
-* See Information Grouping [mind map here](assets/documents/structure.pdf).
+* See Information Grouping [mind map here](readme-files/documents/structure.pdf).
 
 ### **Skeleton**
-In line with structure planning... 
+In line with structure planning.
 
 #### Wireframes
 
 ##### Original
-1. [Mobile](assets/documents/XXXXX-mobile.pdf) 375px
-1. [Tablet](assets/documents/XXXXX-tablet.pdf) 768px
-1. [PC/Laptop](assets/documents/XXXXX-pc.pdf) 1200px
+1. [Mobile](readme-files/documents/XXXXX-mobile.pdf) 375px
+1. [Tablet](readme-files/documents/XXXXX-tablet.pdf) 768px
+1. [PC/Laptop](readme-files/documents/XXXXX-pc.pdf) 1200px
 
 ##### Final
-1. [Mobile](assets/documents/XXXXX-mobile-final.pdf) 375px
-1. [Tablet](assets/documents/XXXXX-tablet-final.pdf) 768px
-1. [PC/Laptop](assets/documents/XXXXX-pc-final.pdf) 1200px
+1. [Mobile](readme-files/documents/XXXXX-mobile-final.pdf) 375px
+1. [Tablet](readme-files/documents/XXXXX-tablet-final.pdf) 768px
+1. [PC/Laptop](readme-files/documents/XXXXX-pc-final.pdf) 1200px
 
 ##### Summary of Changes
 * 
@@ -141,7 +141,7 @@ The colours used for the site are based on the colours which comprise the histor
 
 The colours were tested on [Coolors](https://coolors.co/) to ensure that a colourblind user would be able to differentiate between all colours, and that the colours remained visually pleasing.
 
-![Colours option 1](readme-images/colors-opt-1.png)
+![Colours option 1](readme-files/colors-opt-1.png)
 
 #### Typography
 The fonts for the site were chosen for a clean but striking aesthetic.  Appropriate letter and word spacing for dyslexic users was researched and [Google fonts](https://fonts.google.com/) scanned for eye catching examples, which were then checked against researched criteria from the British Dyslexia Association.
@@ -150,8 +150,8 @@ Cinzel was chosen for headings because of its historic feel, but relative lack o
 
 Nunito will be used for the body font, providing a clean open feel.  It is likely that one of the lighter weights will be used once seen in the working environment.
 
-![Example heading font](readme-images/typography-heading.png)
-![Example body font](readme-images/typography-body.png)
+![Example heading font](readme-files/typography-heading.png)
+![Example body font](readme-files/typography-body.png)
 
 ## Features
 
@@ -214,24 +214,24 @@ Continuous deployment via GitHub-Heroku link was utilised for this project.  As 
     * Commit this to Git.
 1. Push these files to GitHub.
 1. [Sign in to Heroku](https://id.heroku.com/login) (or [create a Heroku account](https://signup.heroku.com/) if you do not already have one), and choose "New > Create New App".
-![Heroku Dashboard snip](readme-images/heroku-1.png)
+![Heroku Dashboard snip](readme-files/heroku-1.png)
 1. Choose an app name, which must be unique, and select the nearest region.  Then click "Create App".
-![Heroku new app snip](readme-images/heroku-2.png)
+![Heroku new app snip](readme-files/heroku-2.png)
 1. Once generated choose the "Deploy" tab, select "Connect to GitHub" sub-tab and click the "Connect to GitHub" button.
-![Heroku Deploy snip](readme-images/heroku-3.png)
-![Heroku GitHub snip](readme-images/heroku-4.png)
+![Heroku Deploy snip](readme-files/heroku-3.png)
+![Heroku GitHub snip](readme-files/heroku-4.png)
 1. Follow the on-screen instructions to link Heroku to your GitHub account.
 1. Click the "Settings" tab from the main menu, and scroll down to find "Reveal Config Vars".  This section should be populated with any sensitive data which is not appropriate to send to GitHub, usually in an "env.py" document.
-![Heroku GitHub snip](readme-images/heroku-vars.png)
+![Heroku GitHub snip](readme-files/heroku-vars.png)
 1. Back on the Deploy tab, once linked, Heroku will prompt for the repository name, complete this and click "Search".
-![Heroku GitHub snip](readme-images/heroku-5.png)
+![Heroku GitHub snip](readme-files/heroku-5.png)
 1. The repo listing should appear, click "Connect".
 1. Heroku will process the request before showing that the connection has been made successfully, and showing two new options.  Click the first of these, which is to "Enable Automatic Deploys".
-![Heroku GitHub snip](readme-images/heroku-6.png)
+![Heroku GitHub snip](readme-files/heroku-6.png)
 1. The second option is to "Deploy Branch".  Click the button and Heroku will process for some time.
-![Heroku GitHub snip](readme-images/heroku-7.png)
+![Heroku GitHub snip](readme-files/heroku-7.png)
 1. Once complete, Heroku will display a checklist, followed by a "View" button.  Click this to open the app in a new tab.
-![Heroku GitHub snip](readme-images/heroku-8.png)
+![Heroku GitHub snip](readme-files/heroku-8.png)
 1. Celebrate! Your app should now update in line with any changes pushed to GitHub.
 
 ### **How to Clone and Run the Code Locally**
@@ -244,13 +244,13 @@ There are slightly different approaches should you choose to use GitPod to clone
 1. Restart Chrome.
 1. In GitHub, find the [project repository](https://github.com/ci-14-task-manager).
 1. From the repository menu, choose the green GitPod button.
-![GitPod button snip](readme-images/cloning-gitpod.png)
+![GitPod button snip](readme-files/cloning-gitpod.png)
 1. A new GitPod workspace will open containing the project code.
 
 #### Cloning a Project into a Local IDE
 1. Navigate to the [GitHub Repository](https://github.com/ci-14-task-manager).
 1. Choose the Code dropdown menu, and copy the URL.
-![GitHub code download snip](readme-images/clone-local-ide.png)
+![GitHub code download snip](readme-files/clone-local-ide.png)
 1. Open your local IDE and then open a terminal.
 1. Set the current working directory to your preferred location for the cloned project.
 1. Type in "git clone " followed by the copied URL. Be sure to include a space between git clone and the url, then press enter.
