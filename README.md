@@ -271,7 +271,7 @@ You can find more information on cloning a repository from GitHub [here](https:/
   * About: [JavaScript Home](https://www.javascript.com/)
 
 ### **Libraries and Frameworks**
-* [Bootstrap 5](https://getbootstrap.com/) is used to provide the grid functionality for uniform design, responsiveness and to enable the use of modal and hamburger menu.
+* [Materialize CSS](https://materializecss.com/getting-started.html) is used to provide further styling and structure.
 * [jQuery](https://jquery.com/) is used to simplify the implementation of interactive JavaScript components.
 * [Flask]() is used to provide a structure the Python application, and make use of the Jinja templating language.
 * [Flask Pymongo]() was used to allow Flask to communicate with MongoDB.
