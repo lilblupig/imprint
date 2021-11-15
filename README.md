@@ -285,6 +285,7 @@ You can find more information on cloning a repository from GitHub [here](https:/
 * [W3C HTML Validation Service](https://validator.w3.org/) was used to remove any remaining errors in HTML code.
 * [JS Hint Validation Service](https://jshint.com/) was used to check for major errors in JavaScript.
 * [Responsively](https://responsively.app/) was used to explore responsiveness across various devices.
+* [RandomKeyGen](https://randomkeygen.com/) was used to produce the database Secret Key, amongst other security.
 
 ### **Other Resources**
 * [Code Institute Full Template](https://github.com/Code-Institute-Org/gitpod-full-template) was used to set up the repository.
