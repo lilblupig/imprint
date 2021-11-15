@@ -7,4 +7,10 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: Cinzel, serif;
+    color: #000000;
+}
+
+nav a {
+    font-family: Cinzel, serif;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
 }
