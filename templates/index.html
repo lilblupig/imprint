@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h2>Test h2</h2>
+
+    {% for location in locations %}
+        {{ location.location_name }}<br>
+    {% endfor %}
+
+{% endblock %}

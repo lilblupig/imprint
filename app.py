@@ -23,7 +23,7 @@ mongo = PyMongo(app)
 def get_locations():
     """ Define test function """
     locations = mongo.db.locations.find()
-    return render_template("base.html", locations=locations)
+    return render_template("index.html", locations=locations)
 
 
 if __name__ == "__main__":
