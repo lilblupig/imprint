@@ -1,3 +1,4 @@
+""" Import dependencies """
 import os
 from flask import Flask
 if os.path.exists("env.py"):
@@ -9,6 +10,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
+    """ Define test function """
     return "Hello World... again!"
 
 
