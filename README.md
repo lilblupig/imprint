@@ -273,6 +273,9 @@ You can find more information on cloning a repository from GitHub [here](https:/
 ### **Libraries and Frameworks**
 * [Bootstrap 5](https://getbootstrap.com/) is used to provide the grid functionality for uniform design, responsiveness and to enable the use of modal and hamburger menu.
 * [jQuery](https://jquery.com/) is used to simplify the implementation of interactive JavaScript components.
+* [Flask]() is used to provide a structure the Python application, and make use of the Jinja templating language.
+* [Flask Pymongo]() was used to allow Flask to communicate with MongoDB.
+* [DNS Python]() was installed in order to use the Mongo SRV connection string.
 * [Google Fonts](https://fonts.google.com/) are used to provide the typography for the website.
 * [Font Awesome](https://fontawesome.com/) is used to provide the icons for the website.
 
