@@ -1,13 +1,20 @@
 """ Import dependencies """
 import os
 from flask import (
-    Flask, flash, render_template, redirect, 
-    request, session, url_for)
+    Flask,
+    flash,
+    render_template,
+    redirect,
+    request,
+    session,
+    url_for
+)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+from werkzeug.security import generate_password_hash, check_password_hash
 if os.path.exists("env.py"):
     import env
-
+from forms import ContactForm
 
 app = Flask(__name__)
 
@@ -24,6 +31,19 @@ def get_locations():
     """ Define test function """
     locations = mongo.db.locations.find()
     return render_template("index.html", locations=locations)
+
+
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    """ Contact form """
+    form = ContactForm()
+    if form.validate_on_submit():
+        return redirect(url_for("success"))
+    return render_template(
+        "contact.html",
+        form=form,
+        template="form-template"
+    )
 
 
 if __name__ == "__main__":

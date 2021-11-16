@@ -276,6 +276,8 @@ You can find more information on cloning a repository from GitHub [here](https:/
 * [Flask]() is used to provide a structure the Python application, and make use of the Jinja templating language.
 * [Flask Pymongo]() was used to allow Flask to communicate with MongoDB.
 * [DNS Python]() was installed in order to use the Mongo SRV connection string.
+* [Flask_WTF](https://flask-wtf.readthedocs.io/en/1.0.x/) is used to provide form structure, functionality and data validation.
+* [Werkzeug](https://werkzeug.palletsprojects.com/en/2.0.x/) is used to provide user security around passwords and storage.
 * [Google Fonts](https://fonts.google.com/) are used to provide the typography for the website.
 * [Font Awesome](https://fontawesome.com/) is used to provide the icons for the website.
 
@@ -296,6 +298,7 @@ You can find more information on cloning a repository from GitHub [here](https:/
 ## Credits
 
 ### **Website Credits**
+* Forms - [Hackers & Slackers](https://hackersandslackers.com/flask-wtforms-forms/) tutorial.
 
 #### Content
 Where did the website content come from?
