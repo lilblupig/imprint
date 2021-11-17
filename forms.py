@@ -1,7 +1,19 @@
+# Models
+
 """ Import necessary data """
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, Length, Email
+from wtforms import (
+    StringField,
+    TextAreaField,
+    SubmitField,
+    PasswordField,
+)
+from wtforms.validators import (
+    DataRequired,
+    Length,
+    Email,
+    EqualTo
+)
 
 
 class ContactForm(FlaskForm):
@@ -17,13 +29,14 @@ class ContactForm(FlaskForm):
             DataRequired()
         ]
     )
-    body = StringField(
+    body = TextAreaField(
         'Query',
         [
-            DataRequired(),
             Length(min=4,
-            message=('Your message is too short.'))
+            message=('Your message is too short.')),
+            DataRequired()
         ]
     )
     recaptcha = RecaptchaField()
     submit = SubmitField('Submit')
+
