@@ -280,6 +280,7 @@ You can find more information on cloning a repository from GitHub [here](https:/
 * [Werkzeug](https://werkzeug.palletsprojects.com/en/2.0.x/) is used to provide user security around passwords and storage.
 * [Google Fonts](https://fonts.google.com/) are used to provide the typography for the website.
 * [Font Awesome](https://fontawesome.com/) is used to provide the icons for the website.
+* [Google ReCaptcha](https://www.google.com/recaptcha/) is used to protect the contact and sign up forms.
 
 ### **Tools**
 * [Git](https://git-scm.com/)/[GitHub](https://github.com/) was used for version control and repository storage.
@@ -291,6 +292,7 @@ You can find more information on cloning a repository from GitHub [here](https:/
 * [JS Hint Validation Service](https://jshint.com/) was used to check for major errors in JavaScript.
 * [Responsively](https://responsively.app/) was used to explore responsiveness across various devices.
 * [RandomKeyGen](https://randomkeygen.com/) was used to produce the database Secret Key, amongst other security.
+* [Flaticon](https://www.flaticon.com/) was used to make the favicon.
 
 ### **Other Resources**
 * [Code Institute Full Template](https://github.com/Code-Institute-Org/gitpod-full-template) was used to set up the repository.
@@ -298,7 +300,9 @@ You can find more information on cloning a repository from GitHub [here](https:/
 ## Credits
 
 ### **Website Credits**
+The following resources provided strong underlying understanding for items within the website, even where the approach has ended up being different.
 * Forms - [Hackers & Slackers](https://hackersandslackers.com/flask-wtforms-forms/) tutorial.
+* Recaptcha link up - [Easy ReCAPTCHA with Flask-WTF](https://john.soban.ski/add-recaptcha-to-your-flask-application.html) blog.
 
 #### Content
 Where did the website content come from?
