@@ -5,47 +5,39 @@
 
     <div class="form-wrapper">
         <h2 class="title">Contact</h2>
-
+        
         <form method="POST" action="{{ url_for('contact') }}">
+            {{ form.csrf_token }}
 
             <fieldset class="form-field">
                 {{ form.name.label }}
                 {{ form.name }}
-                {% if form.name.errors %}
-                    <ul class="errors">
-                        {% for error in form.name.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+                {% for message in form.name.errors %}
+                   <div class="flash">{{ message }}</div>
+                {% endfor %}
             </fieldset>
 
             <fieldset class="form-field">
                 {{ form.email.label }}
                 {{ form.email }}
-                {% if form.email.errors %}
-                    <ul class="errors">
-                        {% for error in form.email.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+                {% for message in form.email.errors %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
             </fieldset>
 
             <fieldset class="form-field">
                 {{ form.body.label }}
                 {{ form.body }}
-                {% if form.body.errors %}
-                    <ul class="errors">
-                        {% for error in form.body.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+                {% for message in form.body.errors %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
             </fieldset>
 
             <fieldset class="form-field">
                 {{ form.recaptcha }}
+                {% for message in form.recaptcha.errors %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
             </fieldset>
 
             {{ form.submit }}

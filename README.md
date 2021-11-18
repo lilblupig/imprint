@@ -278,6 +278,7 @@ You can find more information on cloning a repository from GitHub [here](https:/
 * [DNS Python]() was installed in order to use the Mongo SRV connection string.
 * [Flask_WTF](https://flask-wtf.readthedocs.io/en/1.0.x/) is used to provide form structure, functionality and data validation.
 * [Werkzeug](https://werkzeug.palletsprojects.com/en/2.0.x/) is used to provide user security around passwords and storage.
+* [Flask-Mail](https://pythonhosted.org/flask-mail/) is used to facilitate email sending from the contact form.
 * [Google Fonts](https://fonts.google.com/) are used to provide the typography for the website.
 * [Font Awesome](https://fontawesome.com/) is used to provide the icons for the website.
 * [Google ReCaptcha](https://www.google.com/recaptcha/) is used to protect the contact and sign up forms.
@@ -303,6 +304,7 @@ You can find more information on cloning a repository from GitHub [here](https:/
 The following resources provided strong underlying understanding for items within the website, even where the approach has ended up being different.
 * Forms - [Hackers & Slackers](https://hackersandslackers.com/flask-wtforms-forms/) tutorial.
 * Recaptcha link up - [Easy ReCAPTCHA with Flask-WTF](https://john.soban.ski/add-recaptcha-to-your-flask-application.html) blog.
+* Contact email sending - [Intro to Flask: Adding a Contact Page](https://code.tutsplus.com/tutorials/intro-to-flask-adding-a-contact-page--net-28982) tutorial and [Mailtrap Flask Email Sending](https://mailtrap.io/blog/flask-email-sending/) article.
 
 #### Content
 Where did the website content come from?
