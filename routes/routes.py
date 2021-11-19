@@ -17,11 +17,17 @@ from forms import *
 
 mail = Mail()
 
-app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER")
-app.config["MAIL_PORT"] = os.environ.get("MAIL_PORT")
-app.config["MAIL_USE_SSL"] = os.environ.get("MAIL_USE_SSL")
-app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME")
-app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
+email_settings = {
+    "MAIL_SERVER": os.environ.get("MAIL_SERVER"),
+    "MAIL_PORT": os.environ.get("MAIL_PORT"),
+    "MAIL_USE_SSL": os.environ.get("MAIL_USE_SSL"),
+    "MAIL_USERNAME": os.environ.get("MAIL_USERNAME"),
+    "MAIL_PASSWORD": os.environ.get("MAIL_PASSWORD"),
+    "MAIL_DEFAULT_SENDER": os.environ.get("MAIL_DEFAULT_SENDER"),
+    "ADMIN_EMAIL": os.environ.get("ADMIN_EMAIL")
+}
+
+app.config.update(email_settings)
 
 mail.init_app(app)
 
@@ -33,17 +39,15 @@ def get_locations():
     locations = mongo.db.locations.find()
     return render_template("index.html", locations=locations)
 
-# Mail sending works with email hard coded into recipient - not working with environment variable - to address later
+
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     """ Contact form """
     form = ContactForm()
 
     if request.method == 'POST':
-        if form.validate() == False:
-            return render_template('contact.html', form=form)
-        else:
-            msg = Message("Imprint contact message", sender="MAIL_USERNAME", recipients=["MAIL_USERNAME"])
+        if form.validate() == True:
+            msg = Message("Imprint contact message", recipients=[email_settings["ADMIN_EMAIL"]])
             msg.body = """
             From: %s <%s>
             %s
@@ -51,5 +55,8 @@ def contact():
             mail.send(msg)
 
             return 'Form posted.'
+        else:
+            return render_template('contact.html', form=form)
+
     elif request.method == 'GET':
         return render_template("contact.html", form=form)
