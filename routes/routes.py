@@ -1,5 +1,3 @@
-from config import mail
-
 import os
 from app import app, mongo
 from flask import (
