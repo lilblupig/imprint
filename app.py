@@ -46,7 +46,7 @@ def get_locations():
     locations = mongo.db.locations.find()
     return render_template("index.html", locations=locations)
 
-
+# Mail sending works with email hard coded into recipient - not working with environment variable - to address later
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     """ Contact form """
@@ -54,15 +54,18 @@ def contact():
 
     if request.method == 'POST':
         if form.validate() == False:
-            flash('All fields are required.')
             return render_template('contact.html', form=form)
         else:
+            msg = Message("Imprint contact message", sender="MAIL_USERNAME", recipients=["MAIL_USERNAME"])
+            msg.body = """
+            From: %s <%s>
+            %s
+            """ % (form.name.data, form.email.data, form.body.data)
+            mail.send(msg)
+
             return 'Form posted.'
     elif request.method == 'GET':
-        return render_template(
-            "contact.html",
-            form=form,
-        )
+        return render_template("contact.html", form=form)
 
 
 if __name__ == "__main__":

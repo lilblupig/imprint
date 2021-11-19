@@ -36,10 +36,9 @@ class ContactForm(FlaskForm):
         'Query',
         [
             Length(min=10,
-            message=('Please write a message longer than 10 characters.')),
+                message=('Please write a message longer than 10 characters.')),
             InputRequired()
         ]
     )
     recaptcha = RecaptchaField()
     submit = SubmitField('Send')
-
