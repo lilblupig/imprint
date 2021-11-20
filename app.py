@@ -1,3 +1,8 @@
+"""
+    Imprint Nov 2021
+    Master module
+"""
+
 # Import dependencies
 import os
 from flask import Flask

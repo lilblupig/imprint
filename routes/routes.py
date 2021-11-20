@@ -1,6 +1,9 @@
+"""
+    Imprint Nov 2021
+    Routes for all pages
+"""
+
 # Import dependencies
-import os
-from app import app, mongo
 from flask import (
     flash,
     render_template,
@@ -16,7 +19,8 @@ from flask_mail import Message, Mail
 from bson.objectid import ObjectId
 
 # Import local Forms code
-from forms import *
+from app import app, mongo
+from forms import ContactForm
 from config import mail_config
 
 
@@ -32,20 +36,34 @@ def get_locations():
 # Route for Contact Form
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
-    """ Contact form """
+    """
+        Contact form:
+        Define which model to use
+        Check request type and either:
+            GET = Load page
+            POST = Validate, create message and send form
+    """
+    # Define model to use
     form = ContactForm()
 
     if request.method == 'POST':
-        if form.validate() == True:
+
+        # Check all fields are validated
+        if form.validate() is True:
+
+            # Get form data and put in dictionary
             form_content = {
                 "name": request.form.get("name"),
                 "email": request.form.get("email"),
                 "body": request.form.get("body")
             }
 
-            mail_config.sendEmail(form_content)
+            # Call mail function and provide form data
+            mail_config.send_email(form_content)
 
             return 'Form posted.'
+
+        # If fields not all valiated relaod form with messages
         else:
             return render_template('contact.html', form=form)
 

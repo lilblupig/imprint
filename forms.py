@@ -1,6 +1,9 @@
-# Models
+"""
+    Imprint Nov 2021
+    Form models
+"""
 
-""" Import necessary data """
+# Import dependencies
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import (
     StringField,
@@ -18,7 +21,13 @@ from wtforms.validators import (
 
 
 class ContactForm(FlaskForm):
-    """ Create contact form """
+    """
+        Create contact form model
+        Define field = WTF Fieldtype
+            Set label
+            Set any validators and messages
+    """
+
     name = StringField(
         'Name',
         [
@@ -29,15 +38,19 @@ class ContactForm(FlaskForm):
         'Email',
         [
             InputRequired(),
-            Email(message=('Please enter a valid email address.'))
+            Email(
+                message=('Please enter a valid email address.')
+            )
         ]
     )
     body = TextAreaField(
         'Query',
         [
-            Length(min=10,
-                message=('Please write a message longer than 10 characters.')),
-            InputRequired()
+            InputRequired(),
+            Length(
+                min=10,
+                message=('Please write a message longer than 10 characters.')
+            )
         ]
     )
     recaptcha = RecaptchaField()
