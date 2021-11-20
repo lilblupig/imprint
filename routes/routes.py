@@ -61,7 +61,7 @@ def contact():
             # Call mail function and provide form data
             mail_config.send_email(form_content)
 
-            return 'Form posted.'
+            return render_template('contact.html', success=True)
 
         # If fields not all valiated relaod form with messages
         else:
