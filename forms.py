@@ -19,7 +19,7 @@ from wtforms.validators import (
     EqualTo
 )
 
-
+# Contact form
 class ContactForm(FlaskForm):
     """
         Create contact form model
@@ -55,3 +55,26 @@ class ContactForm(FlaskForm):
     )
     recaptcha = RecaptchaField()
     submit = SubmitField('Send')
+
+
+# Registration form
+class RegisterForm(FlaskForm):
+    """ Register for a user account """
+    username = StringField(
+        'Username',
+        [InputRequired()]
+    )
+    password = PasswordField(
+        'Password',
+        [
+            InputRequired(message="Please enter a password."),
+        ]
+    )
+    confirmPassword = PasswordField(
+        'Repeat Password',
+        [
+            EqualTo(password, message='Passwords must match.')
+        ]
+    )
+    recaptcha = RecaptchaField()
+    submit = SubmitField('Submit')

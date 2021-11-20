@@ -20,7 +20,7 @@ from bson.objectid import ObjectId
 
 # Import local Forms code
 from app import app, mongo
-from forms import ContactForm
+from forms import ContactForm, RegisterForm
 from config import mail_config
 
 
@@ -69,3 +69,16 @@ def contact():
 
     elif request.method == 'GET':
         return render_template("contact.html", form=form)
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    """ Registration form """
+    form = RegisterForm()
+    if form.validate_on_submit():
+        return redirect(url_for("success"))
+    return render_template(
+        "register.html",
+        form=form,
+        template="form-template"
+    )
