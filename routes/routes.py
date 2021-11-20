@@ -83,6 +83,24 @@ def register():
 
         # Check all fields are validated
         if form.validate() is True:
+            # Check for existing username
+            existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
+
+            if existing_user:
+                flash("Username already in use")
+                return redirect(url_for("register"))
+
+            register = {
+                "username": request.form.get("username").lower(),
+                "password": generate_password_hash(request.form.get("password"))
+            }
+
+            mongo.db.users.insert_one(register)
+
+            session["user"] = request.form.get("username").lower()
+
+            flash("Registration successful")
+
             return render_template('register.html', success=True)
 
         # If fields not all validated reload form with messages
