@@ -44,6 +44,20 @@
 
     </header>
 
+    {% block title %}
+    {% endblock %}
+
+    <section>
+        <!-- Flash messages for user feedback -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </section>
+
     {% block content %}
     {% endblock %}
 
