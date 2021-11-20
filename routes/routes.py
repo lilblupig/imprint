@@ -83,7 +83,6 @@ def register():
 
         # Check all fields are validated
         if form.validate() is True:
-            return "Validated!"
             return render_template('register.html', success=True)
 
         # If fields not all validated reload form with messages

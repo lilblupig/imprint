@@ -70,13 +70,15 @@ class RegisterForm(FlaskForm):
     username = StringField(
         'Username',
         [
-            InputRequired()
+            InputRequired(),
+            Length(min=3)
         ]
     )
     password = PasswordField(
         'Password',
         [
             InputRequired(),
+            Length(min=8),
             EqualTo('confirm', message='Passwords must match')
         ]
     )
