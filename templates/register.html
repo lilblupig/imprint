@@ -1,52 +1,53 @@
 {% extends "base.html" %}
 
-
 {% block content %}
 
     <div class="form-wrapper">
         <h2 class="title">Register</h2>
 
-        <form method="POST" action="{{ url_for('register') }}">
+        {% if success %}
+            <p>Thank you for registering! Click the button below to get started.</p>
+        
+        {% else %}
 
-            <fieldset class="form-field">
-                {{ form.username.label }}
-                {{ form.username }}
-                {% if form.username.errors %}
-                    <ul class="errors">
-                        {% for error in form.username.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </fieldset>
+            <form method="POST" action="{{ url_for('register') }}">
+                {{ form.csrf_token }}
 
-            <fieldset class="form-field">
-                {{ form.password.label }}
-                {{ form.password }}
-                {% if form.password.errors %}
-                    <ul class="errors">
-                        {% for error in form.password.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </fieldset>
+                <fieldset class="form-field">
+                    {{ form.username.label }}
+                    {{ form.username }}
+                    {% for message in form.username.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
 
-            <fieldset class="form-field">
-                {{ form.confirmPassword.label }}
-                {{ form.confirmPassword }}
-                {% if form.confirmPassword.errors %}
-                    <ul class="errors">
-                        {% for error in form.confirmPassword.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </fieldset>
+                <fieldset class="form-field">
+                    {{ form.password.label }}
+                    {{ form.password }}
+                    {% for message in form.password.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
 
-            {{ form.submit }}
+                    {{ form.confirm.label }}
+                    {{ form.confirm }}
+                    {% for message in form.confirm.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
 
-        </form>
+                <fieldset class="form-field">
+                    {{ form.recaptcha }}
+                    {% for message in form.recaptcha.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
+
+                {{ form.submit }}
+
+            </form>
+
+        {% endif %}
+
     </div>
 
 {% endblock %}

@@ -10,7 +10,7 @@ from wtforms import (
     EmailField,
     TextAreaField,
     SubmitField,
-    PasswordField,
+    PasswordField
 )
 from wtforms.validators import (
     InputRequired,
@@ -18,6 +18,7 @@ from wtforms.validators import (
     Email,
     EqualTo
 )
+
 
 # Contact form
 class ContactForm(FlaskForm):
@@ -57,24 +58,33 @@ class ContactForm(FlaskForm):
     submit = SubmitField('Send')
 
 
-# Registration form
+# Register form
 class RegisterForm(FlaskForm):
-    """ Register for a user account """
+    """
+        Create contact form model
+        Define field = WTF Fieldtype
+            Set label
+            Set any validators and messages
+    """
+
     username = StringField(
         'Username',
-        [InputRequired()]
+        [
+            InputRequired()
+        ]
     )
     password = PasswordField(
         'Password',
         [
-            InputRequired(message="Please enter a password."),
+            InputRequired(),
+            EqualTo('confirm', message='Passwords must match')
         ]
     )
-    confirmPassword = PasswordField(
-        'Repeat Password',
+    confirm = PasswordField(
+        'Confirm Password',
         [
-            EqualTo(password, message='Passwords must match.')
+            InputRequired()
         ]
     )
     recaptcha = RecaptchaField()
-    submit = SubmitField('Submit')
+    submit = SubmitField('Send')

@@ -63,7 +63,7 @@ def contact():
 
             return render_template('contact.html', success=True)
 
-        # If fields not all valiated relaod form with messages
+        # If fields not all validated reload form with messages
         else:
             return render_template('contact.html', form=form)
 
@@ -73,12 +73,22 @@ def contact():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    """ Registration form """
+    """
+        Register form:
+    """
+    # Define model to use
     form = RegisterForm()
-    if form.validate_on_submit():
-        return redirect(url_for("success"))
-    return render_template(
-        "register.html",
-        form=form,
-        template="form-template"
-    )
+
+    if request.method == 'POST':
+
+        # Check all fields are validated
+        if form.validate() is True:
+            return "Validated!"
+            return render_template('register.html', success=True)
+
+        # If fields not all validated reload form with messages
+        else:
+            return render_template('register.html', form=form)
+
+    elif request.method == 'GET':
+        return render_template("register.html", form=form)
