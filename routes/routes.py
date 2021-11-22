@@ -20,7 +20,7 @@ from bson.objectid import ObjectId
 
 # Import local Forms code
 from app import app, mongo
-from forms import ContactForm, RegisterForm, LoginForm
+from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm
 from config import mail_config
 
 
@@ -129,15 +129,15 @@ def login():
             existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
 
             if not existing_user:
-                flash("Invalid username and/or password, please try again")
-                return redirect(url_for("login"))
+                flash("Invalid username, please try again")
+                return render_template('login.html', form=form)
             else:
                 if check_password_hash(existing_user["password"], request.form.get("password")):
                     session["user"] = request.form.get("username").lower()
                     flash("Welcome back {}".format(request.form.get("username")))
                 else:
-                    flash("Invalid username and/or password, please try again")
-                    return redirect(url_for("login"))
+                    flash("Invalid password, please try again")
+                    return render_template('login.html', form=form)
 
             return render_template('login.html', success=True)
 
@@ -147,3 +147,41 @@ def login():
 
     elif request.method == 'GET':
         return render_template('login.html', form=form)
+
+
+# Route for profile page
+@app.route("/profile/<username>", methods=["GET", "POST"])
+def profile(username):
+    """
+        Change password form:
+            Password updates, but then can't sign in*************************************************
+    """
+    # Define model to use
+    form = ChangePasswordForm()
+
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+
+    if request.method == 'POST':
+
+        # Check all fields are validated
+        if form.validate() is True:
+            if check_password_hash(user["password"], request.form.get("old_password")):
+
+                update_password = {
+                    "user": user["username"],
+                    "password": generate_password_hash(request.form.get("new_password"))
+                }
+
+                mongo.db.users.update({"user": user["_id"]}, update_password)
+
+                return render_template('profile.html', username=username, success=True)
+            else:
+                flash("Incorrect existing password, please try again")
+                return render_template("profile.html", username=username, form=form)
+        else:
+            return render_template('profile.html', username=username, form=form)
+
+    elif request.method == 'GET':
+        username = user["username"]
+        return render_template("profile.html", username=username, form=form)

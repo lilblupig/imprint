@@ -116,3 +116,36 @@ class LoginForm(FlaskForm):
         ]
     )
     submit = SubmitField('Login')
+
+
+# Change password form
+class ChangePasswordForm(FlaskForm):
+    """
+        Create password change form model
+        Define field = WTF Fieldtype
+            Set label
+            Set any validators and messages
+    """
+
+    old_password = PasswordField(
+        'Old password',
+        [
+            InputRequired(),
+            Length(min=8),
+        ]
+    )
+    new_password = PasswordField(
+        'New password',
+        [
+            InputRequired(),
+            Length(min=8),
+            EqualTo('confirm', message='Passwords must match')
+        ]
+    )
+    confirm = PasswordField(
+        'Confirm new password',
+        [
+            InputRequired()
+        ]
+    )
+    submit = SubmitField('Change Password')
