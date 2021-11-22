@@ -149,6 +149,14 @@ def login():
         return render_template('login.html', form=form)
 
 
+@app.route("/logout")
+def logout():
+    # Delete user session
+    flash("You have successfully been logged out")
+    session.pop("user")
+    return redirect(url_for("login"))
+
+
 # Route for profile page
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
