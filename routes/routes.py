@@ -162,26 +162,29 @@ def profile(username):
     # Find user record from database
     user = mongo.db.users.find_one({"username": session["user"]})
 
-    if request.method == 'POST':
+    if session["user"]:
+        if request.method == 'POST':
 
-        # Check all fields are validated
-        if form.validate() is True:
-            if check_password_hash(user["password"], request.form.get("old_password")):
+            # Check all fields are validated
+            if form.validate() is True:
+                if check_password_hash(user["password"], request.form.get("old_password")):
 
-                update_password = {
-                    "user": user["username"],
-                    "password": generate_password_hash(request.form.get("new_password"))
-                }
+                    update_password = {
+                        "user": user["username"],
+                        "password": generate_password_hash(request.form.get("new_password"))
+                    }
 
-                mongo.db.users.update({"user": user["_id"]}, update_password)
+                    mongo.db.users.update({"username": user["username"]}, update_password)
 
-                return render_template('profile.html', username=username, success=True)
+                    return render_template('profile.html', username=username, success=True)
+                else:
+                    flash("Incorrect existing password, please try again")
+                    return render_template("profile.html", username=username, form=form)
             else:
-                flash("Incorrect existing password, please try again")
-                return render_template("profile.html", username=username, form=form)
-        else:
-            return render_template('profile.html', username=username, form=form)
+                return render_template('profile.html', username=username, form=form)
 
-    elif request.method == 'GET':
-        username = user["username"]
-        return render_template("profile.html", username=username, form=form)
+        elif request.method == 'GET':
+            username = user["username"]
+            return render_template("profile.html", username=username, form=form)
+
+    return redirect(url_for("login"))
