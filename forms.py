@@ -61,7 +61,7 @@ class ContactForm(FlaskForm):
 # Register form
 class RegisterForm(FlaskForm):
     """
-        Create contact form model
+        Create registration form model
         Define field = WTF Fieldtype
             Set label
             Set any validators and messages
@@ -89,4 +89,30 @@ class RegisterForm(FlaskForm):
         ]
     )
     recaptcha = RecaptchaField()
-    submit = SubmitField('Send')
+    submit = SubmitField('Register')
+
+
+# Login form
+class LoginForm(FlaskForm):
+    """
+        Create login form model
+        Define field = WTF Fieldtype
+            Set label
+            Set any validators and messages
+    """
+
+    username = StringField(
+        'Username',
+        [
+            InputRequired(),
+            Length(min=3)
+        ]
+    )
+    password = PasswordField(
+        'Password',
+        [
+            InputRequired(),
+            Length(min=8),
+        ]
+    )
+    submit = SubmitField('Login')

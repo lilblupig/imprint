@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <h1 class="title">Register</h2>
+    <h1 class="title">Login</h2>
 {% endblock %}
 
 {% block content %}
@@ -9,12 +9,12 @@
     <div class="form-wrapper">
 
         {% if success %}
-            <p>Thank you for registering! Click the button below to get started.</p>
+            <p>Welcome back.</p>
             <a href="{{ url_for('get_locations') }}" class="btn">Home</a>
         
         {% else %}
 
-            <form method="POST" action="{{ url_for('register') }}">
+            <form method="POST" action="{{ url_for('login') }}">
                 {{ form.csrf_token }}
 
                 <fieldset class="form-field">
@@ -31,19 +31,6 @@
                     {% for message in form.password.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-
-                    {{ form.confirm.label }}
-                    {{ form.confirm }}
-                    {% for message in form.confirm.errors %}
-                        <div class="flash">{{ message }}</div>
-                    {% endfor %}
-                </fieldset>
-
-                <fieldset class="form-field">
-                    {{ form.recaptcha }}
-                    {% for message in form.recaptcha.errors %}
-                        <div class="flash">{{ message }}</div>
-                    {% endfor %}
                 </fieldset>
 
                 {{ form.submit }}
@@ -55,7 +42,7 @@
     </div>
 
     <div>
-        <p>If you already have an account, please <a href="{{ url_for('login') }}">Login here</a></p>
+        <p>If you don't have an account yet, but would like to participate please <a href="{{ url_for('register') }}">Register here</a></p>
     </div>
 
 {% endblock %}

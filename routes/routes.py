@@ -20,7 +20,7 @@ from bson.objectid import ObjectId
 
 # Import local Forms code
 from app import app, mongo
-from forms import ContactForm, RegisterForm
+from forms import ContactForm, RegisterForm, LoginForm
 from config import mail_config
 
 
@@ -71,6 +71,7 @@ def contact():
         return render_template("contact.html", form=form)
 
 
+# Route for Registration form
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """
@@ -90,12 +91,12 @@ def register():
                 flash("Username already in use")
                 return redirect(url_for("register"))
 
-            register = {
+            register_user = {
                 "username": request.form.get("username").lower(),
                 "password": generate_password_hash(request.form.get("password"))
             }
 
-            mongo.db.users.insert_one(register)
+            mongo.db.users.insert_one(register_user)
 
             session["user"] = request.form.get("username").lower()
 
@@ -109,3 +110,32 @@ def register():
 
     elif request.method == 'GET':
         return render_template("register.html", form=form)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """
+        Login form:
+    """
+    # Define model to use
+    form = LoginForm()
+
+    if request.method == 'POST':
+
+        # Check all fields are validated
+        if form.validate() is True:
+            # Check for existing username
+            existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
+
+            if not existing_user:
+                flash("Username does not exist")
+                return redirect(url_for("login"))
+
+            return render_template('login.html', success=True)
+
+        # If fields not all validated reload form with messages
+        else:
+            return render_template('login.html', form=form)
+
+    elif request.method == 'GET':
+        return render_template('login.html', form=form)
