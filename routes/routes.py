@@ -149,6 +149,7 @@ def login():
         return render_template('login.html', form=form)
 
 
+# Route for logout
 @app.route("/logout")
 def logout():
     # Delete user session
@@ -162,7 +163,6 @@ def logout():
 def profile(username):
     """
         Change password form:
-            Password updates, but then can't sign in*************************************************
     """
     # Define model to use
     form = ChangePasswordForm()
@@ -177,12 +177,9 @@ def profile(username):
             if form.validate() is True:
                 if check_password_hash(user["password"], request.form.get("old_password")):
 
-                    update_password = {
-                        "user": user["username"],
-                        "password": generate_password_hash(request.form.get("new_password"))
-                    }
+                    update_password = generate_password_hash(request.form.get("new_password"))
 
-                    mongo.db.users.update({"username": user["username"]}, update_password)
+                    mongo.db.users.update_one({"_id": user["_id"]}, {"$set": {"password": update_password}})
 
                     return render_template('profile.html', username=username, success=True)
                 else:
