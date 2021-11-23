@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+<!-- Content to display in title block -->
+{% block title %}
+    <h1 class="title">Login</h1>
+{% endblock %}
+
+
+<!-- Content to display in content block -->
+{% block content %}
+
+    <div class="form-wrapper">
+
+        <!-- Message to display on succesful login -->
+        {% if success %}
+            <a href="{{ url_for('get_locations') }}" class="btn">Home</a>
+
+        {% else %}
+            <form method="POST" action="{{ url_for('login') }}">
+                <!-- Hidden token proof that form came from page, uses secret key -->
+                {{ form.csrf_token }}
+
+                <fieldset class="form-field">
+                    {{ form.username.label }}
+                    {{ form.username }}
+                    {% for message in form.username.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
+
+                <fieldset class="form-field">
+                    {{ form.password.label }}
+                    {{ form.password }}
+                    {% for message in form.password.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
+
+                {{ form.submit }}
+
+            </form>
+
+            <div>
+                <p>If you don't have an account yet, but would like to participate please <a class="btn" href="{{ url_for('register') }}">Register here</a></p>
+            </div>
+        
+        {% endif %}
+
+    </div>
+
+{% endblock %}

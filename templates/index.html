@@ -1,10 +1,14 @@
 {% extends "base.html" %}
-{% block content %}
 
+<!-- Content to display in title block -->
+{% block title %}
     <h1>Test Heading</h1>
+{% endblock %}
 
+
+<!-- Content to display in content block -->
+{% block content %}
     {% for location in locations %}
         {{ location.location_name }}<br>
     {% endfor %}
-
 {% endblock %}

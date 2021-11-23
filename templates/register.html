@@ -2,7 +2,7 @@
 
 <!-- Content to display in title block -->
 {% block title %}
-    <h1 class="title">Contact</h1>
+    <h1 class="title">Register</h1>
 {% endblock %}
 
 
@@ -11,35 +11,34 @@
 
     <div class="form-wrapper">
 
-        <!-- Message to display on succesful email send -->
+        <!-- Message to display on successful registration -->
         {% if success %}
-            <p>Thank you for your message, we will be in touch as soon as we can.</p>
+            <p>Thank you for registering! Click the button below to get started.</p>
+            <a href="{{ url_for('get_locations') }}" class="btn">Home</a>
 
         {% else %}
-            <form method="POST" action="{{ url_for('contact') }}">
+            <form method="POST" action="{{ url_for('register') }}">
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
 
                 <fieldset class="form-field">
-                    {{ form.name.label }}
-                    {{ form.name }}
-                    {% for message in form.name.errors %}
+                    {{ form.username.label }}
+                    {{ form.username }}
+                    {% for message in form.username.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
                 </fieldset>
 
                 <fieldset class="form-field">
-                    {{ form.email.label }}
-                    {{ form.email }}
-                    {% for message in form.email.errors %}
+                    {{ form.password.label }}
+                    {{ form.password }}
+                    {% for message in form.password.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
 
-                <fieldset class="form-field">
-                    {{ form.body.label }}
-                    {{ form.body }}
-                    {% for message in form.body.errors %}
+                    {{ form.confirm.label }}
+                    {{ form.confirm }}
+                    {% for message in form.confirm.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
                 </fieldset>
@@ -54,6 +53,10 @@
                 {{ form.submit }}
 
             </form>
+
+            <div>
+                <p>If you already have an account, please <a class="btn" href="{{ url_for('login') }}">Login here</a></p>
+            </div>
 
         {% endif %}
 
