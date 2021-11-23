@@ -1,19 +1,23 @@
 {% extends "base.html" %}
 
+<!-- Content to display in title block -->
 {% block title %}
     <h1 class="title">Contact</h1>
 {% endblock %}
 
+
+<!-- Content to display in content block -->
 {% block content %}
 
     <div class="form-wrapper">
 
+        <!-- Message to display on succesful email send -->
         {% if success %}
             <p>Thank you for your message, we will be in touch as soon as we can.</p>
-        
-        {% else %}
 
+        {% else %}
             <form method="POST" action="{{ url_for('contact') }}">
+                <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
 
                 <fieldset class="form-field">

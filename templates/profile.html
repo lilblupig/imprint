@@ -1,24 +1,28 @@
 {% extends "base.html" %}
 
+<!-- Content to display in title block -->
 {% block title %}
     <h1 class="title">Manage Profile</h1>
 {% endblock %}
 
+
+<!-- Content to display in content block -->
 {% block content %}
 
     <div class="form-wrapper">
 
+        <!-- Message to display on succesful password change -->
         {% if success %}
             <p>Password updated.</p>
             <a href="{{ url_for('get_locations') }}" class="btn">Home</a>
-        
-        {% else %}
 
+        {% else %}
             <div>
                 <p>Welcome {{ username }}, you can change your password here.</p>
             </div>
     
             <form method="POST" action="{{ url_for('profile', username=session['user']) }}">
+                <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
 
                 <fieldset class="form-field">

@@ -5,6 +5,8 @@
 
 # Import dependencies
 from flask_wtf import FlaskForm, RecaptchaField
+
+# Import form fields to use
 from wtforms import (
     StringField,
     EmailField,
@@ -12,6 +14,8 @@ from wtforms import (
     SubmitField,
     PasswordField
 )
+
+# Import form validation methods to use
 from wtforms.validators import (
     InputRequired,
     Length,
@@ -32,7 +36,8 @@ class ContactForm(FlaskForm):
     name = StringField(
         'Name',
         [
-            InputRequired()
+            InputRequired(),
+            Length(min=3)
         ]
     )
     email = EmailField(
@@ -40,7 +45,7 @@ class ContactForm(FlaskForm):
         [
             InputRequired(),
             Email(
-                message=('Please enter a valid email address.')
+                message=('Please enter a valid email address e.g. "username@domain.com".')
             )
         ]
     )
