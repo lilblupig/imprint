@@ -206,3 +206,10 @@ def profile(username):
         return render_template("profile.html", username=username, form=form)
 
     return redirect(url_for("login"))
+
+
+# Default route for gallery page
+@app.route("/gallery")
+def gallery():
+    """ Get gallery page """
+    return render_template("gallery.html")
