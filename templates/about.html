@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+<!-- Content to display in title block -->
+{% block title %}
+    <h1>About Imprint</h1>
+{% endblock %}
+
+
+<!-- Content to display in content block -->
+{% block content %}
+    <p>Imprint is an image sharing service designed to enhance the enjoyment of a small Dorset town called Shaftesbury.</p>
+    <p>By selecting a region of the town, you can view photographs which relate to that area.  You can add to the archives, you just need to create an account.</p>
+    <p>If you need help, just <a href="{{ url_for('contact') }}">Contact Us</a>.</p>
+{% endblock %}

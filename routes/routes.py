@@ -208,6 +208,13 @@ def profile(username):
     return redirect(url_for("login"))
 
 
+# Default route for about page
+@app.route("/about")
+def about():
+    """ Get about page """
+    return render_template("about.html")
+
+
 # Default route for gallery page
 @app.route("/gallery")
 def gallery():
