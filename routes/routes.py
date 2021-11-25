@@ -213,3 +213,10 @@ def profile(username):
 def gallery():
     """ Get gallery page """
     return render_template("gallery.html")
+
+
+# Default route for upload page
+@app.route("/upload")
+def upload():
+    """ Get upload page """
+    return render_template("upload.html")
