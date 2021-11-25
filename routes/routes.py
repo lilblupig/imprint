@@ -206,3 +206,24 @@ def profile(username):
         return render_template("profile.html", username=username, form=form)
 
     return redirect(url_for("login"))
+
+
+# Default route for about page
+@app.route("/about")
+def about():
+    """ Get about page """
+    return render_template("about.html")
+
+
+# Default route for gallery page
+@app.route("/gallery")
+def gallery():
+    """ Get gallery page """
+    return render_template("gallery.html")
+
+
+# Default route for upload page
+@app.route("/upload")
+def upload():
+    """ Get upload page """
+    return render_template("upload.html")
