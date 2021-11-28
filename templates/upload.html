@@ -30,7 +30,7 @@
 
                 <fieldset class="form-field">
                     {{ form.decade.label }}
-                    {{ form.decade(class_="input-field") }}
+                    {{ form.decade }}
                     {% for message in form.decade.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
@@ -46,7 +46,7 @@
 
                 <fieldset class="form-field">
                     {{ form.photo.label }}
-                    {{ form.photo }}
+                    {{ form.photo (accept_="image/*") }}
                     {% for message in form.photo.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
