@@ -239,8 +239,13 @@ def gallery():
 def upload(username):
     """ Get upload page """
 
+
     # Define model to use
     form = UploadImageForm()
+
+    # Get location options and populate choices in upload form
+    all_locations = mongo.db.locations.distinct('location_name')
+    form.location.choices = [location for location in all_locations]
 
     # Find user record from database
     user = mongo.db.users.find_one({"username": session["user"]})

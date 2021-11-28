@@ -11,7 +11,7 @@
 
     <div class="form-wrapper">
 
-        <!-- Message to display on succesful email send -->
+        <!-- Message to display on succesful upload -->
         {% if success %}
             <p>Thank you for contributing!</p>
 
@@ -30,7 +30,7 @@
 
                 <fieldset class="form-field">
                     {{ form.decade.label }}
-                    {{ form.decade }}
+                    {{ form.decade(class_="input-field") }}
                     {% for message in form.decade.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
@@ -59,10 +59,5 @@
         {% endif %}
 
     </div>
-
-{% endblock %}
-
-<!-- Scripts specific to Uploads page -->
-{% block scripts %}
 
 {% endblock %}
