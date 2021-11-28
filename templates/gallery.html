@@ -10,6 +10,19 @@
 {% block content %}
 
     <div class="row">
+        <div class="col 12">
+            <p>Filter images:</p>
+            <select>
+                <option value="" disabled selected>Choose location filter</option>
+                <option value="1">All</option>
+                {% for location in locations %}
+                    <option value="2">{{ location.location_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
 
     {% for image in images %}
 
