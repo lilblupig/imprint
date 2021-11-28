@@ -14,6 +14,18 @@ from flask import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# Temporary Cloudinary code
+import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config( 
+  cloud_name = os.environ.get("CLOUD_NAME"),
+  api_key = os.environ.get("API_KEY"),
+  api_secret = os.environ.get("API_SECRET")
+)
+
 # Import Object ID info from MongoDB
 from bson.objectid import ObjectId
 
@@ -223,7 +235,19 @@ def gallery():
 
 
 # Default route for upload page
-@app.route("/upload")
+@app.route("/upload", methods=["GET", "POST"])
 def upload():
     """ Get upload page """
+
+    if request.method == "POST":
+        photo = request.files['photo_url']
+        photo_upload = cloudinary.uploader.upload(photo)
+        review = {
+            "photo_url": photo_upload["secure_url"]
+        }
+
+        flash("Thank you for your contribution!")
+
+        return render_template('upload.html', success=True)
+
     return render_template("upload.html")

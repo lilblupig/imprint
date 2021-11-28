@@ -9,4 +9,21 @@
 <!-- Content to display in content block -->
 {% block content %}
     A form will go here
+    <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>File</span>
+                <input type="file" accept="image/*" name="photo_url" id="photo_url">
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+            </div>
+            <input class="btn" type="submit" value="Submit"></input>
+        </div>
+    </form>
+{% endblock %}
+
+<!-- Scripts specific to Uploads page -->
+{% block scripts %}
+
 {% endblock %}
