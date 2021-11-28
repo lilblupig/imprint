@@ -253,11 +253,19 @@ def upload(username):
             # Check all fields are validated and new passwords match
             if form.validate() is True:
 
+                # Send image to Cloudinary account
                 photo = request.files['photo']
                 photo_upload = cloudinary.uploader.upload(photo)
                 uploaded = {
-                    "photo": photo_upload["secure_url"]
+                    "location": request.form.get("location"),
+                    "decade": request.form.get("decade"),
+                    "details": request.form.get("details"),
+                    "photo": photo_upload["secure_url"],
+                    "owner": username
                 }
+
+                # Add user document to DB
+                mongo.db.images.insert_one(uploaded)
 
                 return render_template('upload.html', username=username, success=True)
 
