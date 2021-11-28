@@ -182,6 +182,9 @@ def profile(username):
     user = mongo.db.users.find_one({"username": session["user"]})
     username = user["username"]
 
+    # Find posts made by user
+    images = mongo.db.images.find({"owner": username})
+
     # Check if a user is in session to try and avoid brute force access
     if session["user"]:
         if request.method == 'POST':
@@ -203,9 +206,9 @@ def profile(username):
 
                 flash("Incorrect existing password, please try again")
 
-        return render_template("profile.html", username=username, form=form)
+        return render_template("profile.html", images=images, username=username, form=form)
 
-    return redirect(url_for("login"))
+    return render_template(url_for("login", images=images))
 
 
 # Default route for about page
