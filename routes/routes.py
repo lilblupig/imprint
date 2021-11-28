@@ -219,8 +219,9 @@ def about():
 @app.route("/gallery")
 def gallery():
     """ Get gallery page """
+    locations = mongo.db.locations.find()
     images = mongo.db.images.find()
-    return render_template("gallery.html", images=images)
+    return render_template("gallery.html", images=images, locations=locations)
 
 
 # Default route for upload page
