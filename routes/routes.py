@@ -31,7 +31,7 @@ from bson.objectid import ObjectId
 
 # Import local Forms code
 from app import app, mongo
-from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm
+from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm, UploadImageForm
 from config import mail_config
 
 
@@ -235,19 +235,32 @@ def gallery():
 
 
 # Default route for upload page
-@app.route("/upload", methods=["GET", "POST"])
-def upload():
+@app.route("/upload/<username>", methods=["GET", "POST"])
+def upload(username):
     """ Get upload page """
 
-    if request.method == "POST":
-        photo = request.files['photo_url']
-        photo_upload = cloudinary.uploader.upload(photo)
-        review = {
-            "photo_url": photo_upload["secure_url"]
-        }
+    # Define model to use
+    form = UploadImageForm()
 
-        flash("Thank you for your contribution!")
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+    username = user["username"]
 
-        return render_template('upload.html', success=True)
+    # Check if a user is in session to try and avoid brute force access
+    if session["user"]:
+        if request.method == 'POST':
 
-    return render_template("upload.html")
+            # Check all fields are validated and new passwords match
+            if form.validate() is True:
+
+                photo = request.files['photo']
+                photo_upload = cloudinary.uploader.upload(photo)
+                uploaded = {
+                    "photo": photo_upload["secure_url"]
+                }
+
+                return render_template('upload.html', username=username, success=True)
+
+        return render_template("upload.html", username=username, form=form)
+
+    return redirect(url_for("upload"))

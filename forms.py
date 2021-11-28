@@ -12,7 +12,8 @@ from wtforms import (
     EmailField,
     TextAreaField,
     SubmitField,
-    PasswordField
+    PasswordField,
+    FileField
 )
 
 # Import form validation methods to use
@@ -154,3 +155,43 @@ class ChangePasswordForm(FlaskForm):
         ]
     )
     submit = SubmitField('Change Password')
+
+
+# Upload image form
+class UploadImageForm(FlaskForm):
+    """
+        Create upload image form model
+        Define field = WTF Fieldtype
+            Set label
+            Set any validators and messages
+    """
+
+    location = StringField(
+        'Location',
+        [
+            InputRequired()
+        ]
+    )
+    decade = StringField(
+        'Decade',
+        [
+            InputRequired()
+        ]
+    )
+    details = TextAreaField(
+        'Details',
+        [
+            InputRequired(),
+            Length(
+                min=10,
+                message=('Please write a message longer than 10 characters.')
+            )
+        ]
+    )
+    photo = FileField(
+        'Photo',
+        [
+            InputRequired()
+        ]
+    )
+    submit = SubmitField('Upload Image')

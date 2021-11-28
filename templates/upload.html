@@ -8,19 +8,58 @@
 
 <!-- Content to display in content block -->
 {% block content %}
-    A form will go here
-    <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
-        <div class="file-field input-field">
-            <div class="btn">
-                <span>File</span>
-                <input type="file" accept="image/*" name="photo_url" id="photo_url">
-            </div>
-            <div class="file-path-wrapper">
-                <input class="file-path validate" type="text">
-            </div>
-            <input class="btn" type="submit" value="Submit"></input>
-        </div>
-    </form>
+
+    <div class="form-wrapper">
+
+        <!-- Message to display on succesful email send -->
+        {% if success %}
+            <p>Thank you for contributing!</p>
+
+        {% else %}
+            <form method="POST" action="{{ url_for('upload', username=session['user']) }}" enctype="multipart/form-data">
+                <!-- Hidden token proof that form came from page, uses secret key -->
+                {{ form.csrf_token }}
+
+                <fieldset class="form-field">
+                    {{ form.location.label }}
+                    {{ form.location }}
+                    {% for message in form.location.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
+
+                <fieldset class="form-field">
+                    {{ form.decade.label }}
+                    {{ form.decade }}
+                    {% for message in form.decade.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
+
+                <fieldset class="form-field">
+                    {{ form.details.label }}
+                    {{ form.details }}
+                    {% for message in form.details.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
+
+                <fieldset class="form-field">
+                    {{ form.photo.label }}
+                    {{ form.photo }}
+                    {% for message in form.photo.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
+
+                {{ form.submit }}
+
+            </form>
+
+        {% endif %}
+
+    </div>
+
 {% endblock %}
 
 <!-- Scripts specific to Uploads page -->
