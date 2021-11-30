@@ -207,3 +207,48 @@ class UploadImageForm(FlaskForm):
         ]
     )
     submit = SubmitField('Upload Image')
+
+
+# Edit image post form
+class EditImageForm(FlaskForm):
+    """
+        Create edit image post form model
+        Define field = WTF Fieldtype
+            Set label
+            Set any validators and messages
+    """
+
+    location = SelectField(
+        'Location'
+    )
+    decade = SelectField(
+        'Decade',
+        choices=[
+            'Unknown',
+            'Pre-1900s',
+            '1900s',
+            '1910s',
+            '1920s',
+            '1930s',
+            '1940s',
+            '1950s',
+            '1960s',
+            '1970s',
+            '1980s',
+            '1990s',
+            '2000s',
+            '2010s',
+            '2020s'
+        ]
+    )
+    details = TextAreaField(
+        'Details',
+        [
+            InputRequired(),
+            Length(
+                min=10,
+                message=('Please write a message longer than 10 characters.')
+            )
+        ]
+    )
+    submit = SubmitField('Update Post')

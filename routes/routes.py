@@ -19,7 +19,7 @@ from bson.objectid import ObjectId
 
 # Import local Forms code
 from app import app, mongo
-from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm, UploadImageForm
+from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm, UploadImageForm, EditImageForm
 from config import mail_config, cloudinary_config
 
 
@@ -232,7 +232,6 @@ def gallery():
 def upload(username):
     """ Get upload page """
 
-
     # Define model to use
     form = UploadImageForm()
 
@@ -262,7 +261,7 @@ def upload(username):
                     "owner": username
                 }
 
-                # Add user document to DB
+                # Add image document to DB
                 mongo.db.images.insert_one(uploaded)
 
                 return render_template('upload.html', username=username, success=True)
@@ -270,3 +269,38 @@ def upload(username):
         return render_template("upload.html", username=username, form=form)
 
     return redirect(url_for("upload"))
+
+
+@app.route("/edit_image/<image_id>", methods=["GET", "POST"])
+def edit_image(image_id):
+    """ Get edit post page """
+
+    # Define model to use
+    form = EditImageForm()
+
+    # Get image document id and make locations available
+    image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
+    locations = mongo.db.locations.find()
+
+    # Get location options and populate choices in edit form
+    all_locations = mongo.db.locations.distinct('location_name')
+    form.location.choices = [location for location in all_locations]
+
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+    username = user["username"]
+
+    # Check if a user is in session to try and avoid brute force access
+    if session["user"]:
+        if request.method == 'POST':
+
+            # Check all fields are validated and new passwords match
+            if form.validate() is True:
+
+                # Update document in DB
+
+                return render_template('edit_image.html', success=True)
+
+        return render_template("edit_image.html", image=image, form=form)
+
+    return render_template("edit_image.html", image=image, locations=locations)

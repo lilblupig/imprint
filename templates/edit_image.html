@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+<!-- Content to display in title block -->
+{% block title %}
+    <h1>Edit a Post</h1>
+{% endblock %}
+
+
+<!-- Content to display in content block -->
+{% block content %}
+
+    <div class="form-wrapper">
+
+        <img src="{{ image.photo }}" />
+
+        <!-- Message to display on succesful upload -->
+        {% if success %}
+            <p>Updated successfully!</p>
+
+        {% else %}
+            <form method="POST" action="{{ url_for('edit_image', image_id=image.id) }}">
+                <!-- Hidden token proof that form came from page, uses secret key -->
+                {{ form.csrf_token }}
+
+                <fieldset class="form-field">
+                    {{ form.location.label }}
+                    {{ form.location }}
+                    {% for message in form.location.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
+
+                <fieldset class="form-field">
+                    {{ form.decade.label }}
+                    {{ form.decade }}
+                    {% for message in form.decade.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
+
+                <fieldset class="form-field">
+                    {{ form.details.label }}
+                    {{ form.details }}
+                    {% for message in form.details.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
+
+                {{ form.submit }}
+
+            </form>
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}
