@@ -14,6 +14,19 @@ from flask import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# Import dependencies for Cloudinary
+import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# Get Cloudinary account data
+cloudinary.config(
+  cloud_name=os.environ.get("CLOUD_NAME"),
+  api_key=os.environ.get("API_KEY"),
+  api_secret=os.environ.get("API_SECRET")
+)
+
 # Import Object ID info from MongoDB
 from bson.objectid import ObjectId
 
