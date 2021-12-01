@@ -16,6 +16,8 @@
         <!-- Message to display on succesful upload -->
         {% if success %}
             <p>Updated successfully!</p>
+            <a href="{{ url_for('profile', username=session['user']) }}" class="btn">Back to Profile</a>
+
 
         {% else %}
             <form method="POST" action="{{ url_for('edit_image', image_id=image._id) }}">
@@ -24,7 +26,7 @@
 
                 <fieldset class="form-field">
                     {{ form.location.label }}
-                    {{ form.location (value_="Park Walk") }}
+                    {{ form.location }}
                     {% for message in form.location.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
@@ -46,11 +48,13 @@
                     {% endfor %}
                 </fieldset>
 
-                {{ form.submit }}
+                {{ form.submit (class_="btn") }}
 
             </form>
 
         {% endif %}
+
+        <a href="{{ url_for('delete_image', image_id=image._id) }}" class="btn">Delete Post</a>
 
     </div>
 

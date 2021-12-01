@@ -311,3 +311,23 @@ def edit_image(image_id):
         return render_template("edit_image.html", image=image, form=form)
 
     return render_template("edit_image.html", image=image, locations=locations)
+
+
+
+@app.route("/delete_image/<image_id>")
+def delete_image(image_id):
+
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+    username = user["username"]
+
+    # Find posts made by user
+    images = mongo.db.images.find({"owner": username})
+
+    # Define model to use
+    form = ChangePasswordForm()
+
+    mongo.db.images.remove({"_id": ObjectId(image_id)})
+    flash("Task succesfully deleted")
+
+    return render_template("profile.html", images=images, username=username, form=form)
