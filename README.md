@@ -279,6 +279,7 @@ You can find more information on cloning a repository from GitHub [here](https:/
 * [Flask_WTF](https://flask-wtf.readthedocs.io/en/1.0.x/) and [WTForms](https://wtforms.readthedocs.io/en/3.0.x/validators/) are used to provide form structure, functionality and data validation.
 * [Werkzeug](https://werkzeug.palletsprojects.com/en/2.0.x/) is used to provide user security around passwords and storage.
 * [Flask-Mail](https://pythonhosted.org/flask-mail/) is used to facilitate email sending from the contact form.
+* [Cloudinary](https://support.cloudinary.com/) is used to store and manage the images.
 * [Google Fonts](https://fonts.google.com/) are used to provide the typography for the website.
 * [Font Awesome](https://fontawesome.com/) is used to provide the icons for the website.
 * [Google ReCaptcha](https://www.google.com/recaptcha/) is used to protect the contact and sign up forms.
@@ -306,7 +307,7 @@ The following resources provided strong underlying understanding for items withi
 * Recaptcha link up - [Easy ReCAPTCHA with Flask-WTF](https://john.soban.ski/add-recaptcha-to-your-flask-application.html) blog.
 * Contact email sending - [Intro to Flask: Adding a Contact Page](https://code.tutsplus.com/tutorials/intro-to-flask-adding-a-contact-page--net-28982) tutorial and [Mailtrap Flask Email Sending](https://mailtrap.io/blog/flask-email-sending/) article.
 * Dynamic select for upload form - Stack Overflow articles [here](https://stackoverflow.com/questions/43548561/populate-a-wtforms-selectfield-with-an-sql-query/43551126) and [here](https://stackoverflow.com/questions/23273123/list-all-values-of-a-certain-field-in-mongodb)
-* Edit post form populate content from [Stack Overflow thread, answer ###]()
+* Edit post form populate content from [Stack Overflow thread](https://stackoverflow.com/questions/12099741/how-do-you-set-a-default-value-for-a-wtforms-selectfield)
 
 #### Content
 Where did the website content come from?

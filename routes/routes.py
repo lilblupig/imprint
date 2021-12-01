@@ -20,8 +20,7 @@ from bson.objectid import ObjectId
 # Import local Forms code
 from app import app, mongo
 from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm, UploadImageForm, EditImageForm
-from config import mail_config, cloudinary_config
-
+from config import cloudinary_config, mail_config
 
 # Default route for homepage
 @app.route("/")
@@ -258,6 +257,7 @@ def upload(username):
                     "decade": request.form.get("decade"),
                     "details": request.form.get("details"),
                     "photo": photo_upload["secure_url"],
+                    "cloudinary_id": photo_upload["public_id"],
                     "owner": username
                 }
 
@@ -301,6 +301,7 @@ def edit_image(image_id):
                     "decade": request.form.get("decade"),
                     "details": request.form.get("details"),
                     "photo": image["photo"],
+                    "cloudinary_id": image["cloudinary_id"],
                     "owner": image["owner"]
                 }
                 # Update document in DB
@@ -313,7 +314,6 @@ def edit_image(image_id):
     return render_template("edit_image.html", image=image, locations=locations)
 
 
-
 @app.route("/delete_image/<image_id>")
 def delete_image(image_id):
 
@@ -321,13 +321,19 @@ def delete_image(image_id):
     user = mongo.db.users.find_one({"username": session["user"]})
     username = user["username"]
 
-    # Find posts made by user
-    images = mongo.db.images.find({"owner": username})
+    # Get image from database
+    image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
 
-    # Define model to use
+    # Remove document from DB
+    mongo.db.images.remove({"_id": image["_id"]})
+
+    # Remove image from Cloudinary
+    cloudinary.uploader.destroy(image["cloudinary_id"])
+
+    # Find posts made by user and define form for loading profile page
+    images = mongo.db.images.find({"owner": username})
     form = ChangePasswordForm()
 
-    mongo.db.images.remove({"_id": ObjectId(image_id)})
-    flash("Task succesfully deleted")
+    flash("Post succesfully deleted")
 
     return render_template("profile.html", images=images, username=username, form=form)
