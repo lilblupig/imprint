@@ -9,6 +9,8 @@
 <!-- Content to display in content block -->
 {% block content %}
 
+    <h2>Change Password</h2>
+
     <div class="form-wrapper">
 
         <!-- Message to display on succesful password change -->
@@ -54,5 +56,31 @@
         {% endif %}
 
     </div>
+
+    <!-- Display posts added by user -->
+    <div class="row">
+
+        <h2>Posts by {{ username }}</h2>
+
+        {% for image in images %}
+
+            <a href="{{ url_for('edit_image', image_id=image._id) }}">
+                <div class="col s12 m6 l4">
+                    <div class="card card-small">
+                        <div class="card-image">
+                            <img src="{{ image.photo }}">
+                            <span class="card-title">{{ image.location }}</span>
+                        </div>
+                        <div class="card-content">
+                            <p>Decade: {{ image.decade }}</p>
+                            <p>Added by: {{ image.owner }}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+        {% endfor %}
+
+        </div>
 
 {% endblock %}

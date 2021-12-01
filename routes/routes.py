@@ -14,14 +14,26 @@ from flask import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# Import dependencies for Cloudinary
+import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# Get Cloudinary account data
+cloudinary.config(
+  cloud_name=os.environ.get("CLOUD_NAME"),
+  api_key=os.environ.get("API_KEY"),
+  api_secret=os.environ.get("API_SECRET")
+)
+
 # Import Object ID info from MongoDB
 from bson.objectid import ObjectId
 
 # Import local Forms code
 from app import app, mongo
-from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm
-from config import mail_config
-
+from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm, UploadImageForm, EditImageForm
+from config import cloudinary_config, mail_config
 
 # Default route for homepage
 @app.route("/")
@@ -182,6 +194,9 @@ def profile(username):
     user = mongo.db.users.find_one({"username": session["user"]})
     username = user["username"]
 
+    # Find posts made by user
+    images = mongo.db.images.find({"owner": username})
+
     # Check if a user is in session to try and avoid brute force access
     if session["user"]:
         if request.method == 'POST':
@@ -203,9 +218,9 @@ def profile(username):
 
                 flash("Incorrect existing password, please try again")
 
-        return render_template("profile.html", username=username, form=form)
+        return render_template("profile.html", images=images, username=username, form=form)
 
-    return redirect(url_for("login"))
+    return render_template(url_for("login", images=images))
 
 
 # Default route for about page
@@ -219,11 +234,119 @@ def about():
 @app.route("/gallery")
 def gallery():
     """ Get gallery page """
-    return render_template("gallery.html")
+    locations = mongo.db.locations.find()
+    images = mongo.db.images.find()
+    return render_template("gallery.html", images=images, locations=locations)
 
 
 # Default route for upload page
-@app.route("/upload")
-def upload():
+@app.route("/upload/<username>", methods=["GET", "POST"])
+def upload(username):
     """ Get upload page """
-    return render_template("upload.html")
+
+    # Define model to use
+    form = UploadImageForm()
+
+    # Get location options and populate choices in upload form
+    all_locations = mongo.db.locations.distinct('location_name')
+    form.location.choices = [location for location in all_locations]
+
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+    username = user["username"]
+
+    # Check if a user is in session to try and avoid brute force access
+    if session["user"]:
+        if request.method == 'POST':
+
+            # Check all fields are validated and new passwords match
+            if form.validate() is True:
+
+                # Send image to Cloudinary account
+                photo = request.files['photo']
+                photo_upload = cloudinary.uploader.upload(photo)
+                uploaded = {
+                    "location": request.form.get("location"),
+                    "decade": request.form.get("decade"),
+                    "details": request.form.get("details"),
+                    "photo": photo_upload["secure_url"],
+                    "cloudinary_id": photo_upload["public_id"],
+                    "owner": username
+                }
+
+                # Add image document to DB
+                mongo.db.images.insert_one(uploaded)
+
+                return render_template('upload.html', username=username, success=True)
+
+        return render_template("upload.html", username=username, form=form)
+
+    return redirect(url_for("upload"))
+
+
+@app.route("/edit_image/<image_id>", methods=["GET", "POST"])
+def edit_image(image_id):
+    """ Get edit post page """
+
+    # Get image document id and make locations available
+    image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
+    locations = mongo.db.locations.find()
+
+    # Define model to use
+    form = EditImageForm(location=image["location"], decade=image["decade"], details=image["details"])
+
+    # Get location options and populate choices/defaults in edit form
+    all_locations = mongo.db.locations.distinct('location_name')
+    form.location.choices = [location for location in all_locations]
+
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+
+    # Check if a user is in session to try and avoid brute force access
+    if session["user"]:
+        if request.method == 'POST':
+
+            # Check all fields are validated and new passwords match
+            if form.validate() is True:
+
+                updated = {
+                    "location": request.form.get("location"),
+                    "decade": request.form.get("decade"),
+                    "details": request.form.get("details"),
+                    "photo": image["photo"],
+                    "cloudinary_id": image["cloudinary_id"],
+                    "owner": image["owner"]
+                }
+                # Update document in DB
+                mongo.db.images.update({"_id": image["_id"]}, updated)
+
+                return render_template('edit_image.html', image=image, success=True)
+
+        return render_template("edit_image.html", image=image, form=form)
+
+    return render_template("edit_image.html", image=image, locations=locations)
+
+
+@app.route("/delete_image/<image_id>")
+def delete_image(image_id):
+
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+    username = user["username"]
+
+    # Get image from database
+    image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
+
+    # Remove document from DB
+    mongo.db.images.remove({"_id": image["_id"]})
+
+    # Remove image from Cloudinary
+    cloudinary.uploader.destroy(image["cloudinary_id"])
+
+    # Find posts made by user and define form for loading profile page
+    images = mongo.db.images.find({"owner": username})
+    form = ChangePasswordForm()
+
+    flash("Post succesfully deleted")
+
+    return render_template("profile.html", images=images, username=username, form=form)
