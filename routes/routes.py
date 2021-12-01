@@ -299,10 +299,12 @@ def edit_image(image_id):
                 updated = {
                     "location": request.form.get("location"),
                     "decade": request.form.get("decade"),
-                    "details": request.form.get("details")
+                    "details": request.form.get("details"),
+                    "photo": image["photo"],
+                    "owner": image["owner"]
                 }
                 # Update document in DB
-                mongo.db.images.update_one({"_id": image["_id"]}, updated)
+                mongo.db.images.update({"_id": image["_id"]}, updated)
 
                 return render_template('edit_image.html', image=image, success=True)
 
