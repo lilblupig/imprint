@@ -275,20 +275,19 @@ def upload(username):
 def edit_image(image_id):
     """ Get edit post page """
 
-    # Define model to use
-    form = EditImageForm()
-
     # Get image document id and make locations available
     image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
     locations = mongo.db.locations.find()
 
-    # Get location options and populate choices in edit form
+    # Define model to use
+    form = EditImageForm(location=image["location"], decade=image["decade"], details=image["details"])
+
+    # Get location options and populate choices/defaults in edit form
     all_locations = mongo.db.locations.distinct('location_name')
     form.location.choices = [location for location in all_locations]
 
     # Find user record from database
     user = mongo.db.users.find_one({"username": session["user"]})
-    username = user["username"]
 
     # Check if a user is in session to try and avoid brute force access
     if session["user"]:
@@ -297,9 +296,15 @@ def edit_image(image_id):
             # Check all fields are validated and new passwords match
             if form.validate() is True:
 
+                updated = {
+                    "location": request.form.get("location"),
+                    "decade": request.form.get("decade"),
+                    "details": request.form.get("details")
+                }
                 # Update document in DB
+                mongo.db.images.update_one({"_id": image["_id"]}, updated)
 
-                return render_template('edit_image.html', success=True)
+                return render_template('edit_image.html', image=image, success=True)
 
         return render_template("edit_image.html", image=image, form=form)
 

@@ -18,13 +18,13 @@
             <p>Updated successfully!</p>
 
         {% else %}
-            <form method="POST" action="{{ url_for('edit_image', image_id=image.id) }}">
+            <form method="POST" action="{{ url_for('edit_image', image_id=image._id) }}">
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
 
                 <fieldset class="form-field">
                     {{ form.location.label }}
-                    {{ form.location }}
+                    {{ form.location (value_="Park Walk") }}
                     {% for message in form.location.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
