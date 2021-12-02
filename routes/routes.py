@@ -284,6 +284,7 @@ def upload(username):
                     "location": request.form.get("location"),
                     "decade": request.form.get("decade"),
                     "details": request.form.get("details"),
+                    "tags": request.form.get("tags"),
                     "photo": photo_upload["secure_url"],
                     "cloudinary_id": photo_upload["public_id"],
                     "owner": username
@@ -308,7 +309,7 @@ def edit_image(image_id):
     locations = mongo.db.locations.find()
 
     # Define model to use
-    form = EditImageForm(location=image["location"], decade=image["decade"], details=image["details"])
+    form = EditImageForm(location=image["location"], decade=image["decade"], details=image["details"], tags=image["tags"])
 
     # Get location options and populate choices/defaults in edit form
     all_locations = mongo.db.locations.distinct('location_name')
@@ -328,6 +329,7 @@ def edit_image(image_id):
                     "location": request.form.get("location"),
                     "decade": request.form.get("decade"),
                     "details": request.form.get("details"),
+                    "tags": request.form.get("tags"),
                     "photo": image["photo"],
                     "cloudinary_id": image["cloudinary_id"],
                     "owner": image["owner"]

@@ -200,6 +200,9 @@ class UploadImageForm(FlaskForm):
             )
         ]
     )
+    tags = TextAreaField(
+        'Tags (Optional)'
+    )
     photo = FileField(
         'Photo',
         [
@@ -250,5 +253,8 @@ class EditImageForm(FlaskForm):
                 message=('Please write a message longer than 10 characters.')
             )
         ]
+    )
+    tags = TextAreaField(
+        'Tags (Optional)'
     )
     submit = SubmitField('Update Post')
