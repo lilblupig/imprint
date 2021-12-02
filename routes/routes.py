@@ -254,6 +254,16 @@ def gallery(location_id):
     return render_template("gallery.html", location=location, images=images, locations=locations)
 
 
+@app.route("/single_image/<image_id>")
+def single_image(image_id):
+    """ Get single image and info """
+
+    # Get image document id
+    image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
+
+    return render_template("single_image.html", image=image)
+
+
 # Default route for upload page
 @app.route("/upload/<username>", methods=["GET", "POST"])
 def upload(username):
