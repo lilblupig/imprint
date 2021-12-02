@@ -35,6 +35,7 @@ from app import app, mongo
 from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm, UploadImageForm, EditImageForm
 from config import cloudinary_config, mail_config
 
+
 # Default route for homepage
 @app.route("/")
 @app.route("/get_locations")
@@ -231,12 +232,26 @@ def about():
 
 
 # Default route for gallery page
-@app.route("/gallery")
-def gallery():
+@app.route("/gallery/<location_id>")
+def gallery(location_id):
     """ Get gallery page """
+
+    # Get location id from database
+    location = mongo.db.locations.find_one({"_id": ObjectId(location_id)})
+
+    # Get all locations for filter box
     locations = mongo.db.locations.find()
-    images = mongo.db.images.find()
-    return render_template("gallery.html", images=images, locations=locations)
+
+    # Get images from database relating to selected location
+    # Allow Gallery page to be called without location filter
+    if location_id == '000000000000000000000000':
+        images = mongo.db.images.find()
+
+    # Else if location provided, display images only relevant to that location
+    else:
+        images = mongo.db.images.find({"location": location["location_name"]})
+
+    return render_template("gallery.html", location=location, images=images, locations=locations)
 
 
 # Default route for upload page
