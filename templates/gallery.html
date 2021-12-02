@@ -11,7 +11,7 @@
 
     <div class="row">
         <div class="col 12">
-            <p>Filter images:</p>
+            <p>Filter images by location:</p>
 
             {% for location in locations %}
             <select>
@@ -22,6 +22,16 @@
                 {% endfor %}
             </select>
             {% endfor %}
+
+        </div>
+        <div class="col 12">
+            <form action="{{ url_for('image_search') }}" method="POST">
+                <label for="image_search">Search images:</label>
+                <input type="text" name="image_search" id="image_search" class="validate" required/>
+                <button type="submit" class="btn">Search</button>
+            </form>
+
+            <a href="{{ url_for('gallery', location_id='000000000000000000000000') }}" class="btn">Clear</a>
 
         </div>
     </div>

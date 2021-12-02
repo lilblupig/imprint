@@ -254,6 +254,22 @@ def gallery(location_id):
     return render_template("gallery.html", location=location, images=images, locations=locations)
 
 
+@app.route("/image_search", methods=["GET", "POST"])
+def image_search():
+
+    # Get search form data
+    image_search = request.form.get("image_search")
+
+    # Search database using permanent text index
+    images = mongo.db.images.find({"$text": {"$search": image_search}})
+
+    # If DB search yields no results, flash user message
+    if mongo.db.images.count_documents({"$text": {"$search": image_search}}) < 1:
+        flash("No results found")
+
+    return render_template("gallery.html", images=images)
+
+
 @app.route("/single_image/<image_id>")
 def single_image(image_id):
     """ Get single image and info """
