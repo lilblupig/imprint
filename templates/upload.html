@@ -45,6 +45,14 @@
                 </fieldset>
 
                 <fieldset class="form-field">
+                    {{ form.tags.label }}
+                    {{ form.tags }}
+                    {% for message in form.tags.errors %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                </fieldset>
+
+                <fieldset class="form-field">
                     {{ form.photo.label }}
                     {{ form.photo (accept_="image/*") }}
                     {% for message in form.photo.errors %}

@@ -11,17 +11,30 @@
 
     <div class="row">
         <div class="col 12">
-            <p>Filter images:</p>
+            <p>Filter images by:</p>
 
-            {% for location in locations %}
-            <select>
-                <option value="" disabled selected>Choose location filter</option>
-                <option value="1">All</option>
+            <form action="{{ url_for('location_filter') }}" method="POST">
                 {% for location in locations %}
-                    <option value="{{ location.id }}">{{ location.location_name }}</option>
+                <label for="location_filter">Location:</label>
+                <select name="location_filter">
+                    <option value="" disabled selected>Choose location filter</option>
+                        {% for location in locations %}
+                            <option value="{{ location.location_name }}">{{ location.location_name }}</option>
+                        {% endfor %}
+                </select>
                 {% endfor %}
-            </select>
-            {% endfor %}
+                <button type="submit" class="btn">Filter</button>
+            </form>
+
+        </div>
+        <div class="col 12">
+            <form action="{{ url_for('image_search') }}" method="POST">
+                <label for="image_search">Search images:</label>
+                <input type="text" name="image_search" id="image_search" class="validate" required/>
+                <button type="submit" class="btn">Search</button>
+            </form>
+
+            <a href="{{ url_for('gallery', location_id='000000000000000000000000') }}" class="btn">Clear</a>
 
         </div>
     </div>
@@ -30,19 +43,20 @@
 
     {% for image in images %}
 
-        <div class="col s12 m6 l4">
-            <div class="card card-small">
-                <div class="card-image">
-                    <img src="{{ image.photo }}">
-                    <span class="card-title">{{ image.location }}</span>
-                </div>
-                <div class="card-content">
-                    <p>Decade: {{ image.decade }}</p>
-                    <p>Added by: {{ image.owner }}</p>
+        <a href="{{ url_for('single_image', image_id=image._id) }}">
+            <div class="col s12 m6 l4">
+                <div class="card card-small">
+                    <div class="card-image">
+                        <img src="{{ image.photo }}">
+                        <span class="card-title">{{ image.location }}</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Decade: {{ image.decade }}</p>
+                        <p>Added by: {{ image.owner }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        </a>
     {% endfor %}
 
     </div>

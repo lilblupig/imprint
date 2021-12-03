@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+<!-- Content to display in title block -->
+{% block title %}
+    <h1>View a Post</h1>
+{% endblock %}
+
+
+<!-- Content to display in content block -->
+{% block content %}
+
+    <div>
+        <img src="{{ image.photo }}" />
+    </div>
+    <div>
+        <h2>{{ image.location }}</h2>
+        <p>Decade: {{ image.decade }}</p>
+        <p>Added by: {{ image.owner }}</p>
+        <p>{{ image.details }}</p>
+        <p>Tags: {{ image.tags }}</p>
+    </div>
+
+{% endblock %}
