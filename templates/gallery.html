@@ -17,7 +17,7 @@
                 {% for location in locations %}
                 <label for="location_filter">Location:</label>
                 <select name="location_filter">
-                    <option value="" disabled selected>Choose location filter</option>
+                    <option value="" disabled selected>Choose location</option>
                         {% for location in locations %}
                             <option value="{{ location.location_name }}">{{ location.location_name }}</option>
                         {% endfor %}
@@ -47,7 +47,7 @@
             <div class="col s12 m6 l4">
                 <div class="card card-small">
                     <div class="card-image">
-                        <img src="{{ image.photo }}">
+                        <img src="{{ image.photo }}" alt="{{ image.location }}">
                         <span class="card-title">{{ image.location }}</span>
                     </div>
                     <div class="card-content">

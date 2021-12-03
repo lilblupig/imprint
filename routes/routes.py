@@ -136,6 +136,9 @@ def login():
     # Define model to use
     form = LoginForm()
 
+    # Get locations for home page after login
+    locations = mongo.db.locations.find()
+
     if request.method == 'POST':
 
         # Check all fields are validated
@@ -161,7 +164,7 @@ def login():
                     return render_template('login.html', form=form)
 
             # Feedback success to user
-            return render_template('login.html', success=True)
+            return render_template('index.html', locations=locations, success=True)
 
     return render_template('login.html', form=form)
 
