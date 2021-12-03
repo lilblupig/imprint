@@ -267,7 +267,10 @@ def image_search():
     if mongo.db.images.count_documents({"$text": {"$search": image_search}}) < 1:
         flash("No results found")
 
-    return render_template("gallery.html", images=images)
+    # Get all locations for filter box
+    locations = mongo.db.locations.find()
+
+    return render_template("gallery.html", images=images, locations=locations)
 
 
 @app.route("/location_filter", methods=["GET", "POST"])
@@ -283,7 +286,10 @@ def location_filter():
     if mongo.db.images.count_documents({"location": location_choice}) < 1:
         flash(location_choice)
 
-    return render_template("gallery.html", images=images)
+    # Get all locations for filter box
+    locations = mongo.db.locations.find()
+
+    return render_template("gallery.html", images=images, locations=locations)
 
 
 @app.route("/single_image/<image_id>")
