@@ -11,17 +11,20 @@
 
     <div class="row">
         <div class="col 12">
-            <p>Filter images by location:</p>
+            <p>Filter images by:</p>
 
-            {% for location in locations %}
-            <select>
-                <option value="" disabled selected>Choose location filter</option>
-                <option value="1">All</option>
+            <form action="{{ url_for('location_filter') }}" method="POST">
                 {% for location in locations %}
-                    <option value="{{ location.id }}">{{ location.location_name }}</option>
+                <label for="location_filter">Location:</label>
+                <select name="location_filter">
+                    <option value="" disabled selected>Choose location filter</option>
+                        {% for location in locations %}
+                            <option value="{{ location.location_name }}">{{ location.location_name }}</option>
+                        {% endfor %}
+                </select>
                 {% endfor %}
-            </select>
-            {% endfor %}
+                <button type="submit" class="btn">Filter</button>
+            </form>
 
         </div>
         <div class="col 12">

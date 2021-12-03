@@ -270,6 +270,22 @@ def image_search():
     return render_template("gallery.html", images=images)
 
 
+@app.route("/location_filter", methods=["GET", "POST"])
+def location_filter():
+
+    # Get search form data
+    location_choice = request.form.get("location_filter")
+
+    # Search database using permanent text index
+    images = mongo.db.images.find({"location": location_choice})
+
+    # If DB search yields no results, flash user message
+    if mongo.db.images.count_documents({"location": location_choice}) < 1:
+        flash(location_choice)
+
+    return render_template("gallery.html", images=images)
+
+
 @app.route("/single_image/<image_id>")
 def single_image(image_id):
     """ Get single image and info """
