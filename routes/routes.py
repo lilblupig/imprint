@@ -330,7 +330,7 @@ def upload(username):
 
                 # Send image to Cloudinary account
                 photo = request.files['photo']
-                photo_upload = cloudinary.uploader.upload(photo)
+                photo_upload = cloudinary.uploader.unsigned_upload(photo, "p6tbiahk")
                 uploaded = {
                     "location": request.form.get("location"),
                     "decade": request.form.get("decade"),
