@@ -14,8 +14,8 @@
         <!-- Message to display on succesful upload -->
         {% if success %}
             <p>Thank you for contributing!</p>
+        {% endif %}
 
-        {% else %}
             <form method="POST" action="{{ url_for('upload', username=session['user']) }}" enctype="multipart/form-data">
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
@@ -63,8 +63,6 @@
                 {{ form.submit }}
 
             </form>
-
-        {% endif %}
 
     </div>
 

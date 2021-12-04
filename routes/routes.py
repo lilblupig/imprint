@@ -344,7 +344,7 @@ def upload(username):
                 # Add image document to DB
                 mongo.db.images.insert_one(uploaded)
 
-                return render_template('upload.html', username=username, success=True)
+                return render_template('upload.html', username=username, form=form, success=True)
 
         return render_template("upload.html", username=username, form=form)
 
