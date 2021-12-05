@@ -15,6 +15,10 @@ h1, h2, h3, h4, h5, h6 {
     color: #000000;
 }
 
+h1 {
+    margin-top: 1rem;
+}
+
 a.btn, button.btn, input.btn {
     color: #ffffff;
     background-color: #1E3C8D;
@@ -42,10 +46,15 @@ nav {
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
 }
 
-nav a, a.imprint-nav {
+.imprint-nav {
     font-family: Cinzel, serif;
     color: #ffffff;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+    line-height: 3rem;
+}
+
+.imprint-nav.logo {
+    font-size: 2rem;
 }
 
 .hamburger {
@@ -69,6 +78,4 @@ nav a, a.imprint-nav {
 
 footer {
     background-color: #eeeeee;
-    /* Taken from Materialize navbar */
-    box-shadow: 2px 2px 0 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
 }

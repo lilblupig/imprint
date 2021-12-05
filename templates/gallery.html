@@ -15,36 +15,43 @@
 <!-- Content to display in content block -->
 {% block content %}
 
+    <div class="">
+        <p>Just scroll through the images, filter by location or use text search to look for something specific.</p>
+    </div>
     <!-- Gallery filters location and free text search -->
-    <div class="row">
-        <div class="col s12">
-            <p>Just scroll through the images, filter by location or search for something specific.</p>
-        </div>
+    <div class="row imprint-border">
         <!-- Location filter - not accessible as cannot apply label -->
-        <div class="col s12">
+        <div class="">
             <form action="{{ url_for('location_filter') }}" method="POST">
-                <div class="input-field">
+                <div class="">
                     <select name="location_filter">
                         <option value="" disabled selected></option>
                             {% for location in locations %}
                                 <option value="{{ location.location_name }}">{{ location.location_name }}</option>
                             {% endfor %}
                     </select>
-                    <label for="location_filter">Filter images by location:</label>
+                    <label for="location_filter" class="imprint-label">Filter images by location:</label>
                 </div>
-                <button type="submit" class="btn">Filter</button>
+                <div class="">
+                    <button type="submit" class="btn">Filter</button>
+                </div>
             </form>
         </div>
         <!-- Free text search -->
-        <div class="col s12">
+        <div class="col s12 m6">
             <form action="{{ url_for('image_search') }}" method="POST">
-                <label for="image_search">Search images:</label>
-                <input type="text" name="image_search" id="image_search" class="validate"/>
-                <button type="submit" class="btn">Search</button>
+                <div class="col s7">
+                    <label for="image_search" class="imprint-label">Search images:</label>
+                    <input type="text" name="image_search" id="image_search" class="validate"/>
+                </div>
+                <div class="col s5 right-align">
+                    <button type="submit" class="btn">Search</button>
+                </div>
             </form>
-
-            <a href="{{ url_for('gallery') }}" class="btn">Clear</a>
-
+        </div>
+        <!-- Clear all filters -->
+        <div class="col s12 center-align">
+            <a href="{{ url_for('gallery') }}" class="btn">Clear All</a>
         </div>
     </div>
 
@@ -53,15 +60,13 @@
     {% for image in images %}
 
         <a href="{{ url_for('single_image', image_id=image._id) }}">
-            <div class="col s12 m6 l4">
-                <div class="card card-small">
-                    <div class="card-image">
-                        <img src="{{ image.photo }}" alt="{{ image.location }}">
-                        <span class="card-title">{{ image.location }}</span>
-                    </div>
-                    <div class="card-content">
-                        <p>Decade: {{ image.decade }}</p>
-                        <p>Added by: {{ image.owner }}</p>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <img src="{{ image.photo }}" alt="{{ image.location }}" class="card-img-top">
+                    <div class="card-body">
+                        <h3>{{ image.location }}</h3>
+                        <p class="card-text">Decade: {{ image.decade }}</p>
+                        <p class="card-text">Added by: {{ image.owner }}</p>
                     </div>
                 </div>
             </div>
