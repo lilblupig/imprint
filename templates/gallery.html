@@ -84,9 +84,9 @@
     <!-- Gallery images -->
     <div class="row">
         {% for image in images %}
-            <div class="col-12 col-md-6 col-lg-4 imprint-card">
+            <div class="col-12 col-md-6 col-lg-4">
                 <a href="{{ url_for('single_image', image_id=image._id) }}">
-                    <div class="card">
+                    <div class="card imprint-card">
                         <div class="imprint-card-image">
                             <img src="{{ image.photo }}" alt="{{ image.location }}" class="card-img-top">
                             <h3 class="imprint-card-title">{{ image.location }}</h3>

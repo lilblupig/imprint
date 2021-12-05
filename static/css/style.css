@@ -10,6 +10,10 @@ body {
     color: #000000;
 }
 
+a {
+    text-decoration: none;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: Cinzel, serif;
     color: #000000;
@@ -109,6 +113,11 @@ nav {
 /* Gallery cards */
 .imprint-card {
     margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.imprint-card:hover {
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
 }
 
 .imprint-card-image {
@@ -122,6 +131,11 @@ nav {
     padding: 0.75rem;
     margin-bottom: 0;
     color: #ffffff;
+}
+
+.card-body p {
+    margin-bottom: 0;
+    color: #1E3C8D;
 }
 
 
