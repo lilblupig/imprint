@@ -45,7 +45,7 @@ def gallery():
     # Get all locations for filter box
     locations = mongo.db.locations.find()
 
-    # Get images from database relating to selected location
+    # Get images from database
     images = mongo.db.images.find()
 
     return render_template("gallery.html", images=images, locations=locations)
@@ -190,8 +190,9 @@ def login():
     # Define model to use
     form = LoginForm()
 
-    # Get locations for home page after login
+    # Get locations and images for home page after login
     locations = mongo.db.locations.find()
+    images = mongo.db.images.find()
 
     if request.method == 'POST':
 
@@ -218,7 +219,7 @@ def login():
                     return render_template('login.html', form=form)
 
             # Feedback success to user
-            return render_template('index.html', locations=locations, success=True)
+            return render_template('gallery.html', locations=locations, images=images, success=True)
 
     return render_template('login.html', form=form)
 
