@@ -14,6 +14,10 @@ a {
     text-decoration: none;
 }
 
+body a:hover, a.imprint-nav:hover {
+    color: #1E3C8D;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: Cinzel, serif;
     color: #000000;
@@ -136,6 +140,20 @@ nav {
 .card-body p {
     margin-bottom: 0;
     color: #1E3C8D;
+}
+
+
+/* About page */
+div.imprint-about-buttons a {
+    margin: 1rem 2rem;
+}
+
+hr.imprint-about-hr {
+    width: 15%;
+    height: 0.25rem;
+    color: #FBB13C;
+    margin: 2rem auto;
+    opacity: 1;
 }
 
 
