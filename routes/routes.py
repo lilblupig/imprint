@@ -38,11 +38,65 @@ from config import cloudinary_config, mail_config
 
 # Default route for homepage
 @app.route("/")
-@app.route("/get_locations")
-def get_locations():
-    """ Define test function """
+@app.route("/gallery")
+def gallery():
+    """ Get gallery page """
+
+    # Get all locations for filter box
     locations = mongo.db.locations.find()
-    return render_template("index.html", locations=locations)
+
+    # Get images from database relating to selected location
+    images = mongo.db.images.find()
+
+    return render_template("gallery.html", images=images, locations=locations)
+
+
+@app.route("/image_search", methods=["GET", "POST"])
+def image_search():
+
+    # Get search form data
+    image_search = request.form.get("image_search")
+
+    # Search database using permanent text index
+    images = mongo.db.images.find({"$text": {"$search": image_search}})
+
+    # If DB search yields no results, flash user message
+    if mongo.db.images.count_documents({"$text": {"$search": image_search}}) < 1:
+        flash("No results found")
+
+    # Get all locations for filter box
+    locations = mongo.db.locations.find()
+
+    return render_template("gallery.html", images=images, locations=locations)
+
+
+@app.route("/location_filter", methods=["GET", "POST"])
+def location_filter():
+
+    # Get search form data
+    location_choice = request.form.get("location_filter")
+
+    # Search database using permanent text index
+    images = mongo.db.images.find({"location": location_choice})
+
+    # If DB search yields no results, flash user message
+    if mongo.db.images.count_documents({"location": location_choice}) < 1:
+        flash(location_choice)
+
+    # Get all locations for filter box
+    locations = mongo.db.locations.find()
+
+    return render_template("gallery.html", images=images, locations=locations)
+
+
+@app.route("/single_image/<image_id>")
+def single_image(image_id):
+    """ Get single image and info """
+
+    # Get image document id
+    image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
+
+    return render_template("single_image.html", image=image)
 
 
 # Route for Contact Form
@@ -232,77 +286,6 @@ def profile(username):
 def about():
     """ Get about page """
     return render_template("about.html")
-
-
-# Default route for gallery page
-@app.route("/gallery/<location_id>")
-def gallery(location_id):
-    """ Get gallery page """
-
-    # Get location id from database
-    location = mongo.db.locations.find_one({"_id": ObjectId(location_id)})
-
-    # Get all locations for filter box
-    locations = mongo.db.locations.find()
-
-    # Get images from database relating to selected location
-    # Allow Gallery page to be called without location filter
-    if location_id == '000000000000000000000000':
-        images = mongo.db.images.find()
-
-    # Else if location provided, display images only relevant to that location
-    else:
-        images = mongo.db.images.find({"location": location["location_name"]})
-
-    return render_template("gallery.html", location=location, images=images, locations=locations)
-
-
-@app.route("/image_search", methods=["GET", "POST"])
-def image_search():
-
-    # Get search form data
-    image_search = request.form.get("image_search")
-
-    # Search database using permanent text index
-    images = mongo.db.images.find({"$text": {"$search": image_search}})
-
-    # If DB search yields no results, flash user message
-    if mongo.db.images.count_documents({"$text": {"$search": image_search}}) < 1:
-        flash("No results found")
-
-    # Get all locations for filter box
-    locations = mongo.db.locations.find()
-
-    return render_template("gallery.html", images=images, locations=locations)
-
-
-@app.route("/location_filter", methods=["GET", "POST"])
-def location_filter():
-
-    # Get search form data
-    location_choice = request.form.get("location_filter")
-
-    # Search database using permanent text index
-    images = mongo.db.images.find({"location": location_choice})
-
-    # If DB search yields no results, flash user message
-    if mongo.db.images.count_documents({"location": location_choice}) < 1:
-        flash(location_choice)
-
-    # Get all locations for filter box
-    locations = mongo.db.locations.find()
-
-    return render_template("gallery.html", images=images, locations=locations)
-
-
-@app.route("/single_image/<image_id>")
-def single_image(image_id):
-    """ Get single image and info """
-
-    # Get image document id
-    image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
-
-    return render_template("single_image.html", image=image)
 
 
 # Default route for upload page
