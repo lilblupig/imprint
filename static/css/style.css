@@ -21,18 +21,37 @@ h1 {
     font-size: 3.8rem;
 }
 
+/* Buttons */
 a.btn, button.btn, input.btn {
     color: #ffffff;
     background-color: #1E3C8D;
     font-family: Nunito, sans-serif;
     text-transform: uppercase;
     border: solid 1px #FBB13C;
-
+    font-size: 0.75rem;
 }
 
+button.accordion-button {
+    margin-bottom: 1rem;
+}
+
+/* Labels & Forms */
 label.imprint-label {
     color: #1E3C8D;
     font-size: 0.9rem;
+}
+
+select, input {
+    word-wrap: normal;
+    width: 100%;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background-color: #ffffff;
+    border-color: #e0e0e0;
+    border-width: 1px;
+    height: 3rem;
+    margin-bottom: 1rem;
 }
 
 .imprint-border {
@@ -85,6 +104,9 @@ nav {
     text-decoration-color: #FBB13C;
     margin-bottom: 1.25rem;
 }
+
+
+
 
 
 /* Footer */

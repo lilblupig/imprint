@@ -18,45 +18,66 @@
         <p>Just scroll through the images, filter by location or use text search to look for something specific.</p>
     </div>
 
-    <!-- Gallery filters location and free text search -->
-    <div class="row">
-        <!-- Location filter - not accessible as cannot apply label -->
-        <div class="col-12 col-md-6">
-            <form action="{{ url_for('location_filter') }}" method="POST">
-                <div class="col-12">
-                    <label for="location_filter" class="imprint-label">Filter images by location:</label>
-                </div>
-                <div class="col-12">
-                    <div class="col-8">
-                        <select name="location_filter">
-                            <option value="" disabled selected></option>
-                                {% for location in locations %}
-                                    <option value="{{ location.location_name }}">{{ location.location_name }}</option>
-                                {% endfor %}
-                        </select>
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Search & Filter
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <!-- Gallery filters location and free text search -->
+                    <div class="row">
+                        <!-- Location filter - not accessible as cannot apply label -->
+                        <div class="col-12 col-md-6">
+                            <form action="{{ url_for('location_filter') }}" method="POST">
+                                <div class="col-12">
+                                    <label for="location_filter" class="imprint-label">Filter images by location:</label>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                    <div class="col-8">
+                                        <select name="location_filter">
+                                            {% for location in locations %}
+                                                <option value="{{ location.location_name }}">{{ location.location_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-4 text-end text-md-start">
+                                        <button type="submit" class="btn">Filter</button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Free text search -->
+                        <div class="col-12 col-md-6">
+                            <form action="{{ url_for('image_search') }}" method="POST">
+                                <div class="col-12">
+                                    <label for="image_search" class="imprint-label">Search images:</label>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                    <div class="col-8">
+                                        <input type="text" name="image_search" id="image_search" />
+                                    </div>
+                                    <div class="col-4 text-end text-md-start">
+                                        <button type="submit" class="btn">Search</button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Clear all filters -->
+                        <div class="col-12 text-center">
+                            <a href="{{ url_for('gallery') }}" class="btn">Clear All</a>
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <button type="submit" class="btn">Filter</button>
-                    </div>
                 </div>
-
-            </form>
-        </div>
-        <!-- Free text search -->
-        <div class="col-12 col-md-6">
-            <form action="{{ url_for('image_search') }}" method="POST">
-                <div class="col s7">
-                    <label for="image_search" class="imprint-label">Search images:</label>
-                    <input type="text" name="image_search" id="image_search" class="validate"/>
-                </div>
-                <div class="col s5 right-align">
-                    <button type="submit" class="btn">Search</button>
-                </div>
-            </form>
-        </div>
-        <!-- Clear all filters -->
-        <div class="col-12">
-            <a href="{{ url_for('gallery') }}" class="btn">Clear All</a>
+            </div>
         </div>
     </div>
 
