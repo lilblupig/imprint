@@ -8,37 +8,42 @@
 
 <!-- Content to display in title block -->
 {% block title %}
-    <h1>Gallery</h1>
+    <h1 class="text-center text-md-start">Gallery</h1>
 {% endblock %}
-
 
 <!-- Content to display in content block -->
 {% block content %}
 
-    <div class="">
+    <div class="text-center text-md-start">
         <p>Just scroll through the images, filter by location or use text search to look for something specific.</p>
     </div>
+
     <!-- Gallery filters location and free text search -->
-    <div class="row imprint-border">
+    <div class="row">
         <!-- Location filter - not accessible as cannot apply label -->
-        <div class="">
+        <div class="col-12 col-md-6">
             <form action="{{ url_for('location_filter') }}" method="POST">
-                <div class="">
-                    <select name="location_filter">
-                        <option value="" disabled selected></option>
-                            {% for location in locations %}
-                                <option value="{{ location.location_name }}">{{ location.location_name }}</option>
-                            {% endfor %}
-                    </select>
+                <div class="col-12">
                     <label for="location_filter" class="imprint-label">Filter images by location:</label>
                 </div>
-                <div class="">
-                    <button type="submit" class="btn">Filter</button>
+                <div class="col-12">
+                    <div class="col-8">
+                        <select name="location_filter">
+                            <option value="" disabled selected></option>
+                                {% for location in locations %}
+                                    <option value="{{ location.location_name }}">{{ location.location_name }}</option>
+                                {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn">Filter</button>
+                    </div>
                 </div>
+
             </form>
         </div>
         <!-- Free text search -->
-        <div class="col s12 m6">
+        <div class="col-12 col-md-6">
             <form action="{{ url_for('image_search') }}" method="POST">
                 <div class="col s7">
                     <label for="image_search" class="imprint-label">Search images:</label>
@@ -50,29 +55,27 @@
             </form>
         </div>
         <!-- Clear all filters -->
-        <div class="col s12 center-align">
+        <div class="col-12">
             <a href="{{ url_for('gallery') }}" class="btn">Clear All</a>
         </div>
     </div>
 
+    <!-- Gallery images -->
     <div class="row">
-
-    {% for image in images %}
-
-        <a href="{{ url_for('single_image', image_id=image._id) }}">
+        {% for image in images %}
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card">
-                    <img src="{{ image.photo }}" alt="{{ image.location }}" class="card-img-top">
-                    <div class="card-body">
-                        <h3>{{ image.location }}</h3>
-                        <p class="card-text">Decade: {{ image.decade }}</p>
-                        <p class="card-text">Added by: {{ image.owner }}</p>
+                <a href="{{ url_for('single_image', image_id=image._id) }}">
+                    <div class="card">
+                        <img src="{{ image.photo }}" alt="{{ image.location }}" class="card-img-top">
+                        <div class="card-body">
+                            <h3>{{ image.location }}</h3>
+                            <p class="card-text">Decade: {{ image.decade }}</p>
+                            <p class="card-text">Added by: {{ image.owner }}</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
-        </a>
-    {% endfor %}
-
+        {% endfor %}
     </div>
 
 {% endblock %}
