@@ -36,7 +36,17 @@ a.btn, button.btn, input.btn {
     font-family: Nunito, sans-serif;
     text-transform: uppercase;
     border: solid 1px #FBB13C;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
+    max-width: 9rem;
+}
+
+a.btn:hover, button:hover, input:hover {
+    color: #1E3C8D;
+    background-color: #FFFFFF;
+    font-family: Nunito, sans-serif;
+    text-transform: uppercase;
+    border: solid 1px #FBB13C;
+    font-size: 0.8rem;
 }
 
 button.accordion-button {
@@ -49,7 +59,7 @@ label.imprint-label {
     font-size: 0.9rem;
 }
 
-select, input {
+select, input, textarea {
     word-wrap: normal;
     width: 100%;
     border-top: none;
