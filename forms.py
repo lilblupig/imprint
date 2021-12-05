@@ -174,7 +174,7 @@ class DeleteProfileForm(FlaskForm):
             Length(min=8),
         ]
     )
-    submit = SubmitField('Change Password')
+    submit = SubmitField('Delete Profile')
 
 
 # Upload image form

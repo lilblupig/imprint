@@ -290,12 +290,16 @@ def delete_profile(username):
     # Define model to use
     form = DeleteProfileForm()
 
+    # Get locations and images for home page after deletion
+    locations = mongo.db.locations.find()
+    images = mongo.db.images.find()
+
     # Find user record from database
     user = mongo.db.users.find_one({"username": session["user"]})
     username = user["username"]
 
     # Find posts made by user
-    images = mongo.db.images.find({"owner": username})
+    posts = mongo.db.images.find({"owner": username})
 
     # Check if a user is in session to try and avoid brute force access
     if session["user"]:
@@ -307,11 +311,11 @@ def delete_profile(username):
                 # Check DB value matches that entered for old password in form
                 if check_password_hash(user["password"], request.form.get("old_password")):
                     # Delete posts
-                    for image in images:
+                    for post in posts:
                         # Remove images from Cloudinary
-                        cloudinary.uploader.destroy(image["cloudinary_id"], invalidate=True)
+                        cloudinary.uploader.destroy(post["cloudinary_id"], invalidate=True)
                         # Remove documents from DB
-                        mongo.db.images.remove({"_id": image["_id"]})
+                        mongo.db.images.remove({"_id": post["_id"]})
 
                     # Remove session cookie
                     session.pop("user")
@@ -319,7 +323,7 @@ def delete_profile(username):
                     # Delete profile
                     mongo.db.users.remove({"_id": user["_id"]})
 
-                    return render_template("gallery.html")
+                    return render_template("gallery.html", locations=locations, images=images)
 
                 flash("Incorrect existing password, please try again")
 
