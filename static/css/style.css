@@ -1,8 +1,13 @@
 /* Get Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Nunito:wght@200&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Nunito:wght@300&display=swap');
+
+
+/* Generic styles */
 
 body {
     font-family: Nunito, sans-serif;
+    color: #000000;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -10,7 +15,60 @@ h1, h2, h3, h4, h5, h6 {
     color: #000000;
 }
 
-nav a {
+a.btn, button.btn, input.btn {
+    color: #ffffff;
+    background-color: #1E3C8D;
+    font-family: Nunito, sans-serif;
+    padding: 0px 8px;
+}
+
+label.imprint-label {
+    color: #1E3C8D;
+    font-size: 0.9rem;
+    text-align: right;
+}
+
+.imprint-border {
+    border: solid 1px #E0E0E0;
+    border-radius: 0.15rem;
+    padding: 1rem;
+}
+
+/* Navbar */
+
+nav {
+    background-color: #eeeeee;
+    /* Taken from Materialize navbar */
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+}
+
+nav a, a.imprint-nav {
     font-family: Cinzel, serif;
+    color: #ffffff;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+}
+
+.hamburger {
+    border: none;
+    padding: 10px 12px;
+    margin: 5px 0;
+}
+
+.imprint-toggler-icon {
+    background-image: url(../images/hamburger.svg);
+}
+
+/* Display/hide Hamburger/Standard nav at tablet breakpoint */
+@media (min-width: 768px) {
+    #navbarImprint {
+        display: block;
+    }
+}
+
+/* Footer */
+
+footer {
+    background-color: #eeeeee;
+    /* Taken from Materialize navbar */
+    box-shadow: 2px 2px 0 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
 }
