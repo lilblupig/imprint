@@ -13,7 +13,7 @@
 
         <!-- Message to display on succesful login -->
         {% if success %}
-            <a href="{{ url_for('get_locations') }}" class="btn">Home</a>
+            <a href="{{ url_for('gallery') }}" class="btn">Home</a>
 
         {% else %}
             <form method="POST" action="{{ url_for('login') }}">

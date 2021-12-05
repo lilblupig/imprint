@@ -13,8 +13,10 @@
 
         <!-- Message to display on succesful upload -->
         {% if success %}
-            <p>Thank you for contributing!</p>
-        {% endif %}
+            <p>Upload succesful! Thank you for contributing!</p>
+            <a href="{{ url_for('gallery') }}" class="btn">Home</a>
+            <a href="{{ url_for('upload', username=session['user']) }}" class="btn">Upload More</a>
+        {% else %}
 
             <form method="POST" action="{{ url_for('upload', username=session['user']) }}" enctype="multipart/form-data">
                 <!-- Hidden token proof that form came from page, uses secret key -->
@@ -63,6 +65,8 @@
                 {{ form.submit }}
 
             </form>
+
+        {% endif %}
 
     </div>
 
