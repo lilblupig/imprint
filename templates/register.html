@@ -19,8 +19,10 @@
 
         <!-- Message to display on successful registration -->
         {% if success %}
-            <p>Thank you for registering! Click the button below to get started.</p>
-            <a href="{{ url_for('about') }}" class="btn">Begin</a>
+            <div class="text-center">
+                <p class="pb-3">Thank you for registering! Click the button below to get started.</p>
+                <a href="{{ url_for('about') }}" class="btn pb-3">Begin</a>
+            </div>
 
         {% else %}
             <form method="POST" action="{{ url_for('register') }}">
