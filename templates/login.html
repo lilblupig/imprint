@@ -26,28 +26,30 @@
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.username.label }}
                     {{ form.username }}
                     {% for message in form.username.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 pb-3">
                     {{ form.password.label }}
                     {{ form.password }}
                     {% for message in form.password.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                {{ form.submit }}
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 text-center pb-5">
+                    {{ form.submit (class_="btn") }}
+                </div>
 
             </form>
 
             <div>
-                <p>If you don't have an account yet, but would like to participate please <a class="btn" href="{{ url_for('register') }}">Register here</a></p>
+                <p>If you don't have an account yet, but would like to participate please <a href="{{ url_for('register') }}">Register here</a>.</p>
             </div>
         
         {% endif %}
