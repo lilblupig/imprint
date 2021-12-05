@@ -371,6 +371,8 @@ def edit_image(image_id):
                 # Update document in DB
                 mongo.db.images.update({"_id": image["_id"]}, updated)
 
+                flash("Post updated succesfully!")
+
                 return render_template('edit_image.html', image=image, success=True)
 
         return render_template("edit_image.html", image=image, form=form)
