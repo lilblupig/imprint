@@ -32,7 +32,7 @@ from bson.objectid import ObjectId
 
 # Import local Forms code
 from app import app, mongo
-from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm, UploadImageForm, EditImageForm
+from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm, DeleteProfileForm, UploadImageForm, EditImageForm
 from config import cloudinary_config, mail_config
 
 
@@ -280,6 +280,50 @@ def profile(username):
         return render_template("profile.html", images=images, username=username, form=form)
 
     return render_template(url_for("login", images=images))
+
+
+# Route to delete profile
+@app.route("/delete_profile/<username>", methods=["GET", "POST"])
+def delete_profile(username):
+    """ Get user information, delete posts, and profile """
+
+    # Define model to use
+    form = DeleteProfileForm()
+
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+    username = user["username"]
+
+    # Find posts made by user
+    images = mongo.db.images.find({"owner": username})
+
+    # Check if a user is in session to try and avoid brute force access
+    if session["user"]:
+        if request.method == 'POST':
+
+            # Check all fields are validated and new passwords match
+            if form.validate() is True:
+
+                # Check DB value matches that entered for old password in form
+                if check_password_hash(user["password"], request.form.get("old_password")):
+                    # Delete posts
+                    for image in images:
+                        # Remove images from Cloudinary
+                        cloudinary.uploader.destroy(image["cloudinary_id"], invalidate=True)
+                        # Remove documents from DB
+                        mongo.db.images.remove({"_id": image["_id"]})
+
+                    # Remove session cookie
+                    session.pop("user")
+
+                    # Delete profile
+                    mongo.db.users.remove({"_id": user["_id"]})
+
+                    return render_template("gallery.html")
+
+                flash("Incorrect existing password, please try again")
+
+    return render_template("delete_profile.html", form=form)
 
 
 # Default route for about page

@@ -158,6 +158,25 @@ class ChangePasswordForm(FlaskForm):
     submit = SubmitField('Change Password')
 
 
+# Delete profile form
+class DeleteProfileForm(FlaskForm):
+    """
+        Delete profile form model
+        Define field = WTF Fieldtype
+            Set label
+            Set any validators and messages
+    """
+
+    old_password = PasswordField(
+        'Old password',
+        [
+            InputRequired(),
+            Length(min=8),
+        ]
+    )
+    submit = SubmitField('Change Password')
+
+
 # Upload image form
 class UploadImageForm(FlaskForm):
     """
