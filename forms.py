@@ -155,7 +155,7 @@ class ChangePasswordForm(FlaskForm):
             InputRequired()
         ]
     )
-    submit = SubmitField('Change Password')
+    submit = SubmitField('Change')
 
 
 # Delete profile form
