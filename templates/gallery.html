@@ -9,32 +9,35 @@
 <!-- Content to display in content block -->
 {% block content %}
 
+    <!-- Gallery filters location and free text search -->
     <div class="row">
-        <div class="col 12">
-            <p>Filter images by:</p>
-
+        <div class="col s12">
+            <p>Just scroll through the images, filter by location or search for something specific.</p>
+        </div>
+        <!-- Location filter - not accessible as cannot apply label -->
+        <div class="col s12">
             <form action="{{ url_for('location_filter') }}" method="POST">
-                {% for location in locations %}
-                <label for="location_filter">Location:</label>
-                <select name="location_filter">
-                    <option value="" disabled selected>Choose location filter</option>
-                        {% for location in locations %}
-                            <option value="{{ location.location_name }}">{{ location.location_name }}</option>
-                        {% endfor %}
-                </select>
-                {% endfor %}
+                <div class="input-field">
+                    <select name="location_filter">
+                        <option value="" disabled selected></option>
+                            {% for location in locations %}
+                                <option value="{{ location.location_name }}">{{ location.location_name }}</option>
+                            {% endfor %}
+                    </select>
+                    <label for="location_filter">Filter images by location:</label>
+                </div>
                 <button type="submit" class="btn">Filter</button>
             </form>
-
         </div>
-        <div class="col 12">
+        <!-- Free text search -->
+        <div class="col s12">
             <form action="{{ url_for('image_search') }}" method="POST">
                 <label for="image_search">Search images:</label>
-                <input type="text" name="image_search" id="image_search" class="validate" required/>
+                <input type="text" name="image_search" id="image_search" class="validate"/>
                 <button type="submit" class="btn">Search</button>
             </form>
 
-            <a href="{{ url_for('gallery', location_id='000000000000000000000000') }}" class="btn">Clear</a>
+            <a href="{{ url_for('gallery') }}" class="btn">Clear</a>
 
         </div>
     </div>
@@ -47,7 +50,7 @@
             <div class="col s12 m6 l4">
                 <div class="card card-small">
                     <div class="card-image">
-                        <img src="{{ image.photo }}">
+                        <img src="{{ image.photo }}" alt="{{ image.location }}">
                         <span class="card-title">{{ image.location }}</span>
                     </div>
                     <div class="card-content">

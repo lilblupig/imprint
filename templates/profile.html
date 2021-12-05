@@ -61,6 +61,7 @@
     <div class="row">
 
         <h2>Posts by {{ username }}</h2>
+        <p>You can edit your posts here, just click on an image to see and change the details.</p>
 
         {% for image in images %}
 
@@ -68,7 +69,7 @@
                 <div class="col s12 m6 l4">
                     <div class="card card-small">
                         <div class="card-image">
-                            <img src="{{ image.photo }}">
+                            <img src="{{ image.photo }}" alt="{{ image.location }}">
                             <span class="card-title">{{ image.location }}</span>
                         </div>
                         <div class="card-content">
@@ -81,6 +82,11 @@
 
         {% endfor %}
 
-        </div>
+    </div>
+
+    <div>
+        <h2>Delete Profile</h2>
+        <a href="{{ url_for('delete_profile', username=session['user']) }}" class="btn">Delete Profile</a>
+    </div>
 
 {% endblock %}

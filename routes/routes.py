@@ -32,17 +32,71 @@ from bson.objectid import ObjectId
 
 # Import local Forms code
 from app import app, mongo
-from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm, UploadImageForm, EditImageForm
+from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm, DeleteProfileForm, UploadImageForm, EditImageForm
 from config import cloudinary_config, mail_config
 
 
 # Default route for homepage
 @app.route("/")
-@app.route("/get_locations")
-def get_locations():
-    """ Define test function """
+@app.route("/gallery")
+def gallery():
+    """ Get gallery page """
+
+    # Get all locations for filter box
     locations = mongo.db.locations.find()
-    return render_template("index.html", locations=locations)
+
+    # Get images from database
+    images = mongo.db.images.find()
+
+    return render_template("gallery.html", images=images, locations=locations)
+
+
+@app.route("/image_search", methods=["GET", "POST"])
+def image_search():
+
+    # Get search form data
+    image_search = request.form.get("image_search")
+
+    # Search database using permanent text index
+    images = mongo.db.images.find({"$text": {"$search": image_search}})
+
+    # If DB search yields no results, flash user message
+    if mongo.db.images.count_documents({"$text": {"$search": image_search}}) < 1:
+        flash("No results found")
+
+    # Get all locations for filter box
+    locations = mongo.db.locations.find()
+
+    return render_template("gallery.html", images=images, locations=locations)
+
+
+@app.route("/location_filter", methods=["GET", "POST"])
+def location_filter():
+
+    # Get search form data
+    location_choice = request.form.get("location_filter")
+
+    # Search database using permanent text index
+    images = mongo.db.images.find({"location": location_choice})
+
+    # If DB search yields no results, flash user message
+    if mongo.db.images.count_documents({"location": location_choice}) < 1:
+        flash(location_choice)
+
+    # Get all locations for filter box
+    locations = mongo.db.locations.find()
+
+    return render_template("gallery.html", images=images, locations=locations)
+
+
+@app.route("/single_image/<image_id>")
+def single_image(image_id):
+    """ Get single image and info """
+
+    # Get image document id
+    image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
+
+    return render_template("single_image.html", image=image)
 
 
 # Route for Contact Form
@@ -136,6 +190,10 @@ def login():
     # Define model to use
     form = LoginForm()
 
+    # Get locations and images for home page after login
+    locations = mongo.db.locations.find()
+    images = mongo.db.images.find()
+
     if request.method == 'POST':
 
         # Check all fields are validated
@@ -161,7 +219,7 @@ def login():
                     return render_template('login.html', form=form)
 
             # Feedback success to user
-            return render_template('login.html', success=True)
+            return render_template('gallery.html', locations=locations, images=images, success=True)
 
     return render_template('login.html', form=form)
 
@@ -224,82 +282,59 @@ def profile(username):
     return render_template(url_for("login", images=images))
 
 
+# Route to delete profile
+@app.route("/delete_profile/<username>", methods=["GET", "POST"])
+def delete_profile(username):
+    """ Get user information, delete posts, and profile """
+
+    # Define model to use
+    form = DeleteProfileForm()
+
+    # Get locations and images for home page after deletion
+    locations = mongo.db.locations.find()
+    images = mongo.db.images.find()
+
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+    username = user["username"]
+
+    # Find posts made by user
+    posts = mongo.db.images.find({"owner": username})
+
+    # Check if a user is in session to try and avoid brute force access
+    if session["user"]:
+        if request.method == 'POST':
+
+            # Check all fields are validated and new passwords match
+            if form.validate() is True:
+
+                # Check DB value matches that entered for old password in form
+                if check_password_hash(user["password"], request.form.get("old_password")):
+                    # Delete posts
+                    for post in posts:
+                        # Remove images from Cloudinary
+                        cloudinary.uploader.destroy(post["cloudinary_id"], invalidate=True)
+                        # Remove documents from DB
+                        mongo.db.images.remove({"_id": post["_id"]})
+
+                    # Remove session cookie
+                    session.pop("user")
+
+                    # Delete profile
+                    mongo.db.users.remove({"_id": user["_id"]})
+
+                    return render_template("gallery.html", locations=locations, images=images)
+
+                flash("Incorrect existing password, please try again")
+
+    return render_template("delete_profile.html", form=form)
+
+
 # Default route for about page
 @app.route("/about")
 def about():
     """ Get about page """
     return render_template("about.html")
-
-
-# Default route for gallery page
-@app.route("/gallery/<location_id>")
-def gallery(location_id):
-    """ Get gallery page """
-
-    # Get location id from database
-    location = mongo.db.locations.find_one({"_id": ObjectId(location_id)})
-
-    # Get all locations for filter box
-    locations = mongo.db.locations.find()
-
-    # Get images from database relating to selected location
-    # Allow Gallery page to be called without location filter
-    if location_id == '000000000000000000000000':
-        images = mongo.db.images.find()
-
-    # Else if location provided, display images only relevant to that location
-    else:
-        images = mongo.db.images.find({"location": location["location_name"]})
-
-    return render_template("gallery.html", location=location, images=images, locations=locations)
-
-
-@app.route("/image_search", methods=["GET", "POST"])
-def image_search():
-
-    # Get search form data
-    image_search = request.form.get("image_search")
-
-    # Search database using permanent text index
-    images = mongo.db.images.find({"$text": {"$search": image_search}})
-
-    # If DB search yields no results, flash user message
-    if mongo.db.images.count_documents({"$text": {"$search": image_search}}) < 1:
-        flash("No results found")
-
-    # Get all locations for filter box
-    locations = mongo.db.locations.find()
-
-    return render_template("gallery.html", images=images, locations=locations)
-
-
-@app.route("/location_filter", methods=["GET", "POST"])
-def location_filter():
-
-    # Get search form data
-    location_choice = request.form.get("location_filter")
-
-    # Search database using permanent text index
-    images = mongo.db.images.find({"location": location_choice})
-
-    # If DB search yields no results, flash user message
-    if mongo.db.images.count_documents({"location": location_choice}) < 1:
-        flash(location_choice)
-
-    # Get all locations for filter box
-    locations = mongo.db.locations.find()
-
-    return render_template("gallery.html", images=images, locations=locations)
-
-
-@app.route("/single_image/<image_id>")
-def single_image(image_id):
-    """ Get single image and info """
-
-    # Get image document id
-    image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
-
-    return render_template("single_image.html", image=image)
 
 
 # Default route for upload page
@@ -327,7 +362,7 @@ def upload(username):
 
                 # Send image to Cloudinary account
                 photo = request.files['photo']
-                photo_upload = cloudinary.uploader.upload(photo)
+                photo_upload = cloudinary.uploader.unsigned_upload(photo, "p6tbiahk")
                 uploaded = {
                     "location": request.form.get("location"),
                     "decade": request.form.get("decade"),
@@ -341,7 +376,7 @@ def upload(username):
                 # Add image document to DB
                 mongo.db.images.insert_one(uploaded)
 
-                return render_template('upload.html', username=username, success=True)
+                return render_template('upload.html', username=username, form=form, success=True)
 
         return render_template("upload.html", username=username, form=form)
 
@@ -384,6 +419,8 @@ def edit_image(image_id):
                 }
                 # Update document in DB
                 mongo.db.images.update({"_id": image["_id"]}, updated)
+
+                flash("Post updated succesfully!")
 
                 return render_template('edit_image.html', image=image, success=True)
 

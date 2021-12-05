@@ -14,7 +14,7 @@
         <!-- Message to display on successful registration -->
         {% if success %}
             <p>Thank you for registering! Click the button below to get started.</p>
-            <a href="{{ url_for('get_locations') }}" class="btn">Home</a>
+            <a href="{{ url_for('about') }}" class="btn">Begin</a>
 
         {% else %}
             <form method="POST" action="{{ url_for('register') }}">

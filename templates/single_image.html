@@ -10,7 +10,7 @@
 {% block content %}
 
     <div>
-        <img src="{{ image.photo }}" />
+        <img src="{{ image.photo }}" alt="{{ image.location }}" />
     </div>
     <div>
         <h2>{{ image.location }}</h2>
@@ -18,6 +18,9 @@
         <p>Added by: {{ image.owner }}</p>
         <p>{{ image.details }}</p>
         <p>Tags: {{ image.tags }}</p>
+    </div>
+    <div>
+        <a href="{{ url_for('gallery') }}" class="btn">Back</a>
     </div>
 
 {% endblock %}
