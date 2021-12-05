@@ -8,7 +8,14 @@
 
 <!-- Content to display in content block -->
 {% block content %}
-    <p>Imprint is an image sharing service designed to enhance the enjoyment of a small Dorset town called Shaftesbury.</p>
-    <p>By selecting a region of the town, you can view photographs which relate to that area.  You can add to the archives, you just need to create an account.</p>
-    <p>If you need help, just <a href="{{ url_for('contact') }}">Contact Us</a>.</p>
+    <h2>What is it?</h2>
+    <p>Imprint is an image sharing service designed to enhance the enjoyment of a small Dorset town called Shaftesbury by sharing images and memories. Bask in the nostalgia of days gone by, or add new takes on historic places.</p>
+    <h2>How do I use it?</h2>
+    <p>You can scroll freely through the images in the main Gallery as it stands, or if you prefer, filter the images to meet your current interest. By selecting a region of the town, you can view photographs which relate to that area and you can search free text for trees, hills, views or whatever takes your fancy.  You can add to the archives, you just need to <a href="{{ url_for('register') }}">create an account</a> or <a href="{{ url_for('login') }}">login</a>.</p>
+    <h2>Are you going to sell my soul?</h2>
+    <p>We don't collect any personal data at all from registration, not your name, and not your email address. Just make up a username and password and you are good to go.</p>
+    <h2>I still don't know what to do...</h2>
+    <p>If you need help, just <a href="{{ url_for('contact') }}">Contact Us</a> and we will do our best to help, we can also reset your password if you forget it. Bear in mind, we are a voluntary organisation, so a response may take a while.</p>
+    <a href="{{ url_for('gallery') }}" class="btn">Gallery</a>
+    <a href="{{ url_for('upload', username=session['user']) }}" class="btn">Upload</a>
 {% endblock %}
