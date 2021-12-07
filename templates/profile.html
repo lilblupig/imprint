@@ -15,7 +15,7 @@
 <!-- Content to display in content block -->
 {% block content %}
 
-    <h2>Change Password</h2>
+    <h2 class="text-center text-md-start">Change Password</h2>
 
     <div class="form-wrapper">
 
@@ -68,7 +68,7 @@
     <!-- Display posts added by user -->
     <div class="row pb-5">
 
-        <h2>Posts by {{ username }}</h2>
+        <h2 class="text-center text-md-start">Posts by {{ username }}</h2>
         <p>You can edit your posts here, just click on an image to see and change the details.</p>
 
         {% for image in images %}
@@ -92,7 +92,9 @@
 
     </div>
 
-    <div class="pb-5">
+    <hr>
+
+    <div class="text-center text-lg-start pb-5">
         <h2>Delete Profile</h2>
         <a href="{{ url_for('delete_profile', username=session['user']) }}" class="btn">Delete Profile</a>
     </div>
