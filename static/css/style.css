@@ -1,8 +1,21 @@
 /* Get Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Nunito:wght@200&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Nunito:wght@300&display=swap');
+
+
+/* Generic styles */
 
 body {
     font-family: Nunito, sans-serif;
+    color: #000000;
+}
+
+a {
+    text-decoration: none;
+}
+
+body a:hover, a.imprint-nav:hover {
+    color: #1e3c8d;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -10,7 +23,194 @@ h1, h2, h3, h4, h5, h6 {
     color: #000000;
 }
 
-nav a {
+h1 {
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+    font-size: 3.8rem;
+}
+
+.imprint-warning {
+    text-decoration: underline 2px #a32648;
+}
+
+/* Buttons */
+a.btn, button.btn, input.btn {
+    color: #ffffff;
+    background-color: #1e3c8d;
+    font-family: Nunito, sans-serif;
+    text-transform: uppercase;
+    border: solid 1px #c8c8c8;
+    font-size: 0.8rem;
+    max-width: 9rem;
+}
+
+#delete-button {
+    background-color: #a32648;
+}
+
+a.btn:hover, button:hover, input:hover {
+    color: #1e3c8d;
+    background-color: #ffffff;
+    font-family: Nunito, sans-serif;
+    text-transform: uppercase;
+    border: solid 1px #c8c8c8;
+    font-size: 0.8rem;
+}
+
+button.accordion-button {
+    margin-bottom: 1rem;
+}
+
+/* Labels & Forms */
+label.imprint-label {
+    color: #1e3c8d;
+    font-size: 0.9rem;
+}
+
+select, input, textarea {
+    word-wrap: normal;
+    width: 100%;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background-color: #ffffff;
+    border-color: #c8c8c8;
+    border-width: 1px;
+    height: 3rem;
+    margin-bottom: 1rem;
+}
+
+.imprint-border {
+    border: solid 1px #c8c8c8;
+    border-radius: 0.15rem;
+    padding: 1rem;
+}
+
+
+/* Navbar */
+
+nav {
+    background-color: #c8c8c8;
+    /* Taken from Materialize navbar */
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+}
+
+.imprint-nav {
     font-family: Cinzel, serif;
+    font-size: 1.2rem;
+    color: #ffffff;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+    line-height: 3rem;
+}
+
+.imprint-nav.logo {
+    font-size: 2rem;
+}
+
+.hamburger {
+    border: none;
+    padding: 10px 12px;
+    margin: 5px 0;
+}
+
+.imprint-toggler-icon {
+    background-image: url(../images/hamburger.svg);
+}
+
+/* Display/hide Hamburger/Standard nav at tablet breakpoint */
+@media (min-width: 768px) {
+    #navbarImprint {
+        display: block;
+    }
+}
+
+
+/* Flash message container */
+.main-flash {
+    text-decoration: overline;
+    text-decoration-color: #fbb13c;
+    margin-bottom: 1.25rem;
+}
+
+
+/* Gallery cards */
+.imprint-card {
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.imprint-card:hover {
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+}
+
+.imprint-card-image {
+    position: relative;
+}
+
+.imprint-card-title {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 0.75rem;
+    margin-bottom: 0;
+    color: #ffffff;
+}
+
+.card-body p {
+    margin-bottom: 0;
+    color: #1e3c8d;
+}
+
+
+/* Large image management */
+
+.image-container {
+    max-width: 100%;
+    margin-bottom: 2rem;
+}
+
+
+/* About page */
+div.imprint-about-buttons a {
+    margin: 1rem 2rem;
+}
+
+hr.imprint-about-hr {
+    width: 15%;
+    height: 0.25rem;
+    color: #fbb13c;
+    margin: 2rem auto;
+    opacity: 1;
+}
+
+
+/* Footer */
+
+#page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+#main-content {
+    padding-bottom: 8rem;
+}
+
+footer {
+    background-color: #c8c8c8;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+    position: absolute;
+    bottom: 0;
+    width:100%;
+}
+
+footer h2, footer a.nav-link, footer p {
+    color: #1e3c8d;
+}
+
+footer p, footer a {
+    font-size: 0.85rem;
+}
+
+footer h2:hover, footer a.nav-link:hover {
+    color: #ffffff;
 }

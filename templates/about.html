@@ -1,21 +1,53 @@
 {% extends "base.html" %}
 
+<!-- Information to include in meta block -->
+{% block meta %}
+    <meta name="description" content="A help page for an image sharing site which allows users to upload photographs of the historic saxon hilltop town Shaftesbury.">
+    <title>Imprint - About</title>
+{% endblock %}
+
 <!-- Content to display in title block -->
 {% block title %}
-    <h1>About Imprint</h1>
+    <h1 class="text-center text-md-start">About Imprint</h1>
 {% endblock %}
 
 
 <!-- Content to display in content block -->
 {% block content %}
-    <h2>What is it?</h2>
-    <p>Imprint is an image sharing service designed to enhance the enjoyment of a small Dorset town called Shaftesbury by sharing images and memories. Bask in the nostalgia of days gone by, or add new takes on historic places.</p>
-    <h2>How do I use it?</h2>
-    <p>You can scroll freely through the images in the main Gallery as it stands, or if you prefer, filter the images to meet your current interest. By selecting a region of the town, you can view photographs which relate to that area and you can search free text for trees, hills, views or whatever takes your fancy.  You can add to the archives, you just need to <a href="{{ url_for('register') }}">create an account</a> or <a href="{{ url_for('login') }}">login</a>.</p>
-    <h2>Are you going to sell my soul?</h2>
-    <p>We don't collect any personal data at all from registration, not your name, and not your email address. Just make up a username and password and you are good to go.</p>
-    <h2>I still don't know what to do...</h2>
-    <p>If you need help, just <a href="{{ url_for('contact') }}">Contact Us</a> and we will do our best to help, we can also reset your password if you forget it. Bear in mind, we are a voluntary organisation, so a response may take a while.</p>
-    <a href="{{ url_for('gallery') }}" class="btn">Gallery</a>
-    <a href="{{ url_for('upload', username=session['user']) }}" class="btn">Upload</a>
+    <div class="text-center text-md-start">
+        <div>
+            <h2>What is it?</h2>
+            <p>Imprint is an image sharing service designed to enhance the enjoyment of a small Dorset town called Shaftesbury by sharing images and memories. Bask in the nostalgia of days gone by, or add new takes on historic places.</p>
+        </div>
+        <hr class="imprint-about-hr">
+        <div>
+            <h2>How do I use it?</h2>
+            <p>You can scroll freely through the images in the main Gallery as it stands, or if you prefer, filter the images to meet your current interest. By selecting a region of the town, you can view photographs which relate to that area and you can search free text for trees, hills, views or whatever takes your fancy.  You can add to the archives, you just need to <a href="{{ url_for('register') }}">create an account</a> or <a href="{{ url_for('login') }}">login</a>.</p>
+        </div>
+        <hr class="imprint-about-hr">
+        <div>
+            <h2>Where can I learn more about Shaftesbury?</h2>
+            <p>Shaftesbury has a number of active state and community groups, we have listed some below that we have found useful over the years.</p>
+            <ul class="text-start">
+                <li><a href="https://www.shaftesbury-tc.gov.uk/" rel="noopener noreferrer" target="_blank">Shaftesbury Town Council</a></li>
+                <li><a href="https://www.shaftesburychamber.co.uk/" rel="noopener noreferrer" target="_blank">Shaftesbury Chamber of Commerce</a></li>
+                <li><a href="https://www.shaftesburytourism.co.uk/" rel="noopener noreferrer" target="_blank">Shaftesbury Tourism</a></li>
+                <li><a href="https://thisisalfred.com/" rel="noopener noreferrer" target="_blank">This is Alfred</a></li>
+            </ul>
+        </div>
+        <hr class="imprint-about-hr">
+        <div>
+            <h2>Are you going to sell my soul?</h2>
+            <p>We don't collect any personal data at all from registration, not your name, and not your email address. Just make up a username and password and you are good to go.</p>
+        </div>
+        <hr class="imprint-about-hr">
+        <div>
+            <h2>I still don't know what to do...</h2>
+            <p>If you need help, just <a href="{{ url_for('contact') }}">Contact Us</a> and we will do our best to help, we can also reset your password if you forget it. Bear in mind, we are a voluntary organisation, so a response may take some time.</p>
+        </div>
+    </div>
+    <div class="text-center imprint-about-buttons">
+        <a href="{{ url_for('gallery') }}" class="btn">Go to Gallery</a>
+        <a href="{{ url_for('upload', username=session['user']) }}" class="btn">Make an Upload</a>
+    </div>
 {% endblock %}

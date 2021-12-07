@@ -1,15 +1,23 @@
 {% extends "base.html" %}
 
+<!-- Information to include in meta block -->
+{% block meta %}
+    <meta name="description" content="A contact form for an image sharing site which allows users to upload photographs of the historic saxon hilltop town Shaftesbury.">
+    <title>Imprint - Contact</title>
+{% endblock %}
+
 <!-- Content to display in title block -->
 {% block title %}
-    <h1 class="title">Contact</h1>
+    <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
+        <h1>Contact</h1>
+    </div>
 {% endblock %}
 
 
 <!-- Content to display in content block -->
 {% block content %}
 
-    <div class="form-wrapper">
+    <div class="row">
 
         <!-- Message to display on succesful email send -->
         {% if success %}
@@ -20,39 +28,40 @@
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.name.label }}
                     {{ form.name }}
                     {% for message in form.name.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.email.label }}
                     {{ form.email }}
                     {% for message in form.email.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 pb-3">
                     {{ form.body.label }}
                     {{ form.body }}
                     {% for message in form.body.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 pb-5">
                     {{ form.recaptcha }}
                     {% for message in form.recaptcha.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                {{ form.submit }}
-
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
+                    {{ form.submit (class_="btn") }}
+                </div>
             </form>
 
         {% endif %}

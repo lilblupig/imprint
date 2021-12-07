@@ -1,8 +1,14 @@
 {% extends "base.html" %}
 
+<!-- Information to include in meta block -->
+{% block meta %}
+    <meta name="description" content="Registration page for an image sharing site which allows users to upload photographs of the historic saxon hilltop town Shaftesbury.">
+    <title>Imprint - Register</title>
+{% endblock %}
+
 <!-- Content to display in title block -->
 {% block title %}
-    <h1 class="title">Register</h1>
+    <h1 class="text-center text-md-start">Register</h1>
 {% endblock %}
 
 
@@ -13,49 +19,55 @@
 
         <!-- Message to display on successful registration -->
         {% if success %}
-            <p>Thank you for registering! Click the button below to get started.</p>
-            <a href="{{ url_for('about') }}" class="btn">Begin</a>
+            <div class="text-center">
+                <p class="pb-3">Thank you for registering! Click the button below to get started.</p>
+                <a href="{{ url_for('about') }}" class="btn pb-3">Begin</a>
+            </div>
 
         {% else %}
             <form method="POST" action="{{ url_for('register') }}">
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.username.label }}
                     {{ form.username }}
                     {% for message in form.username.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.password.label }}
                     {{ form.password }}
                     {% for message in form.password.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
+                </div>
 
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.confirm.label }}
                     {{ form.confirm }}
                     {% for message in form.confirm.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 pb-5">
                     {{ form.recaptcha }}
                     {% for message in form.recaptcha.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                {{ form.submit }}
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 text-center pb-5">
+                    {{ form.submit (class_="btn") }}
+                </div>
 
             </form>
 
             <div>
-                <p>If you already have an account, please <a class="btn" href="{{ url_for('login') }}">Login here</a></p>
+                <p>If you already have an account, please <a href="{{ url_for('login') }}">Login here</a>.</p>
             </div>
 
         {% endif %}
