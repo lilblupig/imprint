@@ -153,6 +153,14 @@ nav {
 }
 
 
+/* Large image management */
+
+.image-container {
+    max-width: 100%;
+    margin-bottom: 2rem;
+}
+
+
 /* About page */
 div.imprint-about-buttons a {
     margin: 1rem 2rem;

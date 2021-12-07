@@ -19,54 +19,68 @@
 
         <!-- Message to display on succesful upload -->
         {% if success %}
-            <div>
+            <div class="mt-1 mb-5">
                 <a href="{{ url_for('profile', username=session['user']) }}" class="btn">Back to Profile</a>
             </div>
-            <img src="{{ image.photo }}" alt="{{ image.location }}" />
+            <img src="{{ image.photo }}" alt="{{ image.location }}" class="mb-4 image-container" />
+            <div>
+                <h2>{{ image.location }}</h2>
+                <p>Decade: {{ image.decade }}</p>
+                <p>Added by: {{ image.owner }}</p>
+                <p>{{ image.details }}</p>
+                <p>Tags: {{ image.tags }}</p>
+            </div>
 
         {% else %}
-            <img src="{{ image.photo }}" alt="{{ image.location }}" />
+            <div>
+                <img src="{{ image.photo }}" alt="{{ image.location }}" class="image-container" />
+            </div>
+
             <form method="POST" action="{{ url_for('edit_image', image_id=image._id) }}">
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.location.label }}
                     {{ form.location }}
                     {% for message in form.location.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.decade.label }}
                     {{ form.decade }}
                     {% for message in form.decade.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.details.label }}
                     {{ form.details }}
                     {% for message in form.details.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                <fieldset class="form-field">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.tags.label }}
                     {{ form.tags }}
                     {% for message in form.tags.errors %}
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
-                </fieldset>
+                </div>
 
-                {{ form.submit (class_="btn") }}
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
+                    {{ form.submit (class_="btn") }}
+                </div>
+
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 mb-5">
+                    <a href="{{ url_for('delete_image', image_id=image._id) }}" class="btn">Delete Post</a>
+                </div>
 
             </form>
-
-            <a href="{{ url_for('delete_image', image_id=image._id) }}" class="btn">Delete Post</a>
 
         {% endif %}
 
