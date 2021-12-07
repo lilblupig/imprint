@@ -19,10 +19,12 @@
 
         <!-- Message to display on succesful upload -->
         {% if success %}
-            <div class="mt-1 mb-5">
+            <div class="text-center text-md-start mt-1 mb-5">
                 <a href="{{ url_for('profile', username=session['user']) }}" class="btn">Back to Profile</a>
             </div>
-            <img src="{{ image.photo }}" alt="{{ image.location }}" class="mb-4 image-container" />
+            <div class="text-center">
+                <img src="{{ image.photo }}" alt="{{ image.location }}" class="mb-4 image-container" />
+            </div>
             <div>
                 <h2>{{ image.location }}</h2>
                 <p>Decade: {{ image.decade }}</p>
@@ -32,7 +34,7 @@
             </div>
 
         {% else %}
-            <div>
+            <div class="text-center">
                 <img src="{{ image.photo }}" alt="{{ image.location }}" class="image-container" />
             </div>
 
@@ -72,12 +74,14 @@
                     {% endfor %}
                 </div>
 
-                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 text-center text-md-start">
                     {{ form.submit (class_="btn") }}
                 </div>
 
-                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 mb-5">
-                    <a href="{{ url_for('delete_image', image_id=image._id) }}" class="btn">Delete Post</a>
+                <hr>
+
+                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 text-center text-md-start mt-5 mb-5">
+                    <a href="{{ url_for('delete_image', image_id=image._id) }}" id="delete-button" class="btn">Delete Post</a>
                 </div>
 
             </form>

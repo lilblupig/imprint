@@ -11,21 +11,21 @@
     <h1 class="text-center text-md-start">View a Post</h1>
 {% endblock %}
 
-
+ 
 <!-- Content to display in content block -->
 {% block content %}
 
-    <div>
-        <img src="{{ image.photo }}" alt="{{ image.location }}" />
+    <div class="text-center">
+        <img src="{{ image.photo }}" alt="{{ image.location }}" class="image-container" />
     </div>
     <div>
-        <h2>{{ image.location }}</h2>
+        <h2 class="text-center text-md-start">{{ image.location }}</h2>
         <p>Decade: {{ image.decade }}</p>
         <p>Added by: {{ image.owner }}</p>
         <p>{{ image.details }}</p>
         <p>Tags: {{ image.tags }}</p>
     </div>
-    <div>
+    <div class="text-center text-md-start mb-5">
         <a href="{{ url_for('gallery') }}" class="btn">Back</a>
     </div>
 
