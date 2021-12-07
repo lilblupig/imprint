@@ -29,6 +29,10 @@ h1 {
     font-size: 3.8rem;
 }
 
+.imprint-warning {
+    text-decoration: underline 2px #A32648;
+}
+
 /* Buttons */
 a.btn, button.btn, input.btn {
     color: #ffffff;
@@ -38,6 +42,10 @@ a.btn, button.btn, input.btn {
     border: solid 1px #FBB13C;
     font-size: 0.8rem;
     max-width: 9rem;
+}
+
+#delete-button {
+    background-color: #A32648;
 }
 
 a.btn:hover, button:hover, input:hover {

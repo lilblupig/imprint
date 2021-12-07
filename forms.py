@@ -168,7 +168,7 @@ class DeleteProfileForm(FlaskForm):
     """
 
     old_password = PasswordField(
-        'Old password',
+        'Password',
         [
             InputRequired(),
             Length(min=8),
