@@ -48,7 +48,7 @@ a.btn, button.btn, input.btn {
     background-color: #a32648;
 }
 
-a.btn:hover, button:hover, input:hover {
+a.btn:hover, button.btn:hover, input.btn:hover {
     color: #1e3c8d;
     background-color: #ffffff;
     font-family: Nunito, sans-serif;
