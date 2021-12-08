@@ -48,6 +48,8 @@
     </div>
     <div class="text-center imprint-about-buttons">
         <a href="{{ url_for('gallery') }}" class="btn">Go to Gallery</a>
-        <a href="{{ url_for('upload', username=session['user']) }}" class="btn">Make an Upload</a>
+        {% if session.user %}
+            <a href="{{ url_for('upload', username=session['user']) }}" class="btn">Make an Upload</a>
+        {% endif %}
     </div>
 {% endblock %}
