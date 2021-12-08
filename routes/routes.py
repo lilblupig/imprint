@@ -452,15 +452,15 @@ def edit_image(image_id):
 def delete_image(image_id):
     """ Delete a post """
 
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+    username = user["username"]
+
+    # Get image from database
+    image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
+
     # Check if a user is in session to try and avoid brute force access
     if session["user"] == image["owner"] or session["admin"] == "true":
-
-        # Find user record from database
-        user = mongo.db.users.find_one({"username": session["user"]})
-        username = user["username"]
-
-        # Get image from database
-        image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
 
         # Remove document from DB
         mongo.db.images.remove({"_id": image["_id"]})
