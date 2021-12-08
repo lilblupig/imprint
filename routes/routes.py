@@ -53,6 +53,7 @@ def gallery():
 
 @app.route("/image_search", methods=["GET", "POST"])
 def image_search():
+    """ Collect info from search input and use DB index to return results """
 
     # Get search form data
     image_search = request.form.get("image_search")
@@ -89,6 +90,7 @@ def location_filter():
     return render_template("gallery.html", images=images, locations=locations)
 
 
+# Route for displaying single image
 @app.route("/single_image/<image_id>")
 def single_image(image_id):
     """ Get single image and info """
@@ -162,7 +164,8 @@ def register():
             # Create dictionary with user form data and obscure password
             register_user = {
                 "username": request.form.get("username").lower(),
-                "password": generate_password_hash(request.form.get("password"))
+                "password": generate_password_hash(request.form.get("password")),
+                "is_admin": False
             }
 
             # Add user document to DB
@@ -170,6 +173,7 @@ def register():
 
             # Create session cookie for user
             session["user"] = request.form.get("username").lower()
+            session["admin"] = False
 
             # Feedback success to user
             return render_template('register.html', success=True)
@@ -211,7 +215,10 @@ def login():
             else:
                 if check_password_hash(existing_user["password"], request.form.get("password")):
                     session["user"] = request.form.get("username").lower()
+                    session["admin"] = existing_user["is_admin"]
                     flash("Welcome back {}".format(request.form.get("username")))
+                    if session["admin"]:
+                        flash("You are signed in as an Administrator")
 
             # If password does not match DB, feedback to user
                 else:
@@ -312,7 +319,7 @@ def delete_profile(username):
                 if check_password_hash(user["password"], request.form.get("old_password")):
                     # Delete posts
                     for post in posts:
-                        # Remove images from Cloudinary
+                        # Remove images from Cloudinary and clear Cloudinary cache
                         cloudinary.uploader.destroy(post["cloudinary_id"], invalidate=True)
                         # Remove documents from DB
                         mongo.db.images.remove({"_id": post["_id"]})
