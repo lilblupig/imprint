@@ -447,26 +447,34 @@ def edit_image(image_id):
 @app.route("/delete_image/<image_id>")
 def delete_image(image_id):
 
-    # Find user record from database
-    user = mongo.db.users.find_one({"username": session["user"]})
-    username = user["username"]
+    # Check if a user is in session to try and avoid brute force access
+    if session["user"] == image["owner"] or session["admin"] == "true":
 
-    # Get image from database
-    image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
+        # Find user record from database
+        user = mongo.db.users.find_one({"username": session["user"]})
+        username = user["username"]
 
-    # Remove document from DB
-    mongo.db.images.remove({"_id": image["_id"]})
+        # Get image from database
+        image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
 
-    # Remove image from Cloudinary
-    cloudinary.uploader.destroy(image["cloudinary_id"])
+        # Remove document from DB
+        mongo.db.images.remove({"_id": image["_id"]})
 
-    # Find posts made by user and define form for loading profile page
-    images = mongo.db.images.find({"owner": username})
-    form = ChangePasswordForm()
+        # Remove image from Cloudinary
+        cloudinary.uploader.destroy(image["cloudinary_id"])
 
-    flash("Post succesfully deleted")
+        # Find posts made by user and define form for loading profile page
+        images = mongo.db.images.find({"owner": username})
+        form = ChangePasswordForm()
 
-    return render_template("profile.html", images=images, username=username, form=form)
+        flash("Post succesfully deleted")
+
+        return render_template("profile.html", images=images, username=username, form=form)
+
+    # If logged in user is not admin or does not match the image owner, log out and explain
+    flash("You are not authorised to edit this post and have been logged out")
+    session.pop("user")
+    return redirect(url_for("login"))
 
 
 # Route for Admin Image Management page
