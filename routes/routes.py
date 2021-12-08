@@ -51,6 +51,7 @@ def gallery():
     return render_template("gallery.html", images=images, locations=locations)
 
 
+# Route for gallery free text search
 @app.route("/image_search", methods=["GET", "POST"])
 def image_search():
     """ Collect info from search input and use DB index to return results """
@@ -71,8 +72,10 @@ def image_search():
     return render_template("gallery.html", images=images, locations=locations)
 
 
+# Route for gallery dropdown filter
 @app.route("/location_filter", methods=["GET", "POST"])
 def location_filter():
+    """ Collect info from dropdown and query DB for results """
 
     # Get search form data
     location_choice = request.form.get("location_filter")
@@ -101,17 +104,24 @@ def single_image(image_id):
     return render_template("single_image.html", image=image)
 
 
+# Route for about page
+@app.route("/about")
+def about():
+    """ Get about page """
+    return render_template("about.html")
+
+
 # Route for Contact Form
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     """
         Contact form:
-        Define which model to use
+        Define which form to use
         Check request type and either:
             GET = Load page
             POST = Validate, create message and send form
     """
-    # Define model to use
+    # Define form to use
     form = ContactForm()
 
     if request.method == 'POST':
@@ -140,12 +150,12 @@ def contact():
 def register():
     """
         Register form:
-        Define which model to use
+        Define which form to use
         Check request type and either:
             GET = Load page
             POST = Validate, compare passwords and create document in DB
     """
-    # Define model to use
+    # Define form to use
     form = RegisterForm()
 
     if request.method == 'POST':
@@ -165,7 +175,7 @@ def register():
             register_user = {
                 "username": request.form.get("username").lower(),
                 "password": generate_password_hash(request.form.get("password")),
-                "is_admin": False
+                "is_admin": "false"
             }
 
             # Add user document to DB
@@ -173,7 +183,7 @@ def register():
 
             # Create session cookie for user
             session["user"] = request.form.get("username").lower()
-            session["admin"] = False
+            session["admin"] = "false"
 
             # Feedback success to user
             return render_template('register.html', success=True)
@@ -186,12 +196,12 @@ def register():
 def login():
     """
         Login form:
-        Define which model to use
+        Define which form to use
         Check request type and either:
             GET = Load page
             POST = Validate, compare form data to DB
     """
-    # Define model to use
+    # Define form to use
     form = LoginForm()
 
     # Get locations and images for home page after login
@@ -248,12 +258,12 @@ def logout():
 def profile(username):
     """
         Change password form:
-        Define which model to use
+        Define which form to use
         Check request type and either:
             GET = Load page
             POST = Validate, compare old password data to DB, check new passwords match and update DB
     """
-    # Define model to use
+    # Define form to use
     form = ChangePasswordForm()
 
     # Find user record from database
@@ -298,7 +308,7 @@ def profile(username):
 def delete_profile(username):
     """ Get user information, delete posts, and profile """
 
-    # Define model to use
+    # Define form to use
     form = DeleteProfileForm()
 
     # Get locations and images for home page after deletion
@@ -341,19 +351,12 @@ def delete_profile(username):
     return render_template("delete_profile.html", form=form)
 
 
-# Default route for about page
-@app.route("/about")
-def about():
-    """ Get about page """
-    return render_template("about.html")
-
-
 # Route for upload page
 @app.route("/upload/<username>", methods=["GET", "POST"])
 def upload(username):
     """ Get upload page """
 
-    # Define model to use
+    # Define form to use
     form = UploadImageForm()
 
     # Get location options and populate choices in upload form
@@ -403,7 +406,7 @@ def edit_image(image_id):
     image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
     locations = mongo.db.locations.find()
 
-    # Define model to use
+    # Define form to use
     form = EditImageForm(location=image["location"], decade=image["decade"], details=image["details"], tags=image["tags"])
 
     # Get location options and populate choices/defaults in edit form
@@ -444,8 +447,10 @@ def edit_image(image_id):
     return redirect(url_for("login"))
 
 
+# Route to delete a post
 @app.route("/delete_image/<image_id>")
 def delete_image(image_id):
+    """ Delete a post """
 
     # Check if a user is in session to try and avoid brute force access
     if session["user"] == image["owner"] or session["admin"] == "true":
