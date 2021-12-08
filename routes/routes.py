@@ -263,8 +263,8 @@ def profile(username):
     # Find posts made by user
     images = mongo.db.images.find({"owner": username})
 
-    # Check if a user is in session to try and avoid brute force access
-    if session["user"]:
+    # Check if a the user in session owns the profile to try and avoid brute force access
+    if session["user"] == user["username"]:
         if request.method == 'POST':
 
             # Check all fields are validated and new passwords match
@@ -286,7 +286,11 @@ def profile(username):
 
         return render_template("profile.html", images=images, username=username, form=form)
 
-    return render_template(url_for("login", images=images))
+    # If user does not match session user, log them out and inform them why
+    flash("You are not authorised to view this page and have been logged out")
+    session.pop("user")
+
+    return redirect(url_for("login"))
 
 
 # Route to delete profile
@@ -344,7 +348,7 @@ def about():
     return render_template("about.html")
 
 
-# Default route for upload page
+# Route for upload page
 @app.route("/upload/<username>", methods=["GET", "POST"])
 def upload(username):
     """ Get upload page """
@@ -390,6 +394,7 @@ def upload(username):
     return redirect(url_for("upload"))
 
 
+# Route to edit a post
 @app.route("/edit_image/<image_id>", methods=["GET", "POST"])
 def edit_image(image_id):
     """ Get edit post page """
@@ -409,7 +414,7 @@ def edit_image(image_id):
     user = mongo.db.users.find_one({"username": session["user"]})
 
     # Check if a user is in session to try and avoid brute force access
-    if session["user"]:
+    if session["user"] == image["owner"] or session["admin"]:
         if request.method == 'POST':
 
             # Check all fields are validated and new passwords match
@@ -433,7 +438,10 @@ def edit_image(image_id):
 
         return render_template("edit_image.html", image=image, form=form)
 
-    return render_template("edit_image.html", image=image, locations=locations)
+    # If logged in user is not admin or does not match the image owner, log out and explain
+    flash("You are not authorised to edit this post and have been logged out")
+    session.pop("user")
+    return redirect(url_for("login"))
 
 
 @app.route("/delete_image/<image_id>")
@@ -459,3 +467,26 @@ def delete_image(image_id):
     flash("Post succesfully deleted")
 
     return render_template("profile.html", images=images, username=username, form=form)
+
+
+# Route for Admin Image Management page
+@app.route("/manage_images/<admin>")
+def manage_images(admin):
+    """
+        Load all images by all users for moderation
+    """
+
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+    admin = user["is_admin"]
+
+    if session["admin"]:
+
+        # Find all posts and display in reverse added order
+        images = mongo.db.images.find().sort("_id", -1)
+
+        return render_template("manage_images.html", admin=admin, images=images)
+
+    flash("You are not authorised to view this page")
+    session.pop("user")
+    return redirect(url_for("login"))
