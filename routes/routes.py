@@ -488,13 +488,13 @@ def manage_images(admin):
     user = mongo.db.users.find_one({"username": session["user"]})
     admin = user["is_admin"]
 
-    if session["admin"]:
+    if session["admin"] == "true":
 
         # Find all posts and display in reverse added order
         images = mongo.db.images.find().sort("_id", -1)
 
         return render_template("manage_images.html", admin=admin, images=images)
 
-    flash("You are not authorised to view this page")
+    flash("You are not authorised to view this page and have been logged out")
     session.pop("user")
     return redirect(url_for("login"))
