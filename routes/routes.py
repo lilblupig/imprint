@@ -53,6 +53,7 @@ def gallery():
 
 @app.route("/image_search", methods=["GET", "POST"])
 def image_search():
+    """ Collect info from search input and use DB index to return results """
 
     # Get search form data
     image_search = request.form.get("image_search")
@@ -89,6 +90,7 @@ def location_filter():
     return render_template("gallery.html", images=images, locations=locations)
 
 
+# Route for displaying single image
 @app.route("/single_image/<image_id>")
 def single_image(image_id):
     """ Get single image and info """
@@ -162,7 +164,8 @@ def register():
             # Create dictionary with user form data and obscure password
             register_user = {
                 "username": request.form.get("username").lower(),
-                "password": generate_password_hash(request.form.get("password"))
+                "password": generate_password_hash(request.form.get("password")),
+                "is_admin": False
             }
 
             # Add user document to DB
@@ -170,6 +173,7 @@ def register():
 
             # Create session cookie for user
             session["user"] = request.form.get("username").lower()
+            session["admin"] = False
 
             # Feedback success to user
             return render_template('register.html', success=True)
@@ -211,7 +215,10 @@ def login():
             else:
                 if check_password_hash(existing_user["password"], request.form.get("password")):
                     session["user"] = request.form.get("username").lower()
+                    session["admin"] = existing_user["is_admin"]
                     flash("Welcome back {}".format(request.form.get("username")))
+                    if session["admin"]:
+                        flash("You are signed in as an Administrator")
 
             # If password does not match DB, feedback to user
                 else:
@@ -256,8 +263,8 @@ def profile(username):
     # Find posts made by user
     images = mongo.db.images.find({"owner": username})
 
-    # Check if a user is in session to try and avoid brute force access
-    if session["user"]:
+    # Check if a the user in session owns the profile to try and avoid brute force access
+    if session["user"] == user["username"]:
         if request.method == 'POST':
 
             # Check all fields are validated and new passwords match
@@ -279,7 +286,11 @@ def profile(username):
 
         return render_template("profile.html", images=images, username=username, form=form)
 
-    return render_template(url_for("login", images=images))
+    # If user does not match session user, log them out and inform them why
+    flash("You are not authorised to view this page and have been logged out")
+    session.pop("user")
+
+    return redirect(url_for("login"))
 
 
 # Route to delete profile
@@ -312,7 +323,7 @@ def delete_profile(username):
                 if check_password_hash(user["password"], request.form.get("old_password")):
                     # Delete posts
                     for post in posts:
-                        # Remove images from Cloudinary
+                        # Remove images from Cloudinary and clear Cloudinary cache
                         cloudinary.uploader.destroy(post["cloudinary_id"], invalidate=True)
                         # Remove documents from DB
                         mongo.db.images.remove({"_id": post["_id"]})
@@ -337,7 +348,7 @@ def about():
     return render_template("about.html")
 
 
-# Default route for upload page
+# Route for upload page
 @app.route("/upload/<username>", methods=["GET", "POST"])
 def upload(username):
     """ Get upload page """
@@ -383,6 +394,7 @@ def upload(username):
     return redirect(url_for("upload"))
 
 
+# Route to edit a post
 @app.route("/edit_image/<image_id>", methods=["GET", "POST"])
 def edit_image(image_id):
     """ Get edit post page """
@@ -402,7 +414,7 @@ def edit_image(image_id):
     user = mongo.db.users.find_one({"username": session["user"]})
 
     # Check if a user is in session to try and avoid brute force access
-    if session["user"]:
+    if session["user"] == image["owner"] or session["admin"]:
         if request.method == 'POST':
 
             # Check all fields are validated and new passwords match
@@ -426,7 +438,10 @@ def edit_image(image_id):
 
         return render_template("edit_image.html", image=image, form=form)
 
-    return render_template("edit_image.html", image=image, locations=locations)
+    # If logged in user is not admin or does not match the image owner, log out and explain
+    flash("You are not authorised to edit this post and have been logged out")
+    session.pop("user")
+    return redirect(url_for("login"))
 
 
 @app.route("/delete_image/<image_id>")
@@ -452,3 +467,26 @@ def delete_image(image_id):
     flash("Post succesfully deleted")
 
     return render_template("profile.html", images=images, username=username, form=form)
+
+
+# Route for Admin Image Management page
+@app.route("/manage_images/<admin>")
+def manage_images(admin):
+    """
+        Load all images by all users for moderation
+    """
+
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+    admin = user["is_admin"]
+
+    if session["admin"]:
+
+        # Find all posts and display in reverse added order
+        images = mongo.db.images.find().sort("_id", -1)
+
+        return render_template("manage_images.html", admin=admin, images=images)
+
+    flash("You are not authorised to view this page")
+    session.pop("user")
+    return redirect(url_for("login"))
