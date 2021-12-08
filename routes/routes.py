@@ -215,9 +215,9 @@ def login():
             else:
                 if check_password_hash(existing_user["password"], request.form.get("password")):
                     session["user"] = request.form.get("username").lower()
-                    session["admin"] = existing_user["is_admin"]
+                    session["admin"] = existing_user["is_admin"].lower()
                     flash("Welcome back {}".format(request.form.get("username")))
-                    if session["admin"]:
+                    if session["admin"] == "true":
                         flash("You are signed in as an Administrator")
 
             # If password does not match DB, feedback to user
@@ -414,7 +414,7 @@ def edit_image(image_id):
     user = mongo.db.users.find_one({"username": session["user"]})
 
     # Check if a user is in session to try and avoid brute force access
-    if session["user"] == image["owner"] or session["admin"]:
+    if session["user"] == image["owner"] or session["admin"] == "true":
         if request.method == 'POST':
 
             # Check all fields are validated and new passwords match
