@@ -524,7 +524,6 @@ def admin_toggle(user_toggle_id):
         if user_toggle["is_admin"].lower() == "false":
             # Toggle admin rights on
             mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": "true"}})
-
         else:
             # Toggle admin rights off
             mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": "false"}})

@@ -44,6 +44,16 @@ a.btn, button.btn, input.btn {
     max-width: 9rem;
 }
 
+a.btn.grey-button {
+    color: #1e3c8d;
+    background-color: #c8c8c8;
+    font-family: Nunito, sans-serif;
+    text-transform: uppercase;
+    border: solid 1px #c8c8c8;
+    font-size: 0.8rem;
+    max-width: 9rem;
+}
+
 #delete-button {
     background-color: #a32648;
 }
