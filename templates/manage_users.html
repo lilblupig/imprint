@@ -29,10 +29,10 @@
                     <p class="">{{ user.username }}</p>
                 </div>
                 <div class="col-6 col-md-3">
-                    <p class="card-text">Is admin: {{ user.is_admin }}</p>
+                    <a href="{{ url_for('admin_toggle', user_toggle_id=user['_id']) }}" class="btn">Admin: {{ user.is_admin }}</a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <button class="card-text">Delete</button>
+                    <button class="btn">Delete</button>
                 </div>
             </div>
         </div>

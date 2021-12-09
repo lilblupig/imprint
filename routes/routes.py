@@ -433,7 +433,7 @@ def edit_image(image_id):
                     "owner": image["owner"]
                 }
                 # Update document in DB
-                mongo.db.images.update({"_id": image["_id"]}, updated)
+                mongo.db.users.update_one({"_id": user["_id"]}, {"$set": {"password": update_password}})
 
                 flash("Post updated succesfully!")
 
@@ -498,6 +498,40 @@ def manage_users():
         users = mongo.db.users.find().sort("username", 1)
 
         return render_template("manage_users.html", users=users)
+
+    flash("You are not authorised to view this page and have been logged out")
+    session.pop("user")
+    return redirect(url_for("login"))
+
+
+# Route for Admin toggle
+@app.route("/admin_toggle/<user_toggle_id>")
+def admin_toggle(user_toggle_id):
+    """
+        Toggle on or off admin permissions
+    """
+
+    # Find user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+
+    # Check current logged in user has admin rights
+    if session["admin"].lower() == "true":
+
+        # Find user to be toggled
+        user_toggle = mongo.db.users.find_one({"_id": ObjectId(user_toggle_id)})
+
+        # Check current admin status
+        if user_toggle["is_admin"].lower() == "false":
+            # Toggle admin rights on
+            mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": "true"}})
+
+        else:
+            # Toggle admin rights off
+            mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": "false"}})
+
+        flash("User updated succesfully!")
+
+        return redirect(url_for("manage_users"))
 
     flash("You are not authorised to view this page and have been logged out")
     session.pop("user")
