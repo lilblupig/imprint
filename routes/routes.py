@@ -187,8 +187,9 @@ def register():
             session["user"] = request.form.get("username").lower()
             session["admin"] = "false"
 
-            # Feedback success to user
-            return render_template('register.html', success=True)
+            # Feedback success to user and direct to About page
+            flash("Welcome {}, thank you for registering!".format(register_user["username"]))
+            return redirect(url_for("about"))
 
     return render_template("register.html", form=form)
 
@@ -233,7 +234,7 @@ def login():
                     flash("Invalid password, please try again")
                     return render_template('login.html', form=form)
 
-            # Feedback success to user
+            # Feedback success to user on home page
             return redirect(url_for("gallery"))
 
     return render_template('login.html', form=form)
