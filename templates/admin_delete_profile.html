@@ -3,12 +3,12 @@
 <!-- Information to include in meta block -->
 {% block meta %}
     <meta name="description" content="Profile deleteion form for an image sharing site which allows users to upload photographs of the historic saxon hilltop town Shaftesbury.">
-    <title>Imprint - Delete Profile</title>
+    <title>Imprint - Delete User Profile</title>
 {% endblock %}
 
 <!-- Content to display in title block -->
 {% block title %}
-    <h1 class="text-center text-md-start">Delete Profile</h1>
+    <h1 class="text-center text-md-start">Delete User Profile</h1>
 {% endblock %}
 
 
@@ -20,11 +20,11 @@
     <div class="form-wrapper text-center text-md-start">
 
             <div class="mb-5">
-                <p>You can delete your profile here. Doing so will permanently remove all posts and your account, there is no way to retrieve the destroyed posts or recover your account once undertaken. Another user may then claim and use your username, which will mean you can no longer use it should you wish to return.</p>
-                <p>Should you still wish to proceed, please confirm your password below.</p>
+                <p>You can delete a user profile here. Doing so will permanently remove all their posts and their account, there is no way to retrieve the destroyed posts or recover their account once undertaken.</p>
+                <p>Should you still wish to proceed, please confirm your admin password below.</p>
             </div>
     
-            <form method="POST" action="{{ url_for('delete_profile', username=session['user']) }}">
+            <form method="POST" action="{{ url_for('admin_delete_profile', delete_user=deleting_user['_id']) }}">
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
 

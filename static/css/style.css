@@ -44,7 +44,17 @@ a.btn, button.btn, input.btn {
     max-width: 9rem;
 }
 
-#delete-button {
+a.btn.grey-button {
+    color: #1e3c8d;
+    background-color: #c8c8c8;
+    font-family: Nunito, sans-serif;
+    text-transform: uppercase;
+    border: solid 1px #c8c8c8;
+    font-size: 0.8rem;
+    max-width: 9rem;
+}
+
+input.btn.delete-button, a.btn.delete-button {
     background-color: #a32648;
 }
 
@@ -60,6 +70,7 @@ a.btn:hover, button.btn:hover, input.btn:hover {
 button.accordion-button {
     margin-bottom: 1rem;
 }
+
 
 /* Labels & Forms */
 label.imprint-label {
