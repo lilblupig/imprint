@@ -491,7 +491,6 @@ def manage_users():
 
     # Find user record from database
     user = mongo.db.users.find_one({"username": session["user"]})
-    admin = user["is_admin"]
 
     if session["admin"] == "true":
 
