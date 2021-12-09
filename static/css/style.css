@@ -54,7 +54,7 @@ a.btn.grey-button {
     max-width: 9rem;
 }
 
-#delete-button {
+input.btn.delete-button, a.btn.delete-button {
     background-color: #a32648;
 }
 
