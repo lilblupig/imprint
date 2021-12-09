@@ -15,44 +15,35 @@
 <!-- Content to display in content block -->
 {% block content %}
 
-    <div class="form-wrapper">
+    <div>
+        <form method="POST" action="{{ url_for('login') }}">
+            <!-- Hidden token proof that form came from page, uses secret key -->
+            {{ form.csrf_token }}
 
-        <!-- Message to display on succesful login -->
-        {% if success %}
-            <a href="{{ url_for('gallery') }}" class="btn">Home</a>
-
-        {% else %}
-            <form method="POST" action="{{ url_for('login') }}">
-                <!-- Hidden token proof that form came from page, uses secret key -->
-                {{ form.csrf_token }}
-
-                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
-                    {{ form.username.label }}
-                    {{ form.username }}
-                    {% for message in form.username.errors %}
-                        <div class="flash">{{ message }}</div>
-                    {% endfor %}
-                </div>
-
-                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 pb-3">
-                    {{ form.password.label }}
-                    {{ form.password }}
-                    {% for message in form.password.errors %}
-                        <div class="flash">{{ message }}</div>
-                    {% endfor %}
-                </div>
-
-                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 text-center pb-5">
-                    {{ form.submit (class_="btn") }}
-                </div>
-
-            </form>
-
-            <div>
-                <p>If you don't have an account yet, but would like to participate please <a href="{{ url_for('register') }}">Register here</a>.</p>
+            <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
+                {{ form.username.label }}
+                {{ form.username }}
+                {% for message in form.username.errors %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
             </div>
-        
-        {% endif %}
+
+            <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 pb-3">
+                {{ form.password.label }}
+                {{ form.password }}
+                {% for message in form.password.errors %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 text-center pb-5">
+                {{ form.submit (class_="btn") }}
+            </div>
+        </form>
+
+        <div>
+            <p>If you don't have an account yet, but would like to participate please <a href="{{ url_for('register') }}">Register here</a>.</p>
+        </div>
 
     </div>
 

@@ -206,10 +206,6 @@ def login():
     # Define form to use
     form = LoginForm()
 
-    # Get locations and images for home page after login
-    locations = mongo.db.locations.find()
-    images = mongo.db.images.find()
-
     if request.method == 'POST':
 
         # Check all fields are validated
@@ -238,7 +234,7 @@ def login():
                     return render_template('login.html', form=form)
 
             # Feedback success to user
-            return render_template('gallery.html', locations=locations, images=images, success=True)
+            return redirect(url_for("gallery"))
 
     return render_template('login.html', form=form)
 
