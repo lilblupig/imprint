@@ -46,7 +46,7 @@ def gallery():
     locations = mongo.db.locations.find()
 
     # Get images from database
-    images = mongo.db.images.find()
+    images = mongo.db.images.find().sort("_id", -1)
 
     return render_template("gallery.html", images=images, locations=locations)
 
@@ -93,7 +93,7 @@ def location_filter():
     return render_template("gallery.html", images=images, locations=locations)
 
 
-# Route for displaying single image
+# Route for displaying Single Image
 @app.route("/single_image/<image_id>")
 def single_image(image_id):
     """ Get single image and info """
@@ -104,7 +104,7 @@ def single_image(image_id):
     return render_template("single_image.html", image=image)
 
 
-# Route for about page
+# Route for About page
 @app.route("/about")
 def about():
     """ Get about page """
@@ -139,8 +139,10 @@ def contact():
             # Call mail function and provide form data
             mail_config.send_email(form_content)
 
+            flash("Thank you for your message, we will be in touch as soon as we can.")
+
             # Display success message for user
-            return render_template('contact.html', success=True)
+            return redirect(url_for("gallery"))
 
     return render_template("contact.html", form=form)
 
