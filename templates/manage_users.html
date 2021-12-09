@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+<!-- Information to include in meta block -->
+{% block meta %}
+    <meta name="description" content="Admin user management page for an image sharing site which allows users to upload photographs of the historic saxon hilltop town Shaftesbury.">
+    <title>Imprint Admin - Manage Users</title>
+{% endblock %}
+
+<!-- Content to display in title block -->
+{% block title %}
+    <h1 class="text-center text-md-start">Manage Users</h1>
+{% endblock %}
+
+
+<!-- Content to display in content block -->
+{% block content %}
+
+    <!-- Display all users -->
+    <div class="row pb-5">
+
+        <h2 class="text-center text-md-start">All Users</h2>
+        <p>You can moderate users here: designate as admin, or delete the item.</p>
+
+        {% for user in users %}
+
+        <div class="col-12">
+            <div class="row imprint-border mx-2 my-1">
+                <div class="col-12 col-md-6">
+                    <p class="">{{ user.username }}</p>
+                </div>
+                <div class="col-6 col-md-3">
+                    <p class="card-text">Is admin: {{ user.is_admin }}</p>
+                </div>
+                <div class="col-6 col-md-3">
+                    <button class="card-text">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
