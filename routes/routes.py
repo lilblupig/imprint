@@ -483,8 +483,8 @@ def delete_image(image_id):
 
 
 # Route for Admin User Management page
-@app.route("/manage_users/<admin>")
-def manage_users(admin):
+@app.route("/manage_users")
+def manage_users():
     """
         Load all users for moderation
     """
@@ -495,10 +495,10 @@ def manage_users(admin):
 
     if session["admin"] == "true":
 
-        # Find all users and display in reverse added order
+        # Find all users and display in alphabetical order
         users = mongo.db.users.find().sort("username", 1)
 
-        return render_template("manage_users.html", admin=admin, users=users)
+        return render_template("manage_users.html", users=users)
 
     flash("You are not authorised to view this page and have been logged out")
     session.pop("user")
@@ -506,8 +506,8 @@ def manage_users(admin):
 
 
 # Route for Admin Image Management page
-@app.route("/manage_images/<admin>")
-def manage_images(admin):
+@app.route("/manage_images")
+def manage_images():
     """
         Load all images by all users for moderation
     """
@@ -521,7 +521,7 @@ def manage_images(admin):
         # Find all posts and display in reverse added order
         images = mongo.db.images.find().sort("_id", -1)
 
-        return render_template("manage_images.html", admin=admin, images=images)
+        return render_template("manage_images.html", images=images)
 
     flash("You are not authorised to view this page and have been logged out")
     session.pop("user")
