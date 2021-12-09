@@ -24,7 +24,7 @@
                 <p>Should you still wish to proceed, please confirm your password below.</p>
             </div>
     
-            <form method="POST" action="{{ url_for('delete_profile', username=session['user']) }}">
+            <form method="POST" action="{{ url_for('delete_profile') }}">
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
 

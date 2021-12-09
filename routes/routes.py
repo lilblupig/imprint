@@ -303,8 +303,8 @@ def profile(username):
 
 
 # Route to delete profile
-@app.route("/delete_profile/<username>", methods=["GET", "POST"])
-def delete_profile(username):
+@app.route("/delete_profile", methods=["GET", "POST"])
+def delete_profile():
     """ Get user information, delete posts, and profile """
 
     # Define form to use
@@ -343,7 +343,7 @@ def delete_profile(username):
                     # Delete profile
                     mongo.db.users.remove({"_id": user["_id"]})
 
-                    return render_template("gallery.html", locations=locations, images=images)
+                    return redirect(url_for("gallery"))
 
                 flash("Incorrect existing password, please try again")
 

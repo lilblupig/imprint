@@ -21,7 +21,7 @@
 
         <!-- Message to display on succesful password change -->
         {% if success %}
-            <p class="pb-3">Password updated.</p>
+            <p class="pb-3">Password updated successfully.</p>
             <a href="{{ url_for('profile', username=session['user']) }}" class="btn mb-5">Profile</a>
 
         {% else %}
@@ -96,7 +96,7 @@
 
     <div class="text-center text-lg-start pb-5">
         <h2>Delete Profile</h2>
-        <a href="{{ url_for('delete_profile', username=session['user']) }}" class="btn">Delete Profile</a>
+        <a href="{{ url_for('delete_profile') }}" class="btn">Delete Profile</a>
     </div>
             
         {% endif %}
