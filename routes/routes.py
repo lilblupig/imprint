@@ -537,6 +537,52 @@ def admin_toggle(user_toggle_id):
     return redirect(url_for("login"))
 
 
+# Route for admin to delete user profile
+@app.route("/admin_delete_profile/<delete_user>", methods=["GET", "POST"])
+def admin_delete_profile(delete_user):
+    """ Get user information, delete posts, and profile """
+
+    # Define form to use
+    form = DeleteProfileForm()
+
+    # Find admin user record from database
+    user = mongo.db.users.find_one({"username": session["user"]})
+
+    # Find user record from database
+    deleting_user = mongo.db.users.find_one({"_id": ObjectId(delete_user)})
+    deleting_username = deleting_user["username"]
+
+    # Find posts made by user
+    posts = mongo.db.images.find({"owner": deleting_username})
+
+    # Check if a user is in session to try and avoid brute force access
+    if session["admin"].lower() == "true":
+        if request.method == 'POST':
+
+            # Check all fields are validated and passwords match
+            if form.validate() is True:
+
+                # Check admin DB value matches that entered for old password in form
+                if check_password_hash(user["password"], request.form.get("old_password")):
+                    # Delete posts
+                    for post in posts:
+                        # Remove images from Cloudinary and clear Cloudinary cache
+                        cloudinary.uploader.destroy(post["cloudinary_id"], invalidate=True)
+                        # Remove documents from DB
+                        mongo.db.images.remove({"_id": post["_id"]})
+
+                    # Delete profile
+                    mongo.db.users.remove({"_id": deleting_user["_id"]})
+
+                    flash("User deleted succesfully!")
+
+                    return redirect(url_for("manage_users"))
+
+            flash("Incorrect password, please try again")
+
+    return render_template("admin_delete_profile.html", form=form, deleting_user=deleting_user)
+
+
 # Route for Admin Image Management page
 @app.route("/manage_images")
 def manage_images():
