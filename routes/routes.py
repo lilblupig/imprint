@@ -433,7 +433,7 @@ def edit_image(image_id):
                     "owner": image["owner"]
                 }
                 # Update document in DB
-                mongo.db.users.update_one({"_id": user["_id"]}, {"$set": {"password": update_password}})
+                mongo.db.images.update({"_id": image["_id"]}, updated)
 
                 flash("Post updated succesfully!")
 
