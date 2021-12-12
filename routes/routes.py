@@ -351,8 +351,8 @@ def delete_profile():
 
 
 # Route for upload page
-@app.route("/upload/<username>", methods=["GET", "POST"])
-def upload(username):
+@app.route("/upload", methods=["GET", "POST"])
+def upload():
     """ Get upload page """
 
     # Define form to use
@@ -389,11 +389,14 @@ def upload(username):
                 # Add image document to DB
                 mongo.db.images.insert_one(uploaded)
 
-                return render_template('upload.html', username=username, form=form, success=True)
+                return render_template('upload.html', form=form, success=True)
 
-        return render_template("upload.html", username=username, form=form)
+        return render_template("upload.html", form=form)
 
-    return redirect(url_for("upload"))
+    # If no user is logged in, try to remove cookie as precaution and return user to login screen
+    flash("You are not authorised to view this page and have been logged out")
+    session.pop("user")
+    return redirect(url_for("login"))
 
 
 # Route to edit a post
