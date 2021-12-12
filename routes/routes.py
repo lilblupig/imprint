@@ -46,7 +46,7 @@ def gallery():
     locations = mongo.db.locations.find()
 
     # Get images from database
-    images = mongo.db.images.find()
+    images = mongo.db.images.find().sort("_id", -1)
 
     return render_template("gallery.html", images=images, locations=locations)
 
@@ -93,7 +93,7 @@ def location_filter():
     return render_template("gallery.html", images=images, locations=locations)
 
 
-# Route for displaying single image
+# Route for displaying Single Image
 @app.route("/single_image/<image_id>")
 def single_image(image_id):
     """ Get single image and info """
@@ -104,7 +104,7 @@ def single_image(image_id):
     return render_template("single_image.html", image=image)
 
 
-# Route for about page
+# Route for About page
 @app.route("/about")
 def about():
     """ Get about page """
@@ -139,8 +139,10 @@ def contact():
             # Call mail function and provide form data
             mail_config.send_email(form_content)
 
+            flash("Thank you for your message, we will be in touch as soon as we can.")
+
             # Display success message for user
-            return render_template('contact.html', success=True)
+            return redirect(url_for("gallery"))
 
     return render_template("contact.html", form=form)
 
@@ -185,8 +187,9 @@ def register():
             session["user"] = request.form.get("username").lower()
             session["admin"] = "false"
 
-            # Feedback success to user
-            return render_template('register.html', success=True)
+            # Feedback success to user and direct to About page
+            flash("Welcome {}, thank you for registering!".format(register_user["username"]))
+            return redirect(url_for("about"))
 
     return render_template("register.html", form=form)
 
@@ -203,10 +206,6 @@ def login():
     """
     # Define form to use
     form = LoginForm()
-
-    # Get locations and images for home page after login
-    locations = mongo.db.locations.find()
-    images = mongo.db.images.find()
 
     if request.method == 'POST':
 
@@ -235,8 +234,8 @@ def login():
                     flash("Invalid password, please try again")
                     return render_template('login.html', form=form)
 
-            # Feedback success to user
-            return render_template('gallery.html', locations=locations, images=images, success=True)
+            # Feedback success to user on home page
+            return redirect(url_for("gallery"))
 
     return render_template('login.html', form=form)
 
@@ -304,8 +303,8 @@ def profile(username):
 
 
 # Route to delete profile
-@app.route("/delete_profile/<username>", methods=["GET", "POST"])
-def delete_profile(username):
+@app.route("/delete_profile", methods=["GET", "POST"])
+def delete_profile():
     """ Get user information, delete posts, and profile """
 
     # Define form to use
@@ -344,7 +343,7 @@ def delete_profile(username):
                     # Delete profile
                     mongo.db.users.remove({"_id": user["_id"]})
 
-                    return render_template("gallery.html", locations=locations, images=images)
+                    return redirect(url_for("gallery"))
 
                 flash("Incorrect existing password, please try again")
 
@@ -352,8 +351,8 @@ def delete_profile(username):
 
 
 # Route for upload page
-@app.route("/upload/<username>", methods=["GET", "POST"])
-def upload(username):
+@app.route("/upload", methods=["GET", "POST"])
+def upload():
     """ Get upload page """
 
     # Define form to use
@@ -377,6 +376,8 @@ def upload(username):
                 # Send image to Cloudinary account
                 photo = request.files['photo']
                 photo_upload = cloudinary.uploader.unsigned_upload(photo, "p6tbiahk")
+
+                # Create dictionary for upload to DB as document
                 uploaded = {
                     "location": request.form.get("location"),
                     "decade": request.form.get("decade"),
@@ -390,11 +391,14 @@ def upload(username):
                 # Add image document to DB
                 mongo.db.images.insert_one(uploaded)
 
-                return render_template('upload.html', username=username, form=form, success=True)
+                return render_template('upload.html', success=True)
 
-        return render_template("upload.html", username=username, form=form)
+        return render_template("upload.html", form=form)
 
-    return redirect(url_for("upload"))
+    # If no user is logged in, try to remove cookie as precaution and return user to login screen
+    flash("You are not authorised to view this page and have been logged out")
+    session.pop("user")
+    return redirect(url_for("login"))
 
 
 # Route to edit a post
@@ -460,19 +464,22 @@ def delete_image(image_id):
     image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
 
     # Check if a user is in session to try and avoid brute force access
-    if session["user"] == image["owner"] or session["admin"] == "true":
+    if session["user"] == image["owner"] or session["admin"].lower() == "true":
 
         # Remove document from DB
         mongo.db.images.remove({"_id": image["_id"]})
 
-        # Remove image from Cloudinary
-        cloudinary.uploader.destroy(image["cloudinary_id"])
+        # Remove image from Cloudinary and clear Cloudinary cache
+        cloudinary.uploader.destroy(image["cloudinary_id"], invalidate=True)
 
         # Find posts made by user and define form for loading profile page
         images = mongo.db.images.find({"owner": username})
         form = ChangePasswordForm()
 
         flash("Post succesfully deleted")
+
+        if session["admin"].lower() == "true":
+            return redirect(url_for("manage_images"))
 
         return render_template("profile.html", images=images, username=username, form=form)
 
@@ -592,7 +599,6 @@ def manage_images():
 
     # Find user record from database
     user = mongo.db.users.find_one({"username": session["user"]})
-    admin = user["is_admin"]
 
     if session["admin"] == "true":
 

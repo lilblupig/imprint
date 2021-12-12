@@ -35,7 +35,7 @@
                                 <a class="nav-link imprint-nav" href="{{ url_for('about') }}">About</a>
                                 <a class="nav-link imprint-nav" href="{{ url_for('contact') }}">Contact</a>
                                 {% if session.user %}
-                                    <a class="nav-link imprint-nav" href="{{ url_for('upload', username=session['user']) }}">Upload</a>
+                                    <a class="nav-link imprint-nav" href="{{ url_for('upload') }}">Upload</a>
                                     <a class="nav-link imprint-nav" href="{{ url_for('profile', username=session['user']) }}">Profile</a>
                                     {% if session.admin == "true" %}
                                         <a class="nav-link imprint-nav" href="{{ url_for('manage_users') }}">Manage Users</a>

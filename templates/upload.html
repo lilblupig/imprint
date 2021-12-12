@@ -22,11 +22,11 @@
             <div class="text-center imprint-about-buttons">
                 <p>Upload succesful! Thank you for contributing!</p>
                 <a href="{{ url_for('gallery') }}" class="btn">Home</a>
-                <a href="{{ url_for('upload', username=session['user']) }}" class="btn">Upload More</a>
+                <a href="{{ url_for('upload') }}" class="btn">Upload More</a>
             </div>
         {% else %}
 
-            <form method="POST" action="{{ url_for('upload', username=session['user']) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
 
