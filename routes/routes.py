@@ -389,7 +389,7 @@ def upload():
                 # Add image document to DB
                 mongo.db.images.insert_one(uploaded)
 
-                return render_template('upload.html', form=form, success=True)
+                return render_template('upload.html', success=True)
 
         return render_template("upload.html", form=form)
 
