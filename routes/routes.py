@@ -464,7 +464,7 @@ def delete_image(image_id):
     image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
 
     # Check if a user is in session to try and avoid brute force access
-    if session["user"] == image["owner"] or session["admin"] == "true":
+    if session["user"] == image["owner"] or session["admin"].lower() == "true":
 
         # Remove document from DB
         mongo.db.images.remove({"_id": image["_id"]})
@@ -477,6 +477,9 @@ def delete_image(image_id):
         form = ChangePasswordForm()
 
         flash("Post succesfully deleted")
+
+        if session["admin"].lower() == "true":
+            return redirect(url_for("manage_images"))
 
         return render_template("profile.html", images=images, username=username, form=form)
 
