@@ -376,6 +376,8 @@ def upload():
                 # Send image to Cloudinary account
                 photo = request.files['photo']
                 photo_upload = cloudinary.uploader.unsigned_upload(photo, "p6tbiahk")
+
+                # Create dictionary for upload to DB as document
                 uploaded = {
                     "location": request.form.get("location"),
                     "decade": request.form.get("decade"),
@@ -467,8 +469,8 @@ def delete_image(image_id):
         # Remove document from DB
         mongo.db.images.remove({"_id": image["_id"]})
 
-        # Remove image from Cloudinary
-        cloudinary.uploader.destroy(image["cloudinary_id"])
+        # Remove image from Cloudinary and clear Cloudinary cache
+        cloudinary.uploader.destroy(image["cloudinary_id"], invalidate=True)
 
         # Find posts made by user and define form for loading profile page
         images = mongo.db.images.find({"owner": username})
