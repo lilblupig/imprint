@@ -30,7 +30,7 @@
 
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 pb-3">
                 {{ form.password.label }}
-                {{ form.password }}
+                {{ form.password (class_="submit-listen") }}
                 {% for message in form.password.errors %}
                     <div class="flash">{{ message }}</div>
                 {% endfor %}
