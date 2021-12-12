@@ -26,6 +26,7 @@ app.config["RECAPTCHA_PRIVATE_KEY"] = os.environ.get("C_SECRET_KEY")
 
 # Get routes
 from routes.routes import *
+from routes.errors import *
 
 # Set PyMongo variable
 mongo = PyMongo(app)

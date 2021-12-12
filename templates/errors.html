@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+<!-- Information to include in meta block -->
+{% block meta %}
+    <meta name="description" content="A error page for an image sharing site which allows users to upload photographs of the historic saxon hilltop town Shaftesbury.">
+    <title>Imprint - Error</title>
+{% endblock %}
+
+<!-- Content to display in title block -->
+{% block title %}
+    <h1 class="text-center text-md-start">Error</h1>
+{% endblock %}
+
+
+<!-- Content to display in content block -->
+{% block content %}
+    <div class="text-center text-md-start">
+        <div class="text-center">
+            <h2>{{ message }}</h2>
+            <p>{{ help }}</p>
+        </div>
+        <hr class="imprint-about-hr">
+    </div>
+    <div class="text-center imprint-about-buttons">
+        <a href="{{ url_for('gallery') }}" class="btn">Go to Gallery</a>
+        {% if session.user %}
+            <a href="{{ url_for('upload') }}" class="btn">Make an Upload</a>
+        {% endif %}
+    </div>
+{% endblock %}
