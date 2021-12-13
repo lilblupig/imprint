@@ -34,4 +34,3 @@ def error_generic(error):
     message = "Sorry, something went wrong."
     user_help = "Choose from the buttons below, or the main menu to get back on track."
     return render_template('errors.html', message=message, help=help), 500
-
