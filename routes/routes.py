@@ -97,7 +97,11 @@ def location_filter():
 @app.route("/single_image/<image_id>")
 def single_image(image_id):
     """ Get single image and info """
-    return render_template("single_image.html")
+
+    # Get image document id
+    image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
+
+    return render_template("single_image.html", image=image)
 
 
 # Route for About page
