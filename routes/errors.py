@@ -16,5 +16,13 @@ from app import app
 def error_page_not_found(error):
     """ Error handler for 404 """
     message = "Sorry, we can't find that page"
-    help = "Choose from the buttons below, or the main menu to get back on track."
+    user_help = "Choose from the buttons below, or the main menu to get back on track."
     return render_template('errors.html', message=message, help=help), 404
+
+
+@app.errorhandler(500)
+def error_internal_server(error):
+    """ Error handler for 500 """
+    message = "Sorry, we seem to be experiencing some difficulty."
+    user_help = "Choose from the buttons below, or the main menu to get back on track."
+    return render_template('errors.html', message=message, help=help), 500
