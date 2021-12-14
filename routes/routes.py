@@ -1,9 +1,9 @@
 """
-    Imprint Nov 2021
-    Routes for all pages
+Imprint Nov 2021
+Routes for all pages
 """
 
-# Import dependencies
+# Import dependencies, Flask and Werkzeug
 from flask import (
     flash,
     render_template,
@@ -17,11 +17,20 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # Import Object ID info from MongoDB
 from bson.objectid import ObjectId
 
-# Import local Forms code
+# Import local code and config files
 from app import app, mongo
-from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm, DeleteProfileForm, UploadImageForm, EditImageForm
+from forms import (
+    ContactForm,
+    RegisterForm,
+    LoginForm,
+    ChangePasswordForm,
+    DeleteProfileForm,
+    UploadImageForm,
+    EditImageForm
+    )
 from config import mail_config
 from config.cloudinary_config import *
+# Using import * is generally frowned upon as a practice but this app is very simple, so it has been adopted in this case
 
 
 # Default route for homepage
