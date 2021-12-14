@@ -37,67 +37,73 @@ from config.cloudinary_config import *
 @app.route("/")
 @app.route("/gallery")
 def gallery():
-    """ Get gallery page """
-
+    """
+    Get locations and images from DB
+    Display gallery/home page
+    """
     # Get all locations for filter box
     locations = mongo.db.locations.find()
-
     # Get images from database
     images = mongo.db.images.find().sort("_id", -1)
 
+    # Render all images in gallery format
     return render_template("gallery.html", images=images, locations=locations)
 
 
 # Route for gallery free text search
 @app.route("/image_search", methods=["GET", "POST"])
 def image_search():
-    """ Collect info from search input and use DB index to return results """
-
-    # Get search form data
-    image_search = request.form.get("image_search")
-
-    # Search database using permanent text index
-    images = mongo.db.images.find({"$text": {"$search": image_search}})
-
-    # If DB search yields no results, flash user message
-    if mongo.db.images.count_documents({"$text": {"$search": image_search}}) < 1:
-        flash("No results found")
-
+    """
+    Collect info from search input and use DB index to return results
+    Display on gallery/home page
+    """
     # Get all locations for filter box
     locations = mongo.db.locations.find()
+    # Get search form data
+    image_request = request.form.get("image_search")
+    # Search database using permanent text index
+    images = mongo.db.images.find({"$text": {"$search": image_request}})
 
+    # If DB search yields no results, flash user message
+    if mongo.db.images.count_documents({"$text": {"$search": image_request}}) < 1:
+        flash("No results found")
+
+    # Render the search results in gallery form
     return render_template("gallery.html", images=images, locations=locations)
 
 
 # Route for gallery dropdown filter
 @app.route("/location_filter", methods=["GET", "POST"])
 def location_filter():
-    """ Collect info from dropdown and query DB for results """
-
-    # Get search form data
+    """
+    Collect info from dropdown and query DB for results
+    Display on gallery/home page
+    """
+    # Get all locations for filter box
+    locations = mongo.db.locations.find()
+    # Get dropdown field data
     location_choice = request.form.get("location_filter")
-
-    # Search database using permanent text index
+    # Query DB for appropriate documents
     images = mongo.db.images.find({"location": location_choice})
 
     # If DB search yields no results, flash user message
     if mongo.db.images.count_documents({"location": location_choice}) < 1:
         flash(location_choice)
 
-    # Get all locations for filter box
-    locations = mongo.db.locations.find()
-
+    # Render the filtered results in gallery form
     return render_template("gallery.html", images=images, locations=locations)
 
 
 # Route for displaying Single Image
 @app.route("/single_image/<image_id>")
 def single_image(image_id):
-    """ Get single image and info """
-
-    # Get image document id
+    """
+    Use document id passed from gallery page to display single image and info
+    """
+    # Get image using document id
     image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
 
+    # Render the image in large view with details below
     return render_template("single_image.html", image=image)
 
 
