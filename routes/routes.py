@@ -14,26 +14,14 @@ from flask import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# Import dependencies for Cloudinary
-import os
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-
-# Get Cloudinary account data
-cloudinary.config(
-  cloud_name=os.environ.get("CLOUD_NAME"),
-  api_key=os.environ.get("API_KEY"),
-  api_secret=os.environ.get("API_SECRET")
-)
-
 # Import Object ID info from MongoDB
 from bson.objectid import ObjectId
 
 # Import local Forms code
 from app import app, mongo
 from forms import ContactForm, RegisterForm, LoginForm, ChangePasswordForm, DeleteProfileForm, UploadImageForm, EditImageForm
-from config import cloudinary_config, mail_config
+from config import mail_config
+from config.cloudinary_config import *
 
 
 # Default route for homepage
