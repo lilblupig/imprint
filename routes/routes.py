@@ -177,7 +177,7 @@ def register():
             register_user = {
                 "username": request.form.get("username").lower(),
                 "password": generate_password_hash(request.form.get("password")),
-                "is_admin": "false"
+                "is_admin": False
             }
 
             # Add user document to DB
@@ -185,7 +185,7 @@ def register():
 
             # Create session cookie for user
             session["user"] = request.form.get("username").lower()
-            session["admin"] = "false"
+            session["admin"] = False
 
             # Feedback success to user and direct to About page
             flash("Welcome {}, thank you for registering!".format(register_user["username"]))
@@ -223,10 +223,10 @@ def login():
             # If username does exist, check entered password against DB
             else:
                 if check_password_hash(existing_user["password"], request.form.get("password")):
-                    session["user"] = request.form.get("username").lower()
-                    session["admin"] = existing_user["is_admin"].lower()
+                    session["user"] = request.form.get("username")
+                    session["admin"] = existing_user["is_admin"]
                     flash("Welcome back {}".format(request.form.get("username")))
-                    if session["admin"] == "true":
+                    if session["admin"] == True:
                         flash("You are signed in as an Administrator")
 
             # If password does not match DB, feedback to user
@@ -421,7 +421,7 @@ def edit_image(image_id):
     user = mongo.db.users.find_one({"username": session["user"]})
 
     # Check if a user is in session to try and avoid brute force access
-    if session["user"] == image["owner"] or session["admin"] == "true":
+    if session["user"] == image["owner"] or session["admin"] == True:
         if request.method == 'POST':
 
             # Check all fields are validated and new passwords match
@@ -464,7 +464,7 @@ def delete_image(image_id):
     image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
 
     # Check if a user is in session to try and avoid brute force access
-    if session["user"] == image["owner"] or session["admin"].lower() == "true":
+    if session["user"] == image["owner"] or session["admin"] == True:
 
         # Remove document from DB
         mongo.db.images.remove({"_id": image["_id"]})
@@ -478,7 +478,7 @@ def delete_image(image_id):
 
         flash("Post succesfully deleted")
 
-        if session["admin"].lower() == "true":
+        if session["admin"] == True:
             return redirect(url_for("manage_images"))
 
         return render_template("profile.html", images=images, username=username, form=form)
@@ -499,7 +499,7 @@ def manage_users():
     # Find user record from database
     user = mongo.db.users.find_one({"username": session["user"]})
 
-    if session["admin"] == "true":
+    if session["admin"] == True:
 
         # Find all users and display in alphabetical order
         users = mongo.db.users.find().sort("username", 1)
@@ -522,18 +522,18 @@ def admin_toggle(user_toggle_id):
     user = mongo.db.users.find_one({"username": session["user"]})
 
     # Check current logged in user has admin rights
-    if session["admin"].lower() == "true":
+    if session["admin"] == True:
 
         # Find user to be toggled
         user_toggle = mongo.db.users.find_one({"_id": ObjectId(user_toggle_id)})
 
         # Check current admin status
-        if user_toggle["is_admin"].lower() == "false":
+        if user_toggle["is_admin"] == False:
             # Toggle admin rights on
-            mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": "true"}})
+            mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": True}})
         else:
             # Toggle admin rights off
-            mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": "false"}})
+            mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": False}})
 
         flash("User updated succesfully!")
 
@@ -563,7 +563,7 @@ def admin_delete_profile(delete_user):
     posts = mongo.db.images.find({"owner": deleting_username})
 
     # Check if a user is in session to try and avoid brute force access
-    if session["admin"].lower() == "true":
+    if session["admin"] == True:
         if request.method == 'POST':
 
             # Check all fields are validated and passwords match
@@ -600,7 +600,7 @@ def manage_images():
     # Find user record from database
     user = mongo.db.users.find_one({"username": session["user"]})
 
-    if session["admin"] == "true":
+    if session["admin"] == True:
 
         # Find all posts and display in reverse added order
         images = mongo.db.images.find().sort("_id", -1)
