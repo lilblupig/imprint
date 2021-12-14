@@ -141,7 +141,7 @@ def contact():
                 mail_config.send_email(form_content)
                 # If unable to send, flash failure message
             except Exception as e:
-                flash("unable to send email, please try again later")
+                flash("Unable to send email, please try again later")
                 # Otherwise, flash success message
             else:
                 flash("Thank you for your message, we will be in touch as soon as we can.")
