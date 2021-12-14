@@ -1,6 +1,6 @@
 """
-    Imprint Nov 2021
-    Routes for error handlers
+Imprint Nov 2021
+Routes for error handlers
 """
 
 from flask import (

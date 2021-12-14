@@ -1,6 +1,6 @@
 """
-    Imprint Nov 2021
-    Form models
+Imprint Nov 2021
+Form models
 """
 
 # Import dependencies
@@ -29,10 +29,10 @@ from wtforms.validators import (
 # Contact form
 class ContactForm(FlaskForm):
     """
-        Create contact form model
-        Define field = WTF Fieldtype
-            Set label
-            Set any validators and messages
+    Create contact form model
+    Define field = WTF Fieldtype
+        Set label
+        Set any validators and messages
     """
 
     name = StringField(
@@ -68,10 +68,10 @@ class ContactForm(FlaskForm):
 # Register form
 class RegisterForm(FlaskForm):
     """
-        Create registration form model
-        Define field = WTF Fieldtype
-            Set label
-            Set any validators and messages
+    Create registration form model
+    Define field = WTF Fieldtype
+        Set label
+        Set any validators and messages
     """
 
     username = StringField(
@@ -102,10 +102,10 @@ class RegisterForm(FlaskForm):
 # Login form
 class LoginForm(FlaskForm):
     """
-        Create login form model
-        Define field = WTF Fieldtype
-            Set label
-            Set any validators and messages
+    Create login form model
+    Define field = WTF Fieldtype
+        Set label
+        Set any validators and messages
     """
 
     username = StringField(
@@ -128,10 +128,10 @@ class LoginForm(FlaskForm):
 # Change password form
 class ChangePasswordForm(FlaskForm):
     """
-        Create password change form model
-        Define field = WTF Fieldtype
-            Set label
-            Set any validators and messages
+    Create password change form model
+    Define field = WTF Fieldtype
+        Set label
+        Set any validators and messages
     """
 
     old_password = PasswordField(
@@ -161,10 +161,10 @@ class ChangePasswordForm(FlaskForm):
 # Delete profile form
 class DeleteProfileForm(FlaskForm):
     """
-        Delete profile form model
-        Define field = WTF Fieldtype
-            Set label
-            Set any validators and messages
+    Delete profile form model
+    Define field = WTF Fieldtype
+        Set label
+        Set any validators and messages
     """
 
     old_password = PasswordField(
@@ -180,10 +180,10 @@ class DeleteProfileForm(FlaskForm):
 # Upload image form
 class UploadImageForm(FlaskForm):
     """
-        Create upload image form model
-        Define field = WTF Fieldtype
-            Set label
-            Set any validators and messages
+    Create upload image form model
+    Define field = WTF Fieldtype
+        Set label
+        Set any validators and messages
     """
 
     location = SelectField(
@@ -234,10 +234,10 @@ class UploadImageForm(FlaskForm):
 # Edit image post form
 class EditImageForm(FlaskForm):
     """
-        Create edit image post form model
-        Define field = WTF Fieldtype
-            Set label
-            Set any validators and messages
+    Create edit image post form model
+    Define field = WTF Fieldtype
+        Set label
+        Set any validators and messages
     """
 
     location = SelectField(
