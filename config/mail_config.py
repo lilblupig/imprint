@@ -44,18 +44,13 @@ def send_email(form_content):
     )
 
     # Set mail content
-    msg.body = """
+    msg.body = f"""
         New message submitted via Imprint contact form:
 
-        From: %s <%s>
+        From: {form_content["name"]} <{form_content["email"]}>
 
-        %s
-
-        """ % (
-                form_content["name"],
-                form_content["email"],
-                form_content["body"]
-            )
+        {form_content["body"]}
+        """
 
     # Send mail
     mail.send(msg)
