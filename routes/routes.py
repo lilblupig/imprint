@@ -110,7 +110,9 @@ def single_image(image_id):
 # Route for About page
 @app.route("/about")
 def about():
-    """ Get about page """
+    """
+    Get about page and render different buttons if logged in/out
+    """
     return render_template("about.html")
 
 
@@ -118,40 +120,36 @@ def about():
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     """
-        Contact form:
-        Define which form to use
-        Check request type and either:
-            GET = Load page
-            POST = Validate, create message and send form
+    Contact form:
+    Define which form to use
+    Check request type and either load page,
+    or validate, create message and send form
     """
     # Define form to use
     form = ContactForm()
+    # If request type is POST, check all fields are validated
+    if form.validate_on_submit():
+        # Get form data and put in dictionary
+        form_content = {
+            "name": request.form.get("name"),
+            "email": request.form.get("email"),
+            "body": request.form.get("body")
+        }
 
-    if request.method == 'POST':
+        # Call mail function and provide form data
+        try:
+            mail_config.send_email(form_content)
+        # If unable to send, flash failure message
+        except Exception as e:
+            flash("Unable to send email, please try again later")
+        # Otherwise, flash success message
+        else:
+            flash("Thank you for your message, we will be in touch as soon as we can.")
 
-        # Check all fields are validated
-        if form.validate() is True:
+        # Redirect user to gallery page
+        return redirect(url_for("gallery"))
 
-            # Get form data and put in dictionary
-            form_content = {
-                "name": request.form.get("name"),
-                "email": request.form.get("email"),
-                "body": request.form.get("body")
-            }
-
-            # Call mail function and provide form data
-            try:
-                mail_config.send_email(form_content)
-                # If unable to send, flash failure message
-            except Exception as e:
-                flash("Unable to send email, please try again later")
-                # Otherwise, flash success message
-            else:
-                flash("Thank you for your message, we will be in touch as soon as we can.")
-
-            # Redirect user to gallery page
-            return redirect(url_for("gallery"))
-
+    # If request type is GET, render the contact form
     return render_template("contact.html", form=form)
 
 
@@ -159,46 +157,39 @@ def contact():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """
-        Register form:
-        Define which form to use
-        Check request type and either:
-            GET = Load page
-            POST = Validate, compare passwords and create document in DB
+    Register form:
+    Define which form to use
+    Check request type and either load page,
+    or validate, compare passwords and create document in DB
     """
     # Define form to use
     form = RegisterForm()
+    # If request type is POST, check all fields are validated
+    if form.validate_on_submit():
+        # Check for existing username
+        existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
+        # If username is taken, ask user to choose a different name
+        if existing_user:
+            flash("Username taken, please choose again")
+            return redirect(url_for("register"))
+        # Create dictionary with user form data and obscure password
+        register_user = {
+            "username": request.form.get("username").lower(),
+            "password": generate_password_hash(request.form.get("password")),
+            "is_admin": False
+        }
+        # Add user document to DB
+        mongo.db.users.insert_one(register_user)
 
-    if request.method == 'POST':
+        # Create session cookie for user
+        session["user"] = request.form.get("username").lower()
+        session["admin"] = False
 
-        # Check all fields are validated
-        if form.validate() is True:
+        # Feedback success to user and direct to About page
+        flash(f"Welcome {register_user['username']}, thank you for joining!")
+        return redirect(url_for("about"))
 
-            # Check for existing username
-            existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
-
-            # If username is taken, ask user to choose a different name
-            if existing_user:
-                flash("Username taken, please choose again")
-                return redirect(url_for("register"))
-
-            # Create dictionary with user form data and obscure password
-            register_user = {
-                "username": request.form.get("username").lower(),
-                "password": generate_password_hash(request.form.get("password")),
-                "is_admin": False
-            }
-
-            # Add user document to DB
-            mongo.db.users.insert_one(register_user)
-
-            # Create session cookie for user
-            session["user"] = request.form.get("username").lower()
-            session["admin"] = False
-
-            # Feedback success to user and direct to About page
-            flash("Welcome {}, thank you for registering!".format(register_user["username"]))
-            return redirect(url_for("about"))
-
+    # If request type is GET, render the about page accordingly
     return render_template("register.html", form=form)
 
 
@@ -206,45 +197,42 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """
-        Login form:
-        Define which form to use
-        Check request type and either:
-            GET = Load page
-            POST = Validate, compare form data to DB
+    Login form:
+    Define which form to use
+    Check request type and either, load page
+    or validate, compare form data to DB and create session cookie
     """
     # Define form to use
     form = LoginForm()
-
-    if request.method == 'POST':
-
-        # Check all fields are validated
-        if form.validate() is True:
-
-            # Check for existing username
-            existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
-
+    # If request type is POST, check all fields are validated
+    if form.validate_on_submit():
+        # Search for username in DB
+        existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
+        if not existing_user:
             # If username entered does not exist, feedback to user
-            if not existing_user:
-                flash("Invalid username, please try again")
-                return render_template('login.html', form=form)
-
+            flash("Invalid username, please try again")
+            return render_template('login.html', form=form)
+        else:
             # If username does exist, check entered password against DB
-            else:
-                if check_password_hash(existing_user["password"], request.form.get("password")):
-                    session["user"] = request.form.get("username")
-                    session["admin"] = existing_user["is_admin"]
-                    flash("Welcome back {}".format(request.form.get("username")))
-                    if session["admin"] == True:
-                        flash("You are signed in as an Administrator")
+            if check_password_hash(existing_user["password"], request.form.get("password")):
+                # Put user and admin status into session
+                session["user"] = request.form.get("username")
+                session["admin"] = existing_user["is_admin"]
+                # Inform user of succesful login
+                flash(f"Welcome back {request.form.get('username')}")
+                # If admin, display such to user
+                if session["admin"] == True:
+                    flash("You are signed in as an Administrator")
 
             # If password does not match DB, feedback to user
-                else:
-                    flash("Invalid password, please try again")
-                    return render_template('login.html', form=form)
+            else:
+                flash("Invalid password, please try again")
+                return render_template('login.html', form=form)
 
-            # Feedback success to user on home page
-            return redirect(url_for("gallery"))
+        # Redirect succesful login to gallery page
+        return redirect(url_for("gallery"))
 
+    # If request type is GET, render the about page accordingly
     return render_template('login.html', form=form)
 
 
@@ -252,7 +240,8 @@ def login():
 @app.route("/logout")
 def logout():
     """
-        Remove session cookie and feedback to user
+    Remove session cookie and feedback to user
+    Redirect to login page
     """
     # Delete user session
     flash("You have successfully been logged out")
