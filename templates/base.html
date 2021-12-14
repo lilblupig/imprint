@@ -37,7 +37,7 @@
                                 {% if session.user %}
                                     <a class="nav-link imprint-nav" href="{{ url_for('upload') }}">Upload</a>
                                     <a class="nav-link imprint-nav" href="{{ url_for('profile', username=session['user']) }}">Profile</a>
-                                    {% if session.admin == "true" %}
+                                    {% if session.admin %}
                                         <a class="nav-link imprint-nav" href="{{ url_for('manage_users') }}">Manage Users</a>
                                         <a class="nav-link imprint-nav" href="{{ url_for('manage_images') }}">Manage Images</a>
                                     {% endif %}
