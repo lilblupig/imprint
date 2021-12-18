@@ -45,9 +45,11 @@ def gallery():
     locations = mongo.db.locations.find()
     # Get images from database
     images = mongo.db.images.find().sort("_id", -1)
+    # Get maps key from environment variables
+    maps_key = os.environ.get("MAPS_KEY")
 
     # Render all images in gallery format
-    return render_template("gallery.html", images=images, locations=locations)
+    return render_template("gallery.html", images=images, locations=locations, maps_key=maps_key)
 
 
 # Route for gallery free text search
@@ -61,6 +63,8 @@ def image_search():
     locations = mongo.db.locations.find()
     # Get search form data
     image_request = request.form.get("image_search")
+    # Get maps key from environment variables
+    maps_key = os.environ.get("MAPS_KEY")
     # Search database using permanent text index
     images = mongo.db.images.find({"$text": {"$search": image_request}})
 
@@ -69,7 +73,7 @@ def image_search():
         flash("No results found")
 
     # Render the search results in gallery form
-    return render_template("gallery.html", images=images, locations=locations)
+    return render_template("gallery.html", images=images, locations=locations, maps_key=maps_key)
 
 
 # Route for gallery dropdown filter
@@ -83,6 +87,8 @@ def location_filter():
     locations = mongo.db.locations.find()
     # Get dropdown field data
     location_choice = request.form.get("location_filter")
+    # Get maps key from environment variables
+    maps_key = os.environ.get("MAPS_KEY")
     # Query DB for appropriate documents
     images = mongo.db.images.find({"location": location_choice})
 
@@ -91,7 +97,7 @@ def location_filter():
         flash(location_choice)
 
     # Render the filtered results in gallery form
-    return render_template("gallery.html", images=images, locations=locations)
+    return render_template("gallery.html", images=images, locations=locations, maps_key=maps_key)
 
 
 # Route for displaying Single Image
