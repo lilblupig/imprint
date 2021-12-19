@@ -145,6 +145,12 @@ nav {
 }
 
 
+/* Maps */
+#map {
+    height: 40vh;
+}
+
+
 /* Gallery cards */
 .imprint-card {
     margin-bottom: 1rem;

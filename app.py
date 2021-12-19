@@ -1,6 +1,6 @@
 """
-    Imprint Nov 2021
-    Master module
+Imprint Nov 2021
+Master module
 """
 
 # Import dependencies

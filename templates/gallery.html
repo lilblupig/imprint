@@ -8,7 +8,11 @@
 
 <!-- Content to display in title block -->
 {% block title %}
-    <h1 class="text-center text-md-start">Gallery</h1>
+    <h1 class="text-center text-md-start">Gallery
+        {% if location_choice %}
+        : <span id="location-choice">{{ location_choice }}</span>
+        {% endif %}
+    </h1>
 {% endblock %}
 
 <!-- Content to display in content block -->
@@ -18,20 +22,20 @@
         <p>Just scroll through the images, filter by location or use text search to look for something specific.</p>
     </div>
     <!-- Accordion with search and filters inside -->
-    <div class="accordion accordion-flush" id="accordionFlushExample">
+    <div class="accordion accordion-flush" id="accordionFilters">
+        <!-- Gallery filters location and free text search -->
         <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne">
+            <h2 class="accordion-header" id="filters-headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    data-bs-target="#filters-collapseOne" aria-expanded="false" aria-controls="filters-collapseOne">
                     Search & Filter
                 </button>
             </h2>
-            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
-                data-bs-parent="#accordionFlushExample">
+            <div id="filters-collapseOne" class="accordion-collapse collapse" aria-labelledby="filters-headingOne"
+                data-bs-parent="#accordionFilters">
                 <div class="accordion-body">
-                    <!-- Gallery filters location and free text search -->
                     <div class="row">
-                        <!-- Location filter - not accessible as cannot apply label -->
+                        <!-- Location filter -->
                         <div class="col-12 col-md-6">
                             <form action="{{ url_for('location_filter') }}" method="POST">
                                 <div class="col-12">
@@ -79,6 +83,21 @@
                 </div>
             </div>
         </div>
+        <!-- Google Map -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="maps-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#maps-collapseOne" aria-expanded="false" aria-controls="maps-collapseOne">
+                Map
+                </button>
+            </h2>
+            <div id="maps-collapseOne" class="accordion-collapse collapse" aria-labelledby="maps-headingOne" data-bs-parent="#accordionMaps">
+                <div class="accordion-body">
+                    <div id="map">
+                        This should contain a Google Map, which shows the approximate area of the chosen location
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Gallery images -->
@@ -101,4 +120,10 @@
         {% endfor %}
     </div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script async src="{{ maps_key }}"></script>
+    <script src="{{url_for('static', filename='js/map_polygons.js') }}"></script>
+    <script src="{{url_for('static', filename='js/maps.js') }}"></script>
 {% endblock %}

@@ -1,7 +1,7 @@
 """
-    Imprint Nov 2021
-    Contact form email settings
-    Contact form email view
+Imprint Nov 2021
+Contact form email settings
+Contact form email view
 """
 # Import dependencies
 import os
@@ -32,9 +32,9 @@ mail.init_app(app)
 # Define mail function
 def send_email(form_content):
     """
-        Receive data from form and route
-        Compile to email
-        Send
+    Receive data from form and route
+    Compile to email
+    Send
     """
 
     # Set mail subject and recipient
@@ -44,18 +44,13 @@ def send_email(form_content):
     )
 
     # Set mail content
-    msg.body = """
+    msg.body = f"""
         New message submitted via Imprint contact form:
 
-        From: %s <%s>
+        From: {form_content["name"]} <{form_content["email"]}>
 
-        %s
-
-        """ % (
-                form_content["name"],
-                form_content["email"],
-                form_content["body"]
-            )
+        {form_content["body"]}
+        """
 
     # Send mail
     mail.send(msg)
