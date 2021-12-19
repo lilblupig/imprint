@@ -13,10 +13,3 @@ $( document ).ready(function() {
     })
 
   });
-
-/* Location getter for Maps */
-  const filterBtn = document.getElementById("filter-btn");
-
-  filterBtn.addEventListener("click", function(event) {
-      console.log("Filter chosen");
-  })
