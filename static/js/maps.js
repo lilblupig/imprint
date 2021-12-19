@@ -43,7 +43,7 @@ const mapAreas = {
 function initMap() {
     // Produces the map, determines initial zoom level and map center
     const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 17,
+        zoom: 16,
         center:  mapCentres[area],
     });
 
@@ -57,7 +57,5 @@ function initMap() {
         fillColor: "#fbb13c",
         fillOpacity: 0.35,
     });
-
     mapPolygon.setMap(map);
-
 }
