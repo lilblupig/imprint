@@ -8,7 +8,11 @@
 
 <!-- Content to display in title block -->
 {% block title %}
-    <h1 class="text-center text-md-start">Gallery</h1>
+    <h1 class="text-center text-md-start">Gallery
+        {% if location_choice %}
+        : <span id="location-choice">{{ location_choice }}</span>
+        {% endif %}
+    </h1>
 {% endblock %}
 
 <!-- Content to display in content block -->
@@ -50,7 +54,7 @@
                                         </select>
                                     </div>
                                     <div class="col-4 text-end text-md-start">
-                                        <button type="submit" id="filter-btn" class="btn">Filter</button>
+                                        <button type="submit" class="btn">Filter</button>
                                     </div>
                                     </div>
                                 </div>
@@ -104,4 +108,10 @@
         {% endfor %}
     </div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script async src="{{ maps_key }}"></script>
+    <script src="{{url_for('static', filename='js/map_polygons.js') }}"></script>
+    <script src="{{url_for('static', filename='js/maps.js') }}"></script>
 {% endblock %}
