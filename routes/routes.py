@@ -97,7 +97,7 @@ def location_filter():
         flash(location_choice)
 
     # Render the filtered results in gallery form
-    return render_template("gallery.html", images=images, locations=locations, maps_key=maps_key)
+    return render_template("gallery.html", images=images, locations=locations, location_choice=location_choice, maps_key=maps_key)
 
 
 # Route for displaying Single Image
