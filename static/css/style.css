@@ -14,8 +14,13 @@ a {
     text-decoration: none;
 }
 
-body a:hover, a.imprint-nav:hover {
+body a {
     color: #1e3c8d;
+    text-decoration: underline;
+}
+
+body a:hover, a.imprint-nav:hover {
+    color: #fbb13c;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -101,7 +106,7 @@ select, input, textarea {
 /* Navbar */
 
 nav {
-    background-color: #c8c8c8;
+    background-color: #1e3c8d;
     /* Taken from Materialize navbar */
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
 }
@@ -120,7 +125,7 @@ nav {
 
 .hamburger {
     border: none;
-    background-color: #c8c8c8;
+    background-color: #1e3c8d;
     padding: 10px 12px;
     margin: 5px 0;
 }
@@ -214,7 +219,7 @@ hr.imprint-about-hr {
 }
 
 footer {
-    background-color: #c8c8c8;
+    background-color: #1e3c8d;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
     position: absolute;
     bottom: 0;
@@ -222,7 +227,7 @@ footer {
 }
 
 footer h2, footer a.nav-link, footer p {
-    color: #1e3c8d;
+    color: #ffffff;
 }
 
 footer p, footer a {
@@ -230,5 +235,5 @@ footer p, footer a {
 }
 
 footer h2:hover, footer a.nav-link:hover {
-    color: #ffffff;
+    color: #fbb13c;
 }
