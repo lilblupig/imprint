@@ -271,7 +271,7 @@ def profile(username):
     user = mongo.db.users.find_one({"username": session["user"]})
     username = user["username"]
     # Find posts made by user
-    images = mongo.db.images.find({"owner": username})
+    images = mongo.db.images.find({"owner": username}).sort("_id", -1)
 
     # If request type is POST, check all fields are validated
     if form.validate_on_submit():
