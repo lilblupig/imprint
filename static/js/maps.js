@@ -41,12 +41,13 @@ const mapAreas = {
 
 /* Google Maps API call */
 function initMap() {
-    // Produces the map, determines initial zoom level and map center
-    const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 16,
-        center:  mapCentres[area],
-    });
 
+    const you = { lat: 51.00656544855768, lng: -2.195737342140075 };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 16,
+      center: mapCentres[area],
+    });
+  
     // Renders a polygon of each region on the map
     // Polygon co-ordinates stored in static/js/map_polygons.js
     const mapPolygon = new google.maps.Polygon({
@@ -58,4 +59,27 @@ function initMap() {
         fillOpacity: 0.35,
     });
     mapPolygon.setMap(map);
-}
+
+    const marker = new google.maps.Marker({
+      position: you,
+      map,
+      title: "You are here",
+    });
+
+    // Get user's location - Uses https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
+    if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            position => {console.log(`Lat: ${position.coords.latitude} Lng: ${position.coords.longitude}`);
+
+            marker.setPosition({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            });
+
+            err => alert(`Error (${err.code}): We were unable to retrieve your position.`)
+            });
+    } else {
+        alert('Geolocation is not supported by your browser.');
+    }
+    
+  }
