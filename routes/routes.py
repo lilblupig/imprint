@@ -169,7 +169,6 @@ def contact():
 
         # Redirect user to gallery page
         return redirect(url_for("gallery"))
-
     # If request type is GET, render the contact form
     return render_template("contact.html", form=form)
 
@@ -214,7 +213,6 @@ def register():
 
         # If request type is GET, render the about page accordingly
         return render_template("register.html", form=form)
-
     # If user already logged in flash message and return to Gallery page
     flash("You cannot register as you are already signed in")
     return redirect(url_for("gallery"))
@@ -262,7 +260,6 @@ def login():
 
         # If request type is GET, render the about page accordingly
         return render_template('login.html', form=form)
-
     # If user already logged in flash message and return to Gallery page
     flash("You cannot login as you are already signed in")
     return redirect(url_for("gallery"))
@@ -322,7 +319,6 @@ def profile(username):
 
         # If request type is GET, render the user profile page
         return render_template("profile.html", images=images, username=username, form=form)
-
     # If user not logged in flash message and return to login page
     flash("Please login to manage your profile")
     return redirect(url_for("login"))
@@ -367,7 +363,6 @@ def delete_profile():
 
         # If request type is GET, render the delete profile page
         return render_template("delete_profile.html", form=form)
-
     # If user not logged in flash message and return to login page
     flash("Please login to manage your profile")
     return redirect(url_for("login"))
@@ -415,7 +410,6 @@ def upload():
 
         # If request type is GET, render the upload page
         return render_template("upload.html", form=form)
-
     # If user not logged in flash message and return to login page
     flash("Please login or register for an account to add images to the Gallery")
     return redirect(url_for("login"))
@@ -433,32 +427,43 @@ def edit_image(image_id):
     """
     # Get image document id
     image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
-    # Define form to use and populate with existing DB info
-    form = EditImageForm(location=image["location"], decade=image["decade"], details=image["details"], tags=image["tags"])
-    # Get location options to populate dropdown in edit form
-    all_locations = mongo.db.locations.distinct('location_name')
-    form.location.choices = list(all_locations)
+    # Check if user logged in
+    if is_logged_in():
+        # Check if logged in user owns image or is admin
+        if is_logged_in() == image["owner"] or is_admin():
+            # Define form to use and populate with existing DB info
+            form = EditImageForm(location=image["location"], decade=image["decade"], details=image["details"], tags=image["tags"])
+            # Get location options to populate dropdown in edit form
+            all_locations = mongo.db.locations.distinct('location_name')
+            form.location.choices = list(all_locations)
 
-    # If request type is POST, check all fields are validated
-    if form.validate_on_submit():
-        # Get form and unchanged image values and make dictionary
-        updated = {
-            "location": request.form.get("location"),
-            "decade": request.form.get("decade"),
-            "details": request.form.get("details"),
-            "tags": request.form.get("tags"),
-            "photo": image["photo"],
-            "cloudinary_id": image["cloudinary_id"],
-            "owner": image["owner"]
-        }
-        # Update document in DB
-        mongo.db.images.update({"_id": image["_id"]}, updated)
-        # Feedback to user and display changes
-        flash("Post updated succesfully!")
-        return render_template('edit_image.html', image=image, success=True)
+            # If request type is POST, check all fields are validated
+            if form.validate_on_submit():
+                # Get form and unchanged image values and make dictionary
+                updated = {
+                    "location": request.form.get("location"),
+                    "decade": request.form.get("decade"),
+                    "details": request.form.get("details"),
+                    "tags": request.form.get("tags"),
+                    "photo": image["photo"],
+                    "cloudinary_id": image["cloudinary_id"],
+                    "owner": image["owner"]
+                }
+                # Update document in DB
+                mongo.db.images.update({"_id": image["_id"]}, updated)
+                # Feedback to user and display changes
+                flash("Post updated succesfully!")
+                return render_template('edit_image.html', image=image, success=True)
 
-    # If request type is GET, render the edit post page
-    return render_template("edit_image.html", image=image, form=form)
+            # If request type is GET, render the edit post page
+            return render_template("edit_image.html", image=image, form=form)
+        # If user not image owner flash message, log out and return to login page
+        flash("You are not authorised to view this page and have been signed out")
+        session.pop("user")
+        return redirect(url_for("login"))
+    # If user not logged in return to login page
+    flash("Please login to manage your profile")
+    return redirect(url_for("login"))
 
 
 # Route to delete a post
