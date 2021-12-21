@@ -382,37 +382,43 @@ def upload():
     Get locations for dropdown selector
     Take form data and create Cloudinary and DB entries
     """
-    # Define form to use
-    form = UploadImageForm()
-    # Get location options and populate choices in upload form
-    all_locations = mongo.db.locations.distinct('location_name')
-    form.location.choices = list(all_locations)
-    # Find user record from database
-    user = mongo.db.users.find_one({"username": session["user"]})
-    username = user["username"]
+    # Check if user logged in
+    if is_logged_in():
+        # Define form to use
+        form = UploadImageForm()
+        # Get location options and populate choices in upload form
+        all_locations = mongo.db.locations.distinct('location_name')
+        form.location.choices = list(all_locations)
+        # Find user record from database
+        user = mongo.db.users.find_one({"username": session["user"]})
+        username = user["username"]
 
-    # If request type is POST, check all fields are validated
-    if form.validate_on_submit():
-        # Send image to Cloudinary account and determine upload preset to use
-        photo = request.files['photo']
-        photo_upload = cloudinary.uploader.unsigned_upload(photo, "p6tbiahk")
-        # Create dictionary for upload to DB as document
-        uploaded = {
-            "location": request.form.get("location"),
-            "decade": request.form.get("decade"),
-            "details": request.form.get("details"),
-            "tags": request.form.get("tags"),
-            "photo": photo_upload["secure_url"],
-            "cloudinary_id": photo_upload["public_id"],
-            "owner": username
-        }
-        # Add image document to DB
-        mongo.db.images.insert_one(uploaded)
-        # If successful, feedback to user and display choices
-        return render_template('upload.html', success=True)
+        # If request type is POST, check all fields are validated
+        if form.validate_on_submit():
+            # Send image to Cloudinary account and determine upload preset to use
+            photo = request.files['photo']
+            photo_upload = cloudinary.uploader.unsigned_upload(photo, "p6tbiahk")
+            # Create dictionary for upload to DB as document
+            uploaded = {
+                "location": request.form.get("location"),
+                "decade": request.form.get("decade"),
+                "details": request.form.get("details"),
+                "tags": request.form.get("tags"),
+                "photo": photo_upload["secure_url"],
+                "cloudinary_id": photo_upload["public_id"],
+                "owner": username
+            }
+            # Add image document to DB
+            mongo.db.images.insert_one(uploaded)
+            # If successful, feedback to user and display choices
+            return render_template('upload.html', success=True)
 
-    # If request type is GET, render the upload page
-    return render_template("upload.html", form=form)
+        # If request type is GET, render the upload page
+        return render_template("upload.html", form=form)
+
+    # If user not logged in flash message and return to login page
+    flash("Please login or register for an account to add images to the Gallery")
+    return redirect(url_for("login"))
 
 
 # Route to edit a post
