@@ -22,9 +22,7 @@
             <div class="text-center text-md-start mt-1 mb-5">
                 <a href="{{ url_for('profile', username=session['user']) }}" class="btn">Back to Profile</a>
             </div>
-            <div class="text-center">
-                <img src="{{ image.photo }}" alt="{{ image.location }}" class="mb-4 image-container" />
-            </div>
+            <img src="{{ image.photo }}" alt="{{ image.location }}" class="mb-4 image-properties" />
             <div>
                 <h2>{{ image.location }}</h2>
                 <p>Decade: {{ image.decade }}</p>
@@ -34,9 +32,7 @@
             </div>
 
         {% else %}
-            <div class="text-center">
-                <img src="{{ image.photo }}" alt="{{ image.location }}" class="image-container" />
-            </div>
+            <img src="{{ image.photo }}" alt="{{ image.location }}" class="image-properties" />
 
             <form method="POST" action="{{ url_for('edit_image', image_id=image._id) }}">
                 <!-- Hidden token proof that form came from page, uses secret key -->
