@@ -247,7 +247,7 @@ def login():
                     # Inform user of succesful login
                     flash(f"Welcome back {request.form.get('username')}")
                     # If admin, display such to user
-                    if session["admin"] == True:
+                    if is_admin():
                         flash("You are signed in as an Administrator")
 
                 # If password does not match DB, feedback to user
