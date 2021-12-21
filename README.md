@@ -3,10 +3,10 @@
 # Overview
 This is a mobile first website designed to encourage tourists and locals alike to bask in the rich and varied history of a small town in Dorset called Shaftesbury.  An historic saxon hilltop town, Shaftesbury and it's inhabitants pride themselves on the extensive history of the town and surrounds.
 
-Imprint takes a map of the town centre, and allows users to select an area, which will generate a gallery of images related to that part of the town.  These images will hopefully have been generated and uploaded by site users, providing a true community history of this incredible town.
+Imprint takes places within the town centre, and allows users to select an area, which will generate a gallery of images related to that part of the town.  These images will hopefully have been generated and uploaded by site users, providing a true community history of this incredible town.
 
 
-![Am I Responsive Image](readme-images/am-i-responsive.png)
+![Am I Responsive Image](readme-files/am-i-responsive.png)
 
 # Index
 1. [UX](#ux)
@@ -48,7 +48,7 @@ There are three types of anticipated user:
 1. Local business owners
 
 For these groups the following needs are identified:
-1. As a new tourist user, I want to link what I can see to what has been - clearly and easily.
+1. As a new tourist user, I want to link what I can see to what has been uploaded - clearly and easily.
 1. As a new local user, I want to find images of places I know.
 1. As a new business user, I want to be able to find the area which relates to my business.
 1. As a returning tourist user, I want to upload my own photographs, and easily find them to relive my memories.
@@ -58,16 +58,16 @@ For these groups the following needs are identified:
 These stories are addressed fully in the [Testing](TESTING.md) document.
 
 ### **Strategy**
-Who is the website for? <br>
+#### **Who is the website for?**
 The website is for people who want to celebrate the past and link it to the present.  More specifically, it is aimed at providing an alternate view of the town in all its changing glory.
 
-What does the owner of the website need/want? <br>
-The website owner wants to help grow interest in the town, the businesses it has grown and the people it serves.
+#### **What does the owner of the website need/want?**
+The website owner wants to help build interest in the town, the businesses it has grown and the people it serves.
 
-What do the users of the website need/want? <br>
+#### **What do the users of the website need/want?**
 The users of the website want to utilise the history of the town to enhance their experience of it, though in a number of different ways.
 
-Broadly, how does the website meet these needs? <br>
+#### **Broadly, how does the website meet these needs?**
 The website focuses on historic imagery of the town as uploaded by the users into location specific categories.  This meets the needs of the owner by promoting curiosity about the town and its past, and of the users by providing them with evocative pictures to compliment their visit or experience, and to help build the brand of a business.
 
 Owner aims:
@@ -87,11 +87,11 @@ The website exists to encourage tourism and active discovery of local history.  
 
 | # | Feature | Importance | Viability | Comment |
 |---| ------- | :--------: | :-------: | ------- |
-1.| Clickable map which loads images  | 5 | 4 | Y - Whole purpose of site
+1.| Location map which ties to images  | 5 | 4 | Y - Whole purpose of site
 2.| Users create and manage profiles | 5 | 5 | Y - Needed for community aspect
 3.| Users can add and manage images  | 5 | 5 | Y - Community contributions will add value
 4.| Display content relative to signed in user  | 5 | 5 | Y - Allows user to manage contributions
-5.| Designed strcitly mobile first | 5 | 5 | Y - Most likely device to be used to access site by far
+5.| Designed strictly mobile first | 5 | 5 | Y - Most likely device to be used to access site by far
 6.| Comments section for images | 4 | 2 | N - Unsure how this would work with non-relational database
 7.| Have form/user group for businesses | 2 | 2 | N - Not required for site function, but would be nice in future
 T.| Total score | 31 | 28 |
@@ -119,7 +119,7 @@ Third increment:
 ### **Skeleton**
 In line with structure planning.
 
-#### Wireframes
+#### **Wireframes**
 
 ##### Original
 1. [Mobile](readme-files/documents/imprint-mobile.pdf) 375px
@@ -132,12 +132,12 @@ In line with structure planning.
 1. [PC/Laptop](readme-files/documents/imprint-pc-final.pdf) 1200px
 
 ##### Summary of Changes
-* 
+* Primary change is from separate map page as landing page, to gallery page as landing page.  Implementation of the clickable map was going to be very time consuming and tricky to make scaleable.  Additionally, realistically, locals will use it far more than visitors and they want to see the pictures, not the map.
 
 ### **Surface**
 
 #### Colours
-The colours used for the site are based on the colours which comprise the historic Shaftesbury coat of arms.  These are primarily blue and white, with yellow highlights.  A deep red was chosen as a second complimentary colour, and is the colour used by the Town Council.
+The colours used for the site are based on the colours which comprise the historic Shaftesbury coat of arms.  These are primarily blue and white, with yellow highlights.  A deep red was chosen as a second complimentary colour, and is the colour used by the Town Council.  In the end, the lighter blue was not used.  The subtler deep blue is classic and does not take attention from the images, and the yellow provides a good contrast for interactive elements and feedback, the red is used for warnings such as delete functions.
 
 The colours were tested on [Coolors](https://coolors.co/) to ensure that a colourblind user would be able to differentiate between all colours, and that the colours remained visually pleasing.
 
@@ -148,7 +148,7 @@ The fonts for the site were chosen for a clean but striking aesthetic.  Appropri
 
 Cinzel was chosen for headings because of its historic feel, but relative lack of accents.
 
-Nunito will be used for the body font, providing a clean open feel.  It is likely that one of the lighter weights will be used once seen in the working environment.
+Nunito is used for the body font, providing a clean open feel.
 
 ![Example heading font](readme-files/typography-heading.png)
 ![Example body font](readme-files/typography-body.png)
@@ -157,11 +157,16 @@ Nunito will be used for the body font, providing a clean open feel.  It is likel
 
 ### **Existing Features**
 Features common to all pages/sections:
-
-#### XXXXX
+* Responsive collapsible navbar and footer
+* Designed with mobile view in mind
+* Clean interface
 
 ### **Features for Future Implementation**
-1. What | Why
+1. Force https | Required for map marker and much more secure
+1. Implement Cloudinary plugin to screen images for inappropriate content | At the moment a user can upload any image and relies on a moderator checking and removing anything unsuitable
+1. Full screen image modals | To show the full image in a pleasing way not possible using a regular page
+1. Add comments to pictures | Encourages greater interaction from users
+1. Add business account types and tags | Add an additional perspective to images and history
 
 ## Testing
 
@@ -169,34 +174,33 @@ This information is held in the [Testing](TESTING.md) file.
 
 ## Development Life Cycle
 
-This section is to provide an brief insight into how the approach to the code structure of the website was expected to work, what changed and why, and then to summarise how the creator would now approach replicating the project.
+This section is to provide a brief insight into how the approach to the code structure of the website was expected to work, what changed and why, and then to summarise how the creator would now approach replicating the project.
 
 Changes to design are documented in the [UX section](#ux) under [wireframes](#wireframes).
 
-The project was deployed using GitHub pages once the basic structure of the page was complete.  This allowed for continuous delivery as each change was made, and pushed and enabled testing of the page during development on different devices.
-
-Commits were made as each section of each page was added and pushed once a section was complete.
+The project was deployed using GitHub linked Heroku, once the basic structure of the page was complete.  This allowed for continuous delivery as each major change was made, pushed and merged and enabled testing of the page throughout development on different devices.  It also reduced the pressure towards submission, as all wrinkles relating to config vars and mail app passwords had been addressed.
 
 ### **Reflections on General Approach to Build**
 What would be done differently next time?  What went right?  Overall opinion.
 
 ### **Lessons Learned**
-
+As always with these projects, understand the languages and frameworks better before starting so that it is known what can be achieved rather than going through various iterations to find something that works.
 
 #### Preparation
-
+Did not anticipate the need to store images as have only worked on standard server hosted sites to date.  Heroku and MongoDB both have very limited storage options and finding Cloudinary was a lifeline for the project.
 
 #### Build
-
+Did not understand how Flask routing passes information to and retrieves information from the templates.  This led to enormous confusion trying to get user profiles and single image views to work, however persistence rewarded with understanding, so lots of code refactored throughout the project.
 
 ### **Revised Development Process**
 
 Based on the experience of producing the website, the creator would now take the following approach.
 
 #### Preparation
-
+Take into account live environment and the limitations it introduces, not just the code and data structure.  Be realistic and aim for a project that people will enjoy using, not just a concept which has caught the imagination.
 
 #### Build
+Knowing how the mini framework actually passes and receives information between models and views is critical to an efficient build.  Ideally, smaller projects would be undertaken prior to commencing in order to consolidate understanding gained from tutorials.
 
 ## Deployment
 
@@ -261,28 +265,25 @@ You can find more information on cloning a repository from GitHub [here](https:/
 ## Technologies Used
 
 ### **Languages**
-* HTML5 is used to provide the basic structure of the website.
-  * About: [HTML5 Wiki](https://en.wikipedia.org/wiki/HTML5)
-  * Creator: [W3 Consortium](https://www.w3.org/)
-* CSS3 is used to provide most of the styling for the website.
-  * About: [CSS3 Wiki](https://en.wikipedia.org/wiki/CSS)
-  * Creator: [W3 Consortium](https://www.w3.org/)
-* JavaScript is used to provide the interactive nature of such components throughout the website.
-  * About: [JavaScript Home](https://www.javascript.com/)
+* [HTML5](https://www.w3.org/) is used to provide the basic structure of the website.
+* [CSS3](https://www.w3.org/) is used to provide most of the styling for the website.
+* [JavaScript](https://www.javascript.com/) is used to provide the interactive nature of some components throughout the website, including the map.
+* [Python3](https://www.python.org/) is used to write the logic and back end code for the website.
 
 ### **Libraries and Frameworks**
-* [Materialize CSS](https://materializecss.com/getting-started.html) is used to provide further styling and structure.
+* [Bootstrap 5](https://getbootstrap.com/) is used to provide fundamental styling and structure.
 * [jQuery](https://jquery.com/) is used to simplify the implementation of interactive JavaScript components.
-* [Flask]() is used to provide a structure the Python application, and make use of the Jinja templating language.
-* [Flask Pymongo]() was used to allow Flask to communicate with MongoDB.
-* [DNS Python]() was installed in order to use the Mongo SRV connection string.
+* [Flask](https://flask.palletsprojects.com/en/2.0.x/) is used to provide a structure the Python application, and make use of the Jinja templating language.
+* [Flask Pymongo](https://flask-pymongo.readthedocs.io/en/latest/) was used to allow Flask to communicate with MongoDB.
+* [DNS Python](https://www.dnspython.org/) was installed in order to use the Mongo SRV connection string.
 * [Flask_WTF](https://flask-wtf.readthedocs.io/en/1.0.x/) and [WTForms](https://wtforms.readthedocs.io/en/3.0.x/validators/) are used to provide form structure, functionality and data validation.
 * [Werkzeug](https://werkzeug.palletsprojects.com/en/2.0.x/) is used to provide user security around passwords and storage.
 * [Flask-Mail](https://pythonhosted.org/flask-mail/) is used to facilitate email sending from the contact form.
-* [Cloudinary](https://support.cloudinary.com/) is used to store and manage the images.
+* [Cloudinary](https://support.cloudinary.com/) is used to store, manipulate and manage the images.
 * [Google Fonts](https://fonts.google.com/) are used to provide the typography for the website.
 * [Font Awesome](https://fontawesome.com/) is used to provide the icons for the website.
 * [Google ReCaptcha](https://www.google.com/recaptcha/) is used to protect the contact and sign up forms.
+* [Google Maps](https://www.google.com/maps) provides the map, location indicator and marker
 
 ### **Tools**
 * [Git](https://git-scm.com/)/[GitHub](https://github.com/) was used for version control and repository storage.
@@ -313,13 +314,12 @@ The following resources provided strong underlying understanding for items withi
 Where did the website content come from?
 
 #### Media
-* The photographs used for the website were obtained from [Pexels.com](https://www.pexels.com/):
-
-* The diagrams used for the website were obtained from various places:
+* The photographs uploaded to the website as at release were taken by the creator.
 
 #### Acknowledgements
 Thank you in particular to:
 * Reuben Ferrante for mentoring the project.
+* My poor, poor family for being made to try out every single deployment.
 
 ### **README Credits**
 
