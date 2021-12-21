@@ -11,16 +11,12 @@
     <h1 class="text-center text-md-start">Register</h1>
 {% endblock %}
 
-
 <!-- Content to display in content block -->
 {% block content %}
-
     <div>
-
         <form method="POST" action="{{ url_for('register') }}">
             <!-- Hidden token proof that form came from page, uses secret key -->
             {{ form.csrf_token }}
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                 {{ form.username.label }}
                 {{ form.username }}
@@ -28,7 +24,6 @@
                     <div class="flash">{{ message }}</div>
                 {% endfor %}
             </div>
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                 {{ form.password.label }}
                 {{ form.password }}
@@ -36,7 +31,6 @@
                     <div class="flash">{{ message }}</div>
                 {% endfor %}
             </div>
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                 {{ form.confirm.label }}
                 {{ form.confirm }}
@@ -44,24 +38,18 @@
                     <div class="flash">{{ message }}</div>
                 {% endfor %}
             </div>
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 pb-5">
                 {{ form.recaptcha }}
                 {% for message in form.recaptcha.errors %}
                     <div class="flash">{{ message }}</div>
                 {% endfor %}
             </div>
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 text-center pb-5">
                 {{ form.submit (class_="btn") }}
             </div>
-
         </form>
-
         <div>
             <p>If you already have an account, please <a href="{{ url_for('login') }}">Login here</a>.</p>
         </div>
-
     </div>
-
 {% endblock %}

@@ -13,16 +13,12 @@
     </div>
 {% endblock %}
 
-
 <!-- Content to display in content block -->
 {% block content %}
-
     <div class="row">
-
         <form method="POST" action="{{ url_for('contact') }}">
             <!-- Hidden token proof that form came from page, uses secret key -->
             {{ form.csrf_token }}
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                 {{ form.name.label }}
                 {{ form.name }}
@@ -30,7 +26,6 @@
                     <div class="flash">{{ message }}</div>
                 {% endfor %}
             </div>
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                 {{ form.email.label }}
                 {{ form.email }}
@@ -38,7 +33,6 @@
                     <div class="flash">{{ message }}</div>
                 {% endfor %}
             </div>
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 pb-3">
                 {{ form.body.label }}
                 {{ form.body }}
@@ -46,19 +40,15 @@
                     <div class="flash">{{ message }}</div>
                 {% endfor %}
             </div>
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 pb-5">
                 {{ form.recaptcha }}
                 {% for message in form.recaptcha.errors %}
                     <div class="flash">{{ message }}</div>
                 {% endfor %}
             </div>
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                 {{ form.submit (class_="btn") }}
             </div>
         </form>
-
     </div>
-
 {% endblock %}
