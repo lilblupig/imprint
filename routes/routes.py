@@ -472,36 +472,46 @@ def delete_image(image_id):
     """
     Delete a post
     """
-    # Find user record from database
-    user = mongo.db.users.find_one({"username": session["user"]})
-    username = user["username"]
     # Get image from database
     image = mongo.db.images.find_one({"_id": ObjectId(image_id)})
+    # Check if user logged in
+    if is_logged_in():
+        # Check if logged in user owns image or is admin
+        if is_logged_in() == image["owner"] or is_admin():
+            # Find user record from database
+            user = mongo.db.users.find_one({"username": session["user"]})
+            username = user["username"]
+            # Check if a user is in session to try and avoid brute force access
+            if session["user"] == image["owner"] or session["admin"] == True:
+                # Remove document from DB
+                mongo.db.images.remove({"_id": image["_id"]})
+                # Remove image from Cloudinary and clear Cloudinary cache
+                cloudinary.uploader.destroy(image["cloudinary_id"], invalidate=True)
 
-    # Check if a user is in session to try and avoid brute force access
-    if session["user"] == image["owner"] or session["admin"] == True:
-        # Remove document from DB
-        mongo.db.images.remove({"_id": image["_id"]})
-        # Remove image from Cloudinary and clear Cloudinary cache
-        cloudinary.uploader.destroy(image["cloudinary_id"], invalidate=True)
+                # Find posts made by user and define form for loading profile page
+                images = mongo.db.images.find({"owner": username})
+                form = ChangePasswordForm()
 
-        # Find posts made by user and define form for loading profile page
-        images = mongo.db.images.find({"owner": username})
-        form = ChangePasswordForm()
+                # Inform user of success
+                flash("Post succesfully deleted")
 
-        # Inform user of success
-        flash("Post succesfully deleted")
+                # If admin return to manage images page
+                if session["admin"] == True:
+                    return redirect(url_for("manage_images"))
 
-        # If admin return to manage images page
-        if session["admin"] == True:
-            return redirect(url_for("manage_images"))
+                # If regular user, return to profile page
+                return render_template("profile.html", images=images, username=username, form=form)
 
-        # If regular user, return to profile page
-        return render_template("profile.html", images=images, username=username, form=form)
-
-    # If logged in user is not admin or does not match the image owner, log out and explain
-    flash("You are not authorised to edit this post and have been logged out")
-    session.pop("user")
+            # If logged in user is not admin or does not match the image owner, log out and explain
+            flash("You are not authorised to edit this post and have been logged out")
+            session.pop("user")
+            return redirect(url_for("login"))
+        # If user not image owner flash message, log out and return to login page
+        flash("You are not authorised to view this page and have been signed out")
+        session.pop("user")
+        return redirect(url_for("login"))
+    # If user not logged in return to login page
+    flash("Please login to manage your profile")
     return redirect(url_for("login"))
 
 
