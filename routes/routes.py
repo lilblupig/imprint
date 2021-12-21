@@ -537,24 +537,29 @@ def admin_toggle(user_toggle_id):
     """
     Toggle on or off user admin permissions
     """
-    # Check current logged in user has admin rights
-    if session["admin"] == True:
-        # Find user to be toggled
-        user_toggle = mongo.db.users.find_one({"_id": ObjectId(user_toggle_id)})
-        # Check current admin status
-        if user_toggle["is_admin"] == False:
-            # Toggle admin rights on
-            mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": True}})
-        else:
-            # Toggle admin rights off
-            mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": False}})
-        # Update admin on user management page
-        flash("User updated succesfully!")
-        return redirect(url_for("manage_users"))
+    # Check if user logged in
+    if is_logged_in():
+        # Check if user is admin
+        if is_admin():
+            # Find user to be toggled
+            user_toggle = mongo.db.users.find_one({"_id": ObjectId(user_toggle_id)})
+            # Check current admin status
+            if user_toggle["is_admin"] == False:
+                # Toggle admin rights on
+                mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": True}})
+            else:
+                # Toggle admin rights off
+                mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": False}})
+            # Update admin on user management page
+            flash("User updated succesfully!")
+            return redirect(url_for("manage_users"))
 
-    # If not admin, log out and return to login page
-    flash("You are not authorised to view this page and have been logged out")
-    session.pop("user")
+        # If not admin, log out and return to login page
+        flash("You are not authorised to view this page and have been logged out")
+        session.pop("user")
+        return redirect(url_for("login"))
+    # If user not logged in return to login page
+    flash("You are not authorised to view this page")
     return redirect(url_for("login"))
 
 
