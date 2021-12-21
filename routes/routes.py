@@ -500,10 +500,6 @@ def delete_image(image_id):
             # If regular user, return to profile page
             return render_template("profile.html", images=images, username=username, form=form)
 
-            # If logged in user is not admin or does not match the image owner, log out and explain
-            flash("You are not authorised to edit this post and have been logged out")
-            session.pop("user")
-            return redirect(url_for("login"))
         # If user not image owner flash message, log out and return to login page
         flash("You are not authorised to view this page and have been signed out")
         session.pop("user")
