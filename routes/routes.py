@@ -281,7 +281,7 @@ def logout():
         flash("You have successfully been logged out")
         session.pop("user")
         return redirect(url_for("login"))
-    # If user already logged in flash message and return to Gallery page
+    # If user not logged in flash message and return to login page
     flash("You cannot log out as you are not signed in")
     return redirect(url_for("login"))
 
@@ -296,31 +296,36 @@ def profile(username):
     or validate, compare old password to DB, check new passwords match and update DB
     Also displays all posts by user in gallery format
     """
-    # Define form to use
-    form = ChangePasswordForm()
-    # Find user record from database
-    user = mongo.db.users.find_one({"username": session["user"]})
-    username = user["username"]
-    # Find posts made by user
-    images = mongo.db.images.find({"owner": username}).sort("_id", -1)
+    # Check if user logged in
+    if is_logged_in():
+        # Define form to use
+        form = ChangePasswordForm()
+        # Find user record from database
+        user = mongo.db.users.find_one({"username": session["user"]})
+        username = user["username"]
+        # Find posts made by user
+        images = mongo.db.images.find({"owner": username}).sort("_id", -1)
 
-    # If request type is POST, check all fields are validated
-    if form.validate_on_submit():
-        # Check DB value matches that entered for old password in form
-        if check_password_hash(user["password"], request.form.get("old_password")):
-            # Create variable containing hashed new password
-            update_password = generate_password_hash(request.form.get("new_password"))
-            # Update DB document with new password
-            mongo.db.users.update_one({"_id": user["_id"]}, {"$set": {"password": update_password}})
-            # Feedback success to user and return to profile page
-            return render_template('profile.html', username=username, success=True)
+        # If request type is POST, check all fields are validated
+        if form.validate_on_submit():
+            # Check DB value matches that entered for old password in form
+            if check_password_hash(user["password"], request.form.get("old_password")):
+                # Create variable containing hashed new password
+                update_password = generate_password_hash(request.form.get("new_password"))
+                # Update DB document with new password
+                mongo.db.users.update_one({"_id": user["_id"]}, {"$set": {"password": update_password}})
+                # Feedback success to user and return to profile page
+                return render_template('profile.html', username=username, success=True)
 
-        # If entered old password does not match DB ask to try again
-        flash("Incorrect existing password, please try again")
+            # If entered old password does not match DB ask to try again
+            flash("Incorrect existing password, please try again")
 
-    # If request type is GET, render the user profile page
-    return render_template("profile.html", images=images, username=username, form=form)
+        # If request type is GET, render the user profile page
+        return render_template("profile.html", images=images, username=username, form=form)
 
+    # If user not logged in flash message and return to login page
+    flash("Please login to manage your profile")
+    return redirect(url_for("login"))
 
 # Route to delete profile
 @app.route("/delete_profile", methods=["GET", "POST"])
