@@ -613,19 +613,25 @@ def admin_delete_profile(delete_user):
     flash("You are not authorised to view this page")
     return redirect(url_for("login"))
 
+
 # Route for Admin Image Management page
 @app.route("/manage_images")
 def manage_images():
     """
     Load all images by all users for moderation
     """
-    # if user is admin, load all posts in gallery format
-    if session["admin"] == True:
-        # Find all posts and display in reverse added order
-        images = mongo.db.images.find().sort("_id", -1)
-        return render_template("manage_images.html", images=images)
+    # Check if user logged in
+    if is_logged_in():
+        # Check if user is admin
+        if is_admin():
+            # Find all posts and display in reverse added order
+            images = mongo.db.images.find().sort("_id", -1)
+            return render_template("manage_images.html", images=images)
 
-    # If not admin, log out and return to login page
-    flash("You are not authorised to view this page and have been logged out")
-    session.pop("user")
+        # If not admin, log out and return to login page
+        flash("You are not authorised to view this page and have been logged out")
+        session.pop("user")
+        return redirect(url_for("login"))
+    # If user not logged in return to login page
+    flash("You are not authorised to view this page")
     return redirect(url_for("login"))
