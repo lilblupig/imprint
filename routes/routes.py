@@ -327,43 +327,50 @@ def profile(username):
     flash("Please login to manage your profile")
     return redirect(url_for("login"))
 
+
 # Route to delete profile
 @app.route("/delete_profile", methods=["GET", "POST"])
 def delete_profile():
     """
     Get user information, delete all their posts and profile
     """
-    # Define form to use
-    form = DeleteProfileForm()
-    # Find user record from database
-    user = mongo.db.users.find_one({"username": session["user"]})
-    username = user["username"]
-    # Find posts made by user
-    posts = mongo.db.images.find({"owner": username})
+    # Check if user logged in
+    if is_logged_in():
+        # Define form to use
+        form = DeleteProfileForm()
+        # Find user record from database
+        user = mongo.db.users.find_one({"username": session["user"]})
+        username = user["username"]
+        # Find posts made by user
+        posts = mongo.db.images.find({"owner": username})
 
-    # If request type is POST, check all fields are validated
-    if form.validate_on_submit():
-        # Check DB value matches that entered for password in form
-        if check_password_hash(user["password"], request.form.get("old_password")):
-            # Delete user posts
-            for post in posts:
-                # Remove images from Cloudinary and clear Cloudinary cache
-                cloudinary.uploader.destroy(post["cloudinary_id"], invalidate=True)
-                # Remove documents from DB
-                mongo.db.images.remove({"_id": post["_id"]})
-            # Remove session cookie
-            session.pop("user")
-            # Delete profile
-            mongo.db.users.remove({"_id": user["_id"]})
-            # Inform user and return to gallery page
-            flash("Profile deleted successfully")
-            return redirect(url_for("gallery"))
+        # If request type is POST, check all fields are validated
+        if form.validate_on_submit():
+            # Check DB value matches that entered for password in form
+            if check_password_hash(user["password"], request.form.get("old_password")):
+                # Delete user posts
+                for post in posts:
+                    # Remove images from Cloudinary and clear Cloudinary cache
+                    cloudinary.uploader.destroy(post["cloudinary_id"], invalidate=True)
+                    # Remove documents from DB
+                    mongo.db.images.remove({"_id": post["_id"]})
+                # Remove session cookie
+                session.pop("user")
+                # Delete profile
+                mongo.db.users.remove({"_id": user["_id"]})
+                # Inform user and return to gallery page
+                flash("Profile deleted successfully")
+                return redirect(url_for("gallery"))
 
-        # If entered password does not match DB ask to try again
-        flash("Incorrect password, please try again")
+            # If entered password does not match DB ask to try again
+            flash("Incorrect password, please try again")
 
-    # If request type is GET, render the delete profile page
-    return render_template("delete_profile.html", form=form)
+        # If request type is GET, render the delete profile page
+        return render_template("delete_profile.html", form=form)
+
+    # If user not logged in flash message and return to login page
+    flash("Please login to manage your profile")
+    return redirect(url_for("login"))
 
 
 # Route for upload page
