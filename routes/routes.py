@@ -481,26 +481,24 @@ def delete_image(image_id):
             # Find user record from database
             user = mongo.db.users.find_one({"username": session["user"]})
             username = user["username"]
-            # Check if a user is in session to try and avoid brute force access
-            if session["user"] == image["owner"] or session["admin"] == True:
-                # Remove document from DB
-                mongo.db.images.remove({"_id": image["_id"]})
-                # Remove image from Cloudinary and clear Cloudinary cache
-                cloudinary.uploader.destroy(image["cloudinary_id"], invalidate=True)
+            # Remove document from DB
+            mongo.db.images.remove({"_id": image["_id"]})
+            # Remove image from Cloudinary and clear Cloudinary cache
+            cloudinary.uploader.destroy(image["cloudinary_id"], invalidate=True)
 
-                # Find posts made by user and define form for loading profile page
-                images = mongo.db.images.find({"owner": username})
-                form = ChangePasswordForm()
+            # Find posts made by user and define form for loading profile page
+            images = mongo.db.images.find({"owner": username})
+            form = ChangePasswordForm()
 
-                # Inform user of success
-                flash("Post succesfully deleted")
+            # Inform user of success
+            flash("Post succesfully deleted")
 
-                # If admin return to manage images page
-                if session["admin"] == True:
-                    return redirect(url_for("manage_images"))
+            # If admin return to manage images page
+            if is_admin():
+                return redirect(url_for("manage_images"))
 
-                # If regular user, return to profile page
-                return render_template("profile.html", images=images, username=username, form=form)
+            # If regular user, return to profile page
+            return render_template("profile.html", images=images, username=username, form=form)
 
             # If logged in user is not admin or does not match the image owner, log out and explain
             flash("You are not authorised to edit this post and have been logged out")
