@@ -11,37 +11,27 @@
     <h1 class="text-center text-md-start">Delete Profile</h1>
 {% endblock %}
 
-
 <!-- Content to display in content block -->
 {% block content %}
-
     <h2 class="text-center text-md-start imprint-warning mb-3">This is Irreversible</h2>
-
     <div class="form-wrapper text-center text-md-start">
-
-            <div class="mb-5">
-                <p>You can delete your profile here. Doing so will permanently remove all posts and your account, there is no way to retrieve the destroyed posts or recover your account once undertaken. Another user may then claim and use your username, which will mean you can no longer use it should you wish to return.</p>
-                <p>Should you still wish to proceed, please confirm your password below.</p>
+        <div class="mb-5">
+            <p>You can delete your profile here. Doing so will permanently remove all posts and your account, there is no way to retrieve the destroyed posts or recover your account once undertaken. Another user may then claim and use your username, which will mean you can no longer use it should you wish to return.</p>
+            <p>Should you still wish to proceed, please confirm your password below.</p>
+        </div>
+        <form method="POST" action="{{ url_for('delete_profile') }}">
+            <!-- Hidden token proof that form came from page, uses secret key -->
+            {{ form.csrf_token }}
+            <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 mb-4">
+                {{ form.old_password.label }}
+                {{ form.old_password (class_="submit-listen") }}
+                {% for message in form.old_password.errors %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
             </div>
-    
-            <form method="POST" action="{{ url_for('delete_profile') }}">
-                <!-- Hidden token proof that form came from page, uses secret key -->
-                {{ form.csrf_token }}
-
-                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 mb-4">
-                    {{ form.old_password.label }}
-                    {{ form.old_password (class_="submit-listen") }}
-                    {% for message in form.old_password.errors %}
-                        <div class="flash">{{ message }}</div>
-                    {% endfor %}
-                </div>
-
-                <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 text-center mb-4">
-                    {{ form.submit (class_="btn delete-button") }}
-                </div>
-
-            </form>
-
+            <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 text-center mb-4">
+                {{ form.submit (class_="btn delete-button") }}
+            </div>
+        </form>
     </div>
-
 {% endblock %}

@@ -11,38 +11,30 @@
     <h1 class="text-center text-md-start">Manage Users</h1>
 {% endblock %}
 
-
 <!-- Content to display in content block -->
 {% block content %}
-
     <!-- Display all users -->
     <div class="row pb-5">
-
         <h2 class="text-center text-md-start">All Users</h2>
         <p>You can moderate users here: designate as admin, or delete the user.</p>
-
         {% for user in users %}
-
-        <div class="col-12">
-            <div class="row imprint-border mx-2 my-1">
-                <div class="col-12 col-md-6">
-                    <p class="">{{ user.username }}</p>
-                </div>
-                <div class="col-6 col-md-3">
-                    {% if user.is_admin|lower == "true" %}
-                        <a href="{{ url_for('admin_toggle', user_toggle_id=user['_id']) }}" class="btn">Admin: {{ user.is_admin }}</a>
-                    {% else %}
-                        <a href="{{ url_for('admin_toggle', user_toggle_id=user['_id']) }}" class="btn grey-button">Admin: {{ user.is_admin }}</a>
-                    {% endif %}
-                </div>
-                <div class="col-6 col-md-3">
-                    <a href="{{ url_for('admin_delete_profile', delete_user=user['_id']) }}" class="btn delete-button">Delete</a>
+            <div class="col-12">
+                <div class="row imprint-border mx-2 my-1">
+                    <div class="col-12 col-md-6">
+                        <p class="">{{ user.username }}</p>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        {% if user.is_admin|lower == "true" %}
+                            <a href="{{ url_for('admin_toggle', user_toggle_id=user['_id']) }}" class="btn">Admin: {{ user.is_admin }}</a>
+                        {% else %}
+                            <a href="{{ url_for('admin_toggle', user_toggle_id=user['_id']) }}" class="btn grey-button">Admin: {{ user.is_admin }}</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a href="{{ url_for('admin_delete_profile', delete_user=user['_id']) }}" class="btn delete-button">Delete</a>
+                    </div>
                 </div>
             </div>
-        </div>
-
         {% endfor %}
-
     </div>
-
 {% endblock %}

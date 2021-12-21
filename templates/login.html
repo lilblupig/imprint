@@ -11,15 +11,12 @@
     <h1 class="text-center text-md-start">Login</h1>
 {% endblock %}
 
-
 <!-- Content to display in content block -->
 {% block content %}
-
     <div>
         <form method="POST" action="{{ url_for('login') }}">
             <!-- Hidden token proof that form came from page, uses secret key -->
             {{ form.csrf_token }}
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                 {{ form.username.label }}
                 {{ form.username }}
@@ -27,7 +24,6 @@
                     <div class="flash">{{ message }}</div>
                 {% endfor %}
             </div>
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 pb-3">
                 {{ form.password.label }}
                 {{ form.password (class_="submit-listen") }}
@@ -35,16 +31,12 @@
                     <div class="flash">{{ message }}</div>
                 {% endfor %}
             </div>
-
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 text-center pb-5">
                 {{ form.submit (class_="btn") }}
             </div>
         </form>
-
         <div>
             <p>If you don't have an account yet, but would like to participate please <a href="{{ url_for('register') }}">Register here</a>.</p>
         </div>
-
     </div>
-
 {% endblock %}

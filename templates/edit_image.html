@@ -11,12 +11,9 @@
     <h1 class="text-center text-md-start">Edit a Post</h1>
 {% endblock %}
 
-
 <!-- Content to display in content block -->
 {% block content %}
-
     <div class="form-wrapper">
-
         <!-- Message to display on succesful upload -->
         {% if success %}
             <div class="text-center text-md-start mt-1 mb-5">
@@ -30,14 +27,11 @@
                 <p>{{ image.details }}</p>
                 <p>Tags: {{ image.tags }}</p>
             </div>
-
         {% else %}
             <img src="{{ image.photo }}" alt="{{ image.location }}" class="image-properties" />
-
             <form method="POST" action="{{ url_for('edit_image', image_id=image._id) }}">
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
-
                 <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.location.label }}
                     {{ form.location }}
@@ -45,7 +39,6 @@
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
                 </div>
-
                 <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.decade.label }}
                     {{ form.decade }}
@@ -53,7 +46,6 @@
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
                 </div>
-
                 <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.details.label }}
                     {{ form.details (class_="submit-listen") }}
@@ -61,7 +53,6 @@
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
                 </div>
-
                 <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
                     {{ form.tags.label }}
                     {{ form.tags (class_="submit-listen") }}
@@ -69,21 +60,14 @@
                         <div class="flash">{{ message }}</div>
                     {% endfor %}
                 </div>
-
                 <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 text-center text-md-start">
                     {{ form.submit (class_="btn") }}
                 </div>
-
                 <hr>
-
                 <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 text-center text-md-start mt-5 mb-5">
                     <a href="{{ url_for('delete_image', image_id=image._id) }}" class="btn delete-button">Delete Post</a>
                 </div>
-
             </form>
-
         {% endif %}
-
     </div>
-
 {% endblock %}
