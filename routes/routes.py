@@ -228,39 +228,44 @@ def login():
     Check request type and either load page,
     or validate, compare form data to DB and create session cookie
     """
-    # Define form to use
-    form = LoginForm()
-    # If request type is POST, check all fields are validated
-    if form.validate_on_submit():
-        # Search for username in DB
-        existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
-        if not existing_user:
-            # If username entered does not exist, feedback to user
-            flash("Invalid username, please try again")
-            return render_template('login.html', form=form)
-        else:
-            # If username does exist, check entered password against DB
-            if check_password_hash(existing_user["password"], request.form.get("password")):
-                # Put user and admin status into session
-                session["user"] = request.form.get("username")
-                session["admin"] = existing_user["is_admin"]
-                # Inform user of succesful login
-                flash(f"Welcome back {request.form.get('username')}")
-                # If admin, display such to user
-                if session["admin"] == True:
-                    flash("You are signed in as an Administrator")
-
-            # If password does not match DB, feedback to user
-            else:
-                flash("Invalid password, please try again")
+    # Check if user already logged in
+    if is_logged_in() is None:
+        # Define form to use
+        form = LoginForm()
+        # If request type is POST, check all fields are validated
+        if form.validate_on_submit():
+            # Search for username in DB
+            existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
+            if not existing_user:
+                # If username entered does not exist, feedback to user
+                flash("Invalid username, please try again")
                 return render_template('login.html', form=form)
+            else:
+                # If username does exist, check entered password against DB
+                if check_password_hash(existing_user["password"], request.form.get("password")):
+                    # Put user and admin status into session
+                    session["user"] = request.form.get("username")
+                    session["admin"] = existing_user["is_admin"]
+                    # Inform user of succesful login
+                    flash(f"Welcome back {request.form.get('username')}")
+                    # If admin, display such to user
+                    if session["admin"] == True:
+                        flash("You are signed in as an Administrator")
 
-        # Redirect succesful login to gallery page
-        return redirect(url_for("gallery"))
+                # If password does not match DB, feedback to user
+                else:
+                    flash("Invalid password, please try again")
+                    return render_template('login.html', form=form)
 
-    # If request type is GET, render the about page accordingly
-    return render_template('login.html', form=form)
+            # Redirect succesful login to gallery page
+            return redirect(url_for("gallery"))
 
+        # If request type is GET, render the about page accordingly
+        return render_template('login.html', form=form)
+
+    # If user already logged in flash message and return to Gallery page
+    flash("You cannot login as you are already signed in")
+    return redirect(url_for("gallery"))
 
 # Route for logout
 @app.route("/logout")
