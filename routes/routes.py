@@ -569,41 +569,49 @@ def admin_delete_profile(delete_user):
     """
     Get user information, delete posts, and profile
     """
-    # Define form to use
-    form = DeleteProfileForm()
-    # Find admin user record from database
-    user = mongo.db.users.find_one({"username": session["user"]})
-    # Find user record from database
-    deleting_user = mongo.db.users.find_one({"_id": ObjectId(delete_user)})
-    deleting_username = deleting_user["username"]
-    # Find posts made by user
-    posts = mongo.db.images.find({"owner": deleting_username})
+    # Check if user logged in
+    if is_logged_in():
+        # Check if user is admin
+        if is_admin():
+            # Define form to use
+            form = DeleteProfileForm()
+            # Find admin user record from database
+            user = mongo.db.users.find_one({"username": session["user"]})
+            # Find user record from database
+            deleting_user = mongo.db.users.find_one({"_id": ObjectId(delete_user)})
+            deleting_username = deleting_user["username"]
+            # Find posts made by user
+            posts = mongo.db.images.find({"owner": deleting_username})
 
-    # Check if a user is in session to try and avoid brute force access
-    if session["admin"] == True:
-        # If request type is POST, check all fields are validated
-        if form.validate_on_submit():
-            # Check admin DB value matches that entered for old password in form
-            if check_password_hash(user["password"], request.form.get("old_password")):
-                # Delete posts
-                for post in posts:
-                    # Remove images from Cloudinary and clear Cloudinary cache
-                    cloudinary.uploader.destroy(post["cloudinary_id"], invalidate=True)
-                    # Remove documents from DB
-                    mongo.db.images.remove({"_id": post["_id"]})
+            # If request type is POST, check all fields are validated
+            if form.validate_on_submit():
+                # Check admin DB value matches that entered for old password in form
+                if check_password_hash(user["password"], request.form.get("old_password")):
+                    # Delete posts
+                    for post in posts:
+                        # Remove images from Cloudinary and clear Cloudinary cache
+                        cloudinary.uploader.destroy(post["cloudinary_id"], invalidate=True)
+                        # Remove documents from DB
+                        mongo.db.images.remove({"_id": post["_id"]})
 
-                # Delete profile
-                mongo.db.users.remove({"_id": deleting_user["_id"]})
-                # Feedback to admin and return to manage posts page
-                flash("User deleted succesfully!")
-                return redirect(url_for("manage_users"))
+                    # Delete profile
+                    mongo.db.users.remove({"_id": deleting_user["_id"]})
+                    # Feedback to admin and return to manage posts page
+                    flash("User deleted succesfully!")
+                    return redirect(url_for("manage_users"))
 
-        # If admin password incorrect, ask admin to try again
-        flash("Incorrect password, please try again")
+                # If admin password incorrect, ask admin to try again
+                flash("Incorrect password, please try again")
 
-    # If request type is GET, render the delete profile page
-    return render_template("admin_delete_profile.html", form=form, deleting_user=deleting_user)
-
+            # If request type is GET, render the delete profile page
+            return render_template("admin_delete_profile.html", form=form, deleting_user=deleting_user)
+        # If not admin, log out and return to login page
+        flash("You are not authorised to view this page and have been logged out")
+        session.pop("user")
+        return redirect(url_for("login"))
+    # If user not logged in return to login page
+    flash("You are not authorised to view this page")
+    return redirect(url_for("login"))
 
 # Route for Admin Image Management page
 @app.route("/manage_images")
