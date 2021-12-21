@@ -496,7 +496,6 @@ def delete_image(image_id):
             # If admin return to manage images page
             if is_admin():
                 return redirect(url_for("manage_images"))
-
             # If regular user, return to profile page
             return render_template("profile.html", images=images, username=username, form=form)
 
@@ -515,15 +514,20 @@ def manage_users():
     """
     Load all users for moderation
     """
-    # Check if user is admin
-    if session["admin"] == True:
-        # Find all users and display in alphabetical order
-        users = mongo.db.users.find().sort("username", 1)
-        return render_template("manage_users.html", users=users)
+    # Check if user logged in
+    if is_logged_in():
+        # Check if user is admin
+        if is_admin():
+            # Find all users and display in alphabetical order
+            users = mongo.db.users.find().sort("username", 1)
+            return render_template("manage_users.html", users=users)
 
-    # If not admin, log out and return to login page
-    flash("You are not authorised to view this page and have been logged out")
-    session.pop("user")
+        # If not admin, log out and return to login page
+        flash("You are not authorised to view this page and have been logged out")
+        session.pop("user")
+        return redirect(url_for("login"))
+    # If user not logged in return to login page
+    flash("You are not authorised to view this page")
     return redirect(url_for("login"))
 
 
