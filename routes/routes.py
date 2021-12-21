@@ -267,6 +267,7 @@ def login():
     flash("You cannot login as you are already signed in")
     return redirect(url_for("gallery"))
 
+
 # Route for logout
 @app.route("/logout")
 def logout():
@@ -274,9 +275,14 @@ def logout():
     Remove session cookie and feedback to user
     Redirect to login page
     """
-    # Delete user session
-    flash("You have successfully been logged out")
-    session.pop("user")
+    # Check if user logged in
+    if is_logged_in():
+        # Delete user session
+        flash("You have successfully been logged out")
+        session.pop("user")
+        return redirect(url_for("login"))
+    # If user already logged in flash message and return to Gallery page
+    flash("You cannot log out as you are not signed in")
     return redirect(url_for("login"))
 
 
