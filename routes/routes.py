@@ -33,6 +33,21 @@ from config.cloudinary_config import *
 # Using import * is generally frowned upon as a practice but this app is very simple, so it has been adopted in this case
 
 
+# Define functions for use in user authentication
+def is_logged_in():
+    """
+    Check if user is logged in, return username or none if not
+    """
+    return session.get("user")
+
+
+def is_admin():
+    """
+    Check if user is logged in, return True or False, or none if not logged in
+    """
+    return session.get("admin")
+
+
 # Default route for homepage
 @app.route("/")
 @app.route("/gallery")
@@ -168,36 +183,41 @@ def register():
     Check request type and either load page,
     or validate, compare passwords and create document in DB
     """
-    # Define form to use
-    form = RegisterForm()
-    # If request type is POST, check all fields are validated
-    if form.validate_on_submit():
-        # Check for existing username
-        existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
-        # If username is taken, ask user to choose a different name
-        if existing_user:
-            flash("Username taken, please choose again")
-            return redirect(url_for("register"))
-        # Create dictionary with user form data and obscure password
-        register_user = {
-            "username": request.form.get("username").lower(),
-            "password": generate_password_hash(request.form.get("password")),
-            "is_admin": False
-        }
-        # Add user document to DB
-        mongo.db.users.insert_one(register_user)
+    # Check if user already logged in
+    if is_logged_in() is None:
+        # Define form to use
+        form = RegisterForm()
+        # If request type is POST, check all fields are validated
+        if form.validate_on_submit():
+            # Check for existing username
+            existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
+            # If username is taken, ask user to choose a different name
+            if existing_user:
+                flash("Username taken, please choose again")
+                return redirect(url_for("register"))
+            # Create dictionary with user form data and obscure password
+            register_user = {
+                "username": request.form.get("username").lower(),
+                "password": generate_password_hash(request.form.get("password")),
+                "is_admin": False
+            }
+            # Add user document to DB
+            mongo.db.users.insert_one(register_user)
 
-        # Create session cookie for user
-        session["user"] = request.form.get("username").lower()
-        session["admin"] = False
+            # Create session cookie for user
+            session["user"] = request.form.get("username").lower()
+            session["admin"] = False
 
-        # Feedback success to user and direct to About page
-        flash(f"Welcome {register_user['username']}, thank you for joining!")
-        return redirect(url_for("about"))
+            # Feedback success to user and direct to About page
+            flash(f"Welcome {register_user['username']}, thank you for joining!")
+            return redirect(url_for("about"))
 
-    # If request type is GET, render the about page accordingly
-    return render_template("register.html", form=form)
+        # If request type is GET, render the about page accordingly
+        return render_template("register.html", form=form)
 
+    # If user already logged in flash message and return to Gallery page
+    flash("You cannot register as you are already signed in")
+    return redirect(url_for("gallery"))
 
 # Route for login form
 @app.route("/login", methods=["GET", "POST"])
