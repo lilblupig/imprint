@@ -19,7 +19,7 @@
             <p>You can delete your profile here. Doing so will permanently remove all posts and your account, there is no way to retrieve the destroyed posts or recover your account once undertaken. Another user may then claim and use your username, which will mean you can no longer use it should you wish to return.</p>
             <p>Should you still wish to proceed, please confirm your password below.</p>
         </div>
-        <form method="POST" action="{{ url_for('delete_profile') }}">
+        <form method="POST" action="{{ url_for('users.delete_profile') }}">
             <!-- Hidden token proof that form came from page, uses secret key -->
             {{ form.csrf_token }}
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 mb-4">

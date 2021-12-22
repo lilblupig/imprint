@@ -6,7 +6,6 @@ Master module
 # Import dependencies
 import os
 from flask import Flask
-from flask_pymongo import PyMongo
 
 # Get environment variables
 if os.path.exists("config/env.py"):
@@ -24,12 +23,24 @@ app.secret_key = os.environ.get("SECRET_KEY")
 app.config["RECAPTCHA_PUBLIC_KEY"] = os.environ.get("C_SITE_KEY")
 app.config["RECAPTCHA_PRIVATE_KEY"] = os.environ.get("C_SECRET_KEY")
 
-# Get routes
-from routes.routes import *
-from routes.errors import *
+# Import Blueprints
+from routes.admin import admin
+from routes.general import general
+from routes.users import users
+#from routes.errors import errors
 
-# Set PyMongo variable
-mongo = PyMongo(app)
+# Blueprints
+# Blueprint for general app
+app.register_blueprint(admin)
+app.register_blueprint(general)
+app.register_blueprint(users)
+# Blueprint for errors
+#app.register_blueprint(errors)
+
+# Get PyMongo instance
+from config.database import mongo
+
+mongo.init_app(app)
 
 if __name__ == "__main__":
     app.run(

@@ -25,13 +25,13 @@
                     </div>
                     <div class="col-6 col-md-3">
                         {% if user.is_admin|lower == "true" %}
-                            <a href="{{ url_for('admin_toggle', user_toggle_id=user['_id']) }}" class="btn">Admin: {{ user.is_admin }}</a>
+                            <a href="{{ url_for('admin.admin_toggle', user_toggle_id=user['_id']) }}" class="btn">Admin: {{ user.is_admin }}</a>
                         {% else %}
-                            <a href="{{ url_for('admin_toggle', user_toggle_id=user['_id']) }}" class="btn grey-button">Admin: {{ user.is_admin }}</a>
+                            <a href="{{ url_for('admin.admin_toggle', user_toggle_id=user['_id']) }}" class="btn grey-button">Admin: {{ user.is_admin }}</a>
                         {% endif %}
                     </div>
                     <div class="col-6 col-md-3">
-                        <a href="{{ url_for('admin_delete_profile', delete_user=user['_id']) }}" class="btn delete-button">Delete</a>
+                        <a href="{{ url_for('admin.admin_delete_profile', delete_user=user['_id']) }}" class="btn delete-button">Delete</a>
                     </div>
                 </div>
             </div>
