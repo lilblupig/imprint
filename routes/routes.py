@@ -5,6 +5,7 @@ Routes for all pages
 
 # Import dependencies, Flask and Werkzeug
 from flask import (
+    Blueprint,
     flash,
     render_template,
     redirect,
@@ -13,6 +14,13 @@ from flask import (
     url_for
 )
 from werkzeug.security import generate_password_hash, check_password_hash
+
+# Initiate Blueprint
+routes = Blueprint(
+    "routes", __name__,
+    static_folder="static",
+    template_folder="templates"
+)
 
 # Import Object ID info from MongoDB
 from bson.objectid import ObjectId
@@ -49,8 +57,8 @@ def is_admin():
 
 
 # Default route for homepage
-@app.route("/")
-@app.route("/gallery")
+@routes.route("/")
+@routes.route("/gallery")
 def gallery():
     """
     Get locations and images from DB
@@ -68,7 +76,7 @@ def gallery():
 
 
 # Route for gallery free text search
-@app.route("/image_search", methods=["GET", "POST"])
+@routes.route("/image_search", methods=["GET", "POST"])
 def image_search():
     """
     Collect info from search input and use DB index to return results
@@ -92,7 +100,7 @@ def image_search():
 
 
 # Route for gallery dropdown filter
-@app.route("/location_filter", methods=["GET", "POST"])
+@routes.route("/location_filter", methods=["GET", "POST"])
 def location_filter():
     """
     Collect info from dropdown and query DB for results
@@ -116,7 +124,7 @@ def location_filter():
 
 
 # Route for displaying Single Image
-@app.route("/single_image/<image_id>")
+@routes.route("/single_image/<image_id>")
 def single_image(image_id):
     """
     Use document id passed from gallery page to display single image and info
@@ -129,7 +137,7 @@ def single_image(image_id):
 
 
 # Route for About page
-@app.route("/about")
+@routes.route("/about")
 def about():
     """
     Get about page and render different buttons if logged in/out
@@ -138,7 +146,7 @@ def about():
 
 
 # Route for Contact Form
-@app.route("/contact", methods=["GET", "POST"])
+@routes.route("/contact", methods=["GET", "POST"])
 def contact():
     """
     Contact form:
@@ -168,13 +176,13 @@ def contact():
             flash("Thank you for your message, we will be in touch as soon as we can.")
 
         # Redirect user to gallery page
-        return redirect(url_for("gallery"))
+        return redirect(url_for("routes.gallery"))
     # If request type is GET, render the contact form
     return render_template("contact.html", form=form)
 
 
 # Route for Registration form
-@app.route("/register", methods=["GET", "POST"])
+@routes.route("/register", methods=["GET", "POST"])
 def register():
     """
     Register form:
@@ -193,7 +201,7 @@ def register():
             # If username is taken, ask user to choose a different name
             if existing_user:
                 flash("Username taken, please choose again")
-                return redirect(url_for("register"))
+                return redirect(url_for("routes.register"))
             # Create dictionary with user form data and obscure password
             register_user = {
                 "username": request.form.get("username").lower(),
@@ -209,16 +217,16 @@ def register():
 
             # Feedback success to user and direct to About page
             flash(f"Welcome {register_user['username']}, thank you for joining!")
-            return redirect(url_for("about"))
+            return redirect(url_for("routes.about"))
 
         # If request type is GET, render the about page accordingly
         return render_template("register.html", form=form)
     # If user already logged in flash message and return to Gallery page
     flash("You cannot register as you are already signed in")
-    return redirect(url_for("gallery"))
+    return redirect(url_for("routes.gallery"))
 
 # Route for login form
-@app.route("/login", methods=["GET", "POST"])
+@routes.route("/login", methods=["GET", "POST"])
 def login():
     """
     Login form:
@@ -256,17 +264,17 @@ def login():
                     return render_template('login.html', form=form)
 
             # Redirect succesful login to gallery page
-            return redirect(url_for("gallery"))
+            return redirect(url_for("routes.gallery"))
 
         # If request type is GET, render the about page accordingly
         return render_template('login.html', form=form)
     # If user already logged in flash message and return to Gallery page
     flash("You cannot login as you are already signed in")
-    return redirect(url_for("gallery"))
+    return redirect(url_for("routes.gallery"))
 
 
 # Route for logout
-@app.route("/logout")
+@routes.route("/logout")
 def logout():
     """
     Remove session cookie and feedback to user
@@ -277,14 +285,14 @@ def logout():
         # Delete user session
         flash("You have successfully been logged out")
         session.pop("user")
-        return redirect(url_for("login"))
+        return redirect(url_for("routes.login"))
     # If user not logged in flash message and return to login page
     flash("You cannot log out as you are not signed in")
-    return redirect(url_for("login"))
+    return redirect(url_for("routes.login"))
 
 
 # Route for profile page
-@app.route("/profile/<username>", methods=["GET", "POST"])
+@routes.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
     """
     Change password form:
@@ -321,11 +329,11 @@ def profile(username):
         return render_template("profile.html", images=images, username=username, form=form)
     # If user not logged in flash message and return to login page
     flash("Please login to manage your profile")
-    return redirect(url_for("login"))
+    return redirect(url_for("routes.login"))
 
 
 # Route to delete profile
-@app.route("/delete_profile", methods=["GET", "POST"])
+@routes.route("/delete_profile", methods=["GET", "POST"])
 def delete_profile():
     """
     Get user information, delete all their posts and profile
@@ -356,7 +364,7 @@ def delete_profile():
                 mongo.db.users.remove({"_id": user["_id"]})
                 # Inform user and return to gallery page
                 flash("Profile deleted successfully")
-                return redirect(url_for("gallery"))
+                return redirect(url_for("routes.gallery"))
 
             # If entered password does not match DB ask to try again
             flash("Incorrect password, please try again")
@@ -365,11 +373,11 @@ def delete_profile():
         return render_template("delete_profile.html", form=form)
     # If user not logged in flash message and return to login page
     flash("Please login to manage your profile")
-    return redirect(url_for("login"))
+    return redirect(url_for("routes.login"))
 
 
 # Route for upload page
-@app.route("/upload", methods=["GET", "POST"])
+@routes.route("/upload", methods=["GET", "POST"])
 def upload():
     """
     Upload form:
@@ -412,11 +420,11 @@ def upload():
         return render_template("upload.html", form=form)
     # If user not logged in flash message and return to login page
     flash("Please login or register for an account to add images to the Gallery")
-    return redirect(url_for("login"))
+    return redirect(url_for("routes.login"))
 
 
 # Route to edit a post
-@app.route("/edit_image/<image_id>", methods=["GET", "POST"])
+@routes.route("/edit_image/<image_id>", methods=["GET", "POST"])
 def edit_image(image_id):
     """
     Edit post form:
@@ -460,14 +468,14 @@ def edit_image(image_id):
         # If user not image owner flash message, log out and return to login page
         flash("You are not authorised to view this page and have been signed out")
         session.pop("user")
-        return redirect(url_for("login"))
+        return redirect(url_for("routes.login"))
     # If user not logged in return to login page
     flash("Please login to manage your profile")
-    return redirect(url_for("login"))
+    return redirect(url_for("routes.login"))
 
 
 # Route to delete a post
-@app.route("/delete_image/<image_id>")
+@routes.route("/delete_image/<image_id>")
 def delete_image(image_id):
     """
     Delete a post
@@ -495,21 +503,21 @@ def delete_image(image_id):
 
             # If admin return to manage images page
             if is_admin():
-                return redirect(url_for("manage_images"))
+                return redirect(url_for("routes.manage_images"))
             # If regular user, return to profile page
             return render_template("profile.html", images=images, username=username, form=form)
 
         # If user not image owner flash message, log out and return to login page
         flash("You are not authorised to view this page and have been signed out")
         session.pop("user")
-        return redirect(url_for("login"))
+        return redirect(url_for("routes.login"))
     # If user not logged in return to login page
     flash("Please login to manage your profile")
-    return redirect(url_for("login"))
+    return redirect(url_for("routes.login"))
 
 
 # Route for Admin User Management page
-@app.route("/manage_users")
+@routes.route("/manage_users")
 def manage_users():
     """
     Load all users for moderation
@@ -525,14 +533,14 @@ def manage_users():
         # If not admin, log out and return to login page
         flash("You are not authorised to view this page and have been logged out")
         session.pop("user")
-        return redirect(url_for("login"))
+        return redirect(url_for("routes.login"))
     # If user not logged in return to login page
     flash("You are not authorised to view this page")
-    return redirect(url_for("login"))
+    return redirect(url_for("routes.login"))
 
 
 # Route for Admin toggle
-@app.route("/admin_toggle/<user_toggle_id>")
+@routes.route("/admin_toggle/<user_toggle_id>")
 def admin_toggle(user_toggle_id):
     """
     Toggle on or off user admin permissions
@@ -552,19 +560,19 @@ def admin_toggle(user_toggle_id):
                 mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": False}})
             # Update admin on user management page
             flash("User updated succesfully!")
-            return redirect(url_for("manage_users"))
+            return redirect(url_for("routes.manage_users"))
 
         # If not admin, log out and return to login page
         flash("You are not authorised to view this page and have been logged out")
         session.pop("user")
-        return redirect(url_for("login"))
+        return redirect(url_for("routes.login"))
     # If user not logged in return to login page
     flash("You are not authorised to view this page")
-    return redirect(url_for("login"))
+    return redirect(url_for("routes.login"))
 
 
 # Route for admin to delete user profile
-@app.route("/admin_delete_profile/<delete_user>", methods=["GET", "POST"])
+@routes.route("/admin_delete_profile/<delete_user>", methods=["GET", "POST"])
 def admin_delete_profile(delete_user):
     """
     Get user information, delete posts, and profile
@@ -598,7 +606,7 @@ def admin_delete_profile(delete_user):
                     mongo.db.users.remove({"_id": deleting_user["_id"]})
                     # Feedback to admin and return to manage posts page
                     flash("User deleted succesfully!")
-                    return redirect(url_for("manage_users"))
+                    return redirect(url_for("routes.manage_users"))
 
                 # If admin password incorrect, ask admin to try again
                 flash("Incorrect password, please try again")
@@ -608,14 +616,14 @@ def admin_delete_profile(delete_user):
         # If not admin, log out and return to login page
         flash("You are not authorised to view this page and have been logged out")
         session.pop("user")
-        return redirect(url_for("login"))
+        return redirect(url_for("routes.login"))
     # If user not logged in return to login page
     flash("You are not authorised to view this page")
-    return redirect(url_for("login"))
+    return redirect(url_for("routes.login"))
 
 
 # Route for Admin Image Management page
-@app.route("/manage_images")
+@routes.route("/manage_images")
 def manage_images():
     """
     Load all images by all users for moderation
@@ -631,7 +639,7 @@ def manage_images():
         # If not admin, log out and return to login page
         flash("You are not authorised to view this page and have been logged out")
         session.pop("user")
-        return redirect(url_for("login"))
+        return redirect(url_for("routes.login"))
     # If user not logged in return to login page
     flash("You are not authorised to view this page")
-    return redirect(url_for("login"))
+    return redirect(url_for("routes.login"))
