@@ -7,11 +7,20 @@ Master module
 import os
 from flask import Flask
 
+# Import Blueprints
+from routes.admin import admin
+from routes.general import general
+from routes.users import users
+from routes.errors import errors
+
+# Get PyMongo instance
+from config.database import mongo
+
 # Get environment variables
 if os.path.exists("config/env.py"):
     from config import env
 
-# Initiaite Flask application
+# Initiate Flask application
 app = Flask(__name__)
 
 # Define database access variables
@@ -23,12 +32,6 @@ app.secret_key = os.environ.get("SECRET_KEY")
 app.config["RECAPTCHA_PUBLIC_KEY"] = os.environ.get("C_SITE_KEY")
 app.config["RECAPTCHA_PRIVATE_KEY"] = os.environ.get("C_SECRET_KEY")
 
-# Import Blueprints
-from routes.admin import admin
-from routes.general import general
-from routes.users import users
-from routes.errors import errors
-
 # Blueprints
 # Blueprints for general app
 app.register_blueprint(admin)
@@ -37,9 +40,7 @@ app.register_blueprint(users)
 # Blueprint for errors
 app.register_blueprint(errors)
 
-# Get PyMongo instance
-from config.database import mongo
-
+# Initialise database
 mongo.init_app(app)
 
 if __name__ == "__main__":
