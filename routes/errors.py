@@ -15,9 +15,6 @@ errors = Blueprint(
     template_folder="templates"
 )
 
-# Import local Forms code
-from app import app
-
 
 @errors.app_errorhandler(404)
 def error_page_not_found(error):

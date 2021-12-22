@@ -21,7 +21,7 @@
         <hr class="imprint-about-hr">
         <div>
             <h2>How do I use it?</h2>
-            <p>You can scroll freely through the images in the main Gallery as it stands, or if you prefer, filter the images to meet your current interest. By selecting a region of the town, you can view photographs which relate to that area and you can search free text for trees, hills, views or whatever takes your fancy.  You can add to the archives, you just need to <a href="{{ url_for('register') }}">create an account</a> or <a href="{{ url_for('login') }}">login</a>.</p>
+            <p>You can scroll freely through the images in the main Gallery as it stands, or if you prefer, filter the images to meet your current interest. By selecting a region of the town, you can view photographs which relate to that area and you can search free text for trees, hills, views or whatever takes your fancy.  You can add to the archives, you just need to <a href="{{ url_for('users.register') }}">create an account</a> or <a href="{{ url_for('users.login') }}">login</a>.</p>
         </div>
         <hr class="imprint-about-hr">
         <div>
@@ -42,13 +42,13 @@
         <hr class="imprint-about-hr">
         <div>
             <h2>I still don't know what to do...</h2>
-            <p>If you need help, just <a href="{{ url_for('contact') }}">Contact Us</a> and we will do our best to help, we can also reset your password if you forget it. Bear in mind, we are a voluntary organisation, so a response may take some time.</p>
+            <p>If you need help, just <a href="{{ url_for('general.contact') }}">Contact Us</a> and we will do our best to help, we can also reset your password if you forget it. Bear in mind, we are a voluntary organisation, so a response may take some time.</p>
         </div>
     </div>
     <div class="text-center imprint-about-buttons">
-        <a href="{{ url_for('gallery') }}" class="btn">Go to Gallery</a>
+        <a href="{{ url_for('general.gallery') }}" class="btn">Go to Gallery</a>
         {% if session.user %}
-            <a href="{{ url_for('upload') }}" class="btn">Make an Upload</a>
+            <a href="{{ url_for('users.upload') }}" class="btn">Make an Upload</a>
         {% endif %}
     </div>
 {% endblock %}

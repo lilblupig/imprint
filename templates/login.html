@@ -14,7 +14,7 @@
 <!-- Content to display in content block -->
 {% block content %}
     <div>
-        <form method="POST" action="{{ url_for('login') }}">
+        <form method="POST" action="{{ url_for('users.login') }}">
             <!-- Hidden token proof that form came from page, uses secret key -->
             {{ form.csrf_token }}
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
@@ -36,7 +36,7 @@
             </div>
         </form>
         <div>
-            <p>If you don't have an account yet, but would like to participate please <a href="{{ url_for('register') }}">Register here</a>.</p>
+            <p>If you don't have an account yet, but would like to participate please <a href="{{ url_for('users.register') }}">Register here</a>.</p>
         </div>
     </div>
 {% endblock %}

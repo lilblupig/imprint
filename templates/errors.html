@@ -21,9 +21,9 @@
         <hr class="imprint-about-hr">
     </div>
     <div class="text-center imprint-about-buttons">
-        <a href="{{ url_for('gallery') }}" class="btn">Go to Gallery</a>
+        <a href="{{ url_for('general.gallery') }}" class="btn">Go to Gallery</a>
         {% if session.user %}
-            <a href="{{ url_for('upload') }}" class="btn">Make an Upload</a>
+            <a href="{{ url_for('users.upload') }}" class="btn">Make an Upload</a>
         {% endif %}
     </div>
 {% endblock %}

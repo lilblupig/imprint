@@ -16,7 +16,7 @@
 <!-- Content to display in content block -->
 {% block content %}
     <div class="row">
-        <form method="POST" action="{{ url_for('contact') }}">
+        <form method="POST" action="{{ url_for('general.contact') }}">
             <!-- Hidden token proof that form came from page, uses secret key -->
             {{ form.csrf_token }}
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">

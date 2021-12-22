@@ -19,7 +19,7 @@
             <p>You can delete a user profile here. Doing so will permanently remove all their posts and their account, there is no way to retrieve the destroyed posts or recover their account once undertaken.</p>
             <p>Should you still wish to proceed, please confirm your admin password below.</p>
         </div>
-        <form method="POST" action="{{ url_for('admin_delete_profile', delete_user=deleting_user['_id']) }}">
+        <form method="POST" action="{{ url_for('admin.admin_delete_profile', delete_user=deleting_user['_id']) }}">
             <!-- Hidden token proof that form came from page, uses secret key -->
             {{ form.csrf_token }}
             <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6 mb-4">

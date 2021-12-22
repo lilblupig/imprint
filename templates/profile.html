@@ -18,12 +18,12 @@
         <!-- Message to display on succesful password change -->
         {% if success %}
             <p class="pb-3">Password updated successfully.</p>
-            <a href="{{ url_for('profile', username=session['user']) }}" class="btn mb-5">Profile</a>
+            <a href="{{ url_for('users.profile', username=session['user']) }}" class="btn mb-5">Profile</a>
         {% else %}
             <div>
                 <p>Welcome {{ username }}, you can change your password here.</p>
             </div>
-            <form method="POST" action="{{ url_for('profile', username=session['user']) }}">
+            <form method="POST" action="{{ url_for('users.profile', username=session['user']) }}">
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
                 <div class="imprint-form-field col-12 offset-md-1 col-md-10 offset-lg-3 col-lg-6">
@@ -58,7 +58,7 @@
         <p>You can edit your posts here, just click on an image to see and change the details.</p>
         {% for image in images %}
             <div class="col-12 col-md-6 col-lg-4">
-                <a href="{{ url_for('edit_image', image_id=image._id) }}">
+                <a href="{{ url_for('users.edit_image', image_id=image._id) }}">
                     <div class="card imprint-card">
                         <div class="imprint-card-image">
                             <img src="{{ image.photo }}" alt="{{ image.location }}" class="card-img-top">
@@ -72,7 +72,7 @@
     <hr>
     <div class="text-center text-lg-start pb-5">
         <h2>Delete Profile</h2>
-        <a href="{{ url_for('delete_profile') }}" class="btn">Delete Profile</a>
+        <a href="{{ url_for('users.delete_profile') }}" class="btn">Delete Profile</a>
     </div>
         {% endif %}
 {% endblock %}
