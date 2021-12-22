@@ -27,15 +27,15 @@ app.config["RECAPTCHA_PRIVATE_KEY"] = os.environ.get("C_SECRET_KEY")
 from routes.admin import admin
 from routes.general import general
 from routes.users import users
-#from routes.errors import errors
+from routes.errors import errors
 
 # Blueprints
-# Blueprint for general app
+# Blueprints for general app
 app.register_blueprint(admin)
 app.register_blueprint(general)
 app.register_blueprint(users)
 # Blueprint for errors
-#app.register_blueprint(errors)
+app.register_blueprint(errors)
 
 # Get PyMongo instance
 from config.database import mongo
