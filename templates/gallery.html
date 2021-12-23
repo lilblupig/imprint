@@ -44,7 +44,7 @@
                                 <div class="col-12">
                                     <div class="row">
                                     <div class="col-8">
-                                        <select name="location_filter">
+                                        <select name="location_filter" id="location_filter">
                                             {% for location in locations %}
                                                 <option value="{{ location.location_name }}">{{ location.location_name }}</option>
                                             {% endfor %}
