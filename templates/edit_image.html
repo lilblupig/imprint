@@ -19,7 +19,9 @@
             <div class="text-center text-md-start mt-1 mb-5">
                 <a href="{{ url_for('users.profile', username=session['user']) }}" class="btn">Back to Profile</a>
             </div>
-            <img src="{{ image.photo }}" alt="{{ image.location }}" class="mb-4 image-properties" />
+            <div class="text-center">
+                <img src="{{ image.photo }}" alt="{{ image.location }}" class="mb-4 edit-properties" />
+            </div>
             <div>
                 <h2>{{ image.location }}</h2>
                 <p>Decade: {{ image.decade }}</p>
@@ -28,7 +30,9 @@
                 <p>Tags: {{ image.tags }}</p>
             </div>
         {% else %}
-            <img src="{{ image.photo }}" alt="{{ image.location }}" class="image-properties" />
+            <div class="text-center">
+                <img src="{{ image.photo }}" alt="{{ image.location }}" class="edit-properties" />
+            </div>
             <form method="POST" action="{{ url_for('users.edit_image', image_id=image._id) }}">
                 <!-- Hidden token proof that form came from page, uses secret key -->
                 {{ form.csrf_token }}
