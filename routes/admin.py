@@ -15,20 +15,19 @@ from flask import (
 )
 from werkzeug.security import check_password_hash
 
-# Get PyMongo instance
-from config.database import mongo
-
-# Initiate Blueprint
-admin = Blueprint("admin", __name__)
-
 # Import Object ID info from MongoDB
 from bson.objectid import ObjectId
 
+# Get PyMongo instance
+from config.database import mongo
+
 # Import local code and config files
 from forms import (
-    DeleteProfileForm,
-    EditImageForm
+    DeleteProfileForm
 )
+
+# Initiate Blueprint
+admin = Blueprint("admin", __name__)
 
 
 # Define functions for use in user authentication
@@ -61,7 +60,9 @@ def manage_users():
             return render_template("manage_users.html", users=users)
 
         # If not admin, log out and return to login page
-        flash("You are not authorised to view this page and have been logged out")
+        flash(
+            "You are not authorised to view this page and have been logged out"
+        )
         session.pop("user")
         return redirect(url_for("users.login"))
     # If user not logged in return to login page
@@ -80,20 +81,25 @@ def admin_toggle(user_toggle_id):
         # Check if user is admin
         if is_admin():
             # Find user to be toggled
-            user_toggle = mongo.db.users.find_one({"_id": ObjectId(user_toggle_id)})
+            user_toggle = mongo.db.users.find_one(
+                {"_id": ObjectId(user_toggle_id)})
             # Check current admin status
-            if user_toggle["is_admin"] == False:
+            if user_toggle["is_admin"] is False:
                 # Toggle admin rights on
-                mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": True}})
+                mongo.db.users.update_one(
+                    {"_id": user_toggle["_id"]}, {"$set": {"is_admin": True}})
             else:
                 # Toggle admin rights off
-                mongo.db.users.update_one({"_id": user_toggle["_id"]}, {"$set": {"is_admin": False}})
+                mongo.db.users.update_one(
+                    {"_id": user_toggle["_id"]}, {"$set": {"is_admin": False}})
             # Update admin on user management page
             flash("User updated succesfully!")
             return redirect(url_for("admin.manage_users"))
 
         # If not admin, log out and return to login page
-        flash("You are not authorised to view this page and have been logged out")
+        flash(
+            "You are not authorised to view this page and have been logged out"
+        )
         session.pop("user")
         return redirect(url_for("users.login"))
     # If user not logged in return to login page
@@ -116,19 +122,23 @@ def admin_delete_profile(delete_user):
             # Find admin user record from database
             user = mongo.db.users.find_one({"username": session["user"]})
             # Find user record from database
-            deleting_user = mongo.db.users.find_one({"_id": ObjectId(delete_user)})
+            deleting_user = mongo.db.users.find_one(
+                {"_id": ObjectId(delete_user)})
             deleting_username = deleting_user["username"]
             # Find posts made by user
-            posts = mongo.db.images.find({"owner": deleting_username})
+            posts = mongo.db.images.find(
+                {"owner": deleting_username})
 
             # If request type is POST, check all fields are validated
             if form.validate_on_submit():
-                # Check admin DB value matches that entered for old password in form
-                if check_password_hash(user["password"], request.form.get("old_password")):
+                # Check admin DB value matches that for old password in form
+                if check_password_hash(
+                        user["password"], request.form.get("old_password")):
                     # Delete posts
                     for post in posts:
-                        # Remove images from Cloudinary and clear Cloudinary cache
-                        cloudinary.uploader.destroy(post["cloudinary_id"], invalidate=True)
+                        # Remove images from Cloudinary, clear Cloudinary cache
+                        cloudinary.uploader.destroy(
+                            post["cloudinary_id"], invalidate=True)
                         # Remove documents from DB
                         mongo.db.images.remove({"_id": post["_id"]})
 
@@ -142,9 +152,13 @@ def admin_delete_profile(delete_user):
                 flash("Incorrect password, please try again")
 
             # If request type is GET, render the delete profile page
-            return render_template("admin_delete_profile.html", form=form, deleting_user=deleting_user)
+            return render_template(
+                "admin_delete_profile.html",
+                form=form, deleting_user=deleting_user)
         # If not admin, log out and return to login page
-        flash("You are not authorised to view this page and have been logged out")
+        flash(
+            "You are not authorised to view this page and have been logged out"
+        )
         session.pop("user")
         return redirect(url_for("users.login"))
     # If user not logged in return to login page
@@ -167,7 +181,9 @@ def manage_images():
             return render_template("manage_images.html", images=images)
 
         # If not admin, log out and return to login page
-        flash("You are not authorised to view this page and have been logged out")
+        flash(
+            "You are not authorised to view this page and have been logged out"
+        )
         session.pop("user")
         return redirect(url_for("users.login"))
     # If user not logged in return to login page
