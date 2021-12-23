@@ -20,13 +20,13 @@ The project code has been passed through the following code validators:
 ![HTML Validator result](readme-files/html-validation.png)
 
 * [CSS Code Validator](https://jigsaw.w3.org/css-validator/) (one warning - external stylesheets are not checked)
-![CSS Validator result](assets/readme-images/css-validation.png)
-![CSS Validator warning](assets/readme-images/css-validation-warning.png)
+![CSS Validator result](readme-files/css-validation.png)
+![CSS Validator warning](readme-files/css-validation-warning.png)
 
 * [JS Hint](https://jshint.com/)
 
 * The project has been assessed throughout development using [Lighthouse](https://developers.google.com/web/tools/lighthouse).
-![Lighthouse Ratings](assets/readme-images/lighthouse-XXXX.png)
+![Lighthouse Ratings](readme-files/lighthouse-XXXX.png)
 
 ## Logic Error Testing
 1. Check that script to determine form validation and success feedback has no errors.
@@ -37,24 +37,24 @@ The project code has been passed through the following code validators:
 1. As a new user, I want to 
     1. 
     1. 
-    ![User story 1 screenshot](assets/readme-images/user-story-1.png)
+    ![User story 1 screenshot](readme-files/user-story-1.png)
 1. As a new user, I want to 
     1. 
     1. 
-    ![User story 2 screenshot](assets/readme-images/user-story-2.png)
+    ![User story 2 screenshot](readme-files/user-story-2.png)
 1. As a new user, I want to l
     1. 
-    ![User story 3 screenshot](assets/readme-images/user-story-3.png)
+    ![User story 3 screenshot](readme-files/user-story-3.png)
 1. As a returning user, I want to 
     1. 
-    ![User story 4 screenshot](assets/readme-images/user-story-4.png)
+    ![User story 4 screenshot](readme-files/user-story-4.png)
 1. As a returning user, I want to 
     1. 
     1. 
-    ![User story 5 screenshot](assets/readme-images/user-story-5.png)
+    ![User story 5 screenshot](readme-files/user-story-5.png)
 1. As a frequent user, I want to 
     1. 
-    ![User story 6 screenshot](assets/readme-images/user-story-6.png)
+    ![User story 6 screenshot](readme-files/user-story-6.png)
 
 ## Manual Testing
 
