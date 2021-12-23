@@ -13,34 +13,22 @@ from flask import (
     session,
     url_for
 )
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 
 # Get PyMongo instance
 from config.database import mongo
 
 # Initiate Blueprint
-admin = Blueprint(
-    "admin", __name__,
-    static_folder="static",
-    template_folder="templates"
-)
+admin = Blueprint("admin", __name__)
 
 # Import Object ID info from MongoDB
 from bson.objectid import ObjectId
 
 # Import local code and config files
 from forms import (
-    ContactForm,
-    RegisterForm,
-    LoginForm,
-    ChangePasswordForm,
     DeleteProfileForm,
-    UploadImageForm,
     EditImageForm
-    )
-from config import mail_config
-from config.cloudinary_config import *
-# Using import * is generally frowned upon as a practice but this app is very simple, so it has been adopted in this case
+)
 
 
 # Define functions for use in user authentication
