@@ -13,34 +13,22 @@ from flask import (
     session,
     url_for
 )
-from werkzeug.security import generate_password_hash, check_password_hash
+
+# Import Object ID info from MongoDB
+from bson.objectid import ObjectId
 
 # Get PyMongo instance
 from config.database import mongo
 
 # Initiate Blueprint
-general = Blueprint(
-    "general", __name__,
-    static_folder="static",
-    template_folder="templates"
-)
-
-# Import Object ID info from MongoDB
-from bson.objectid import ObjectId
+general = Blueprint("general", __name__)
 
 # Import local code and config files
-from forms import (
-    ContactForm,
-    RegisterForm,
-    LoginForm,
-    ChangePasswordForm,
-    DeleteProfileForm,
-    UploadImageForm,
-    EditImageForm
-    )
+from forms import (ContactForm)
 from config import mail_config
 from config.cloudinary_config import *
-# Using import * is generally frowned upon as a practice but this app is very simple, so it has been adopted in this case
+# Using import * is generally frowned upon as a practice but this app is very
+# simple, so it has been adopted in this case
 
 
 # Define functions for use in user authentication
@@ -74,7 +62,12 @@ def gallery():
     maps_key = os.environ.get("MAPS_KEY")
 
     # Render all images in gallery format
-    return render_template("gallery.html", images=images, locations=locations, maps_key=maps_key)
+    return render_template(
+        "gallery.html",
+        images=images,
+        locations=locations,
+        maps_key=maps_key
+    )
 
 
 # Route for gallery free text search
@@ -91,14 +84,21 @@ def image_search():
     # Get maps key from environment variables
     maps_key = os.environ.get("MAPS_KEY")
     # Search database using permanent text index
-    images = mongo.db.images.find({"$text": {"$search": image_request}})
+    images = mongo.db.images.find(
+        {"$text": {"$search": image_request}})
 
     # If DB search yields no results, flash user message
-    if mongo.db.images.count_documents({"$text": {"$search": image_request}}) < 1:
+    if mongo.db.images.count_documents(
+            {"$text": {"$search": image_request}}) < 1:
         flash("No results found")
 
     # Render the search results in gallery form
-    return render_template("gallery.html", images=images, locations=locations, maps_key=maps_key)
+    return render_template(
+        "gallery.html",
+        images=images,
+        locations=locations,
+        maps_key=maps_key
+    )
 
 
 # Route for gallery dropdown filter
@@ -122,7 +122,13 @@ def location_filter():
         flash(location_choice)
 
     # Render the filtered results in gallery form
-    return render_template("gallery.html", images=images, locations=locations, location_choice=location_choice, maps_key=maps_key)
+    return render_template(
+        "gallery.html",
+        images=images,
+        locations=locations,
+        location_choice=location_choice,
+        maps_key=maps_key
+    )
 
 
 # Route for displaying Single Image
@@ -175,7 +181,8 @@ def contact():
             flash("Unable to send email, please try again later")
         # Otherwise, flash success message
         else:
-            flash("Thank you for your message, we will be in touch as soon as we can.")
+            flash(
+                "Thank you for your message, we will reply as soon as we can.")
 
         # Redirect user to gallery page
         return redirect(url_for("general.gallery"))

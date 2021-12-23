@@ -15,6 +15,22 @@ from flask import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# Import Object ID info from MongoDB
+from bson.objectid import ObjectId
+
+# Import local code and config files
+from forms import (
+    RegisterForm,
+    LoginForm,
+    ChangePasswordForm,
+    DeleteProfileForm,
+    UploadImageForm,
+    EditImageForm
+    )
+from config.cloudinary_config import *
+# Using import * is generally frowned upon as a practice but this app is very
+# simple, so it has been adopted in this case
+
 # Get PyMongo instance
 from config.database import mongo
 
@@ -24,23 +40,6 @@ users = Blueprint(
     static_folder="static",
     template_folder="templates"
 )
-
-# Import Object ID info from MongoDB
-from bson.objectid import ObjectId
-
-# Import local code and config files
-from forms import (
-    ContactForm,
-    RegisterForm,
-    LoginForm,
-    ChangePasswordForm,
-    DeleteProfileForm,
-    UploadImageForm,
-    EditImageForm
-    )
-from config import mail_config
-from config.cloudinary_config import *
-# Using import * is generally frowned upon as a practice but this app is very simple, so it has been adopted in this case
 
 
 # Define functions for use in user authentication
@@ -74,7 +73,8 @@ def register():
         # If request type is POST, check all fields are validated
         if form.validate_on_submit():
             # Check for existing username
-            existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
+            existing_user = mongo.db.users.find_one(
+                {"username": request.form.get("username").lower()})
             # If username is taken, ask user to choose a different name
             if existing_user:
                 flash("Username taken, please choose again")
@@ -82,7 +82,8 @@ def register():
             # Create dictionary with user form data and obscure password
             register_user = {
                 "username": request.form.get("username").lower(),
-                "password": generate_password_hash(request.form.get("password")),
+                "password": generate_password_hash(
+                    request.form.get("password")),
                 "is_admin": False
             }
             # Add user document to DB
@@ -93,7 +94,8 @@ def register():
             session["admin"] = False
 
             # Feedback success to user and direct to About page
-            flash(f"Welcome {register_user['username']}, thank you for joining!")
+            flash(
+                f"Welcome {register_user['username']}, thank you for joining!")
             return redirect(url_for("general.about"))
 
         # If request type is GET, render the about page accordingly
@@ -101,6 +103,7 @@ def register():
     # If user already logged in flash message and return to Gallery page
     flash("You cannot register as you are already signed in")
     return redirect(url_for("general.gallery"))
+
 
 # Route for login form
 @users.route("/login", methods=["GET", "POST"])
@@ -118,14 +121,17 @@ def login():
         # If request type is POST, check all fields are validated
         if form.validate_on_submit():
             # Search for username in DB
-            existing_user = mongo.db.users.find_one({"username": request.form.get("username").lower()})
+            existing_user = mongo.db.users.find_one(
+                {"username": request.form.get("username").lower()})
             if not existing_user:
                 # If username entered does not exist, feedback to user
                 flash("Invalid username, please try again")
                 return render_template('login.html', form=form)
             else:
                 # If username does exist, check entered password against DB
-                if check_password_hash(existing_user["password"], request.form.get("password")):
+                if check_password_hash(
+                        existing_user["password"],
+                        request.form.get("password")):
                     # Put user and admin status into session
                     session["user"] = request.form.get("username")
                     session["admin"] = existing_user["is_admin"]
@@ -174,8 +180,8 @@ def profile(username):
     """
     Change password form:
     Define which form to use
-    Check request type and either load page,
-    or validate, compare old password to DB, check new passwords match and update DB
+    Check request type and either load page, or validate,
+     compare old password to DB, check new passwords match and update DB
     Also displays all posts by user in gallery format
     """
     # Check if user logged in
@@ -191,19 +197,33 @@ def profile(username):
         # If request type is POST, check all fields are validated
         if form.validate_on_submit():
             # Check DB value matches that entered for old password in form
-            if check_password_hash(user["password"], request.form.get("old_password")):
+            if check_password_hash(
+                    user["password"], request.form.get("old_password")):
                 # Create variable containing hashed new password
-                update_password = generate_password_hash(request.form.get("new_password"))
+                update_password = generate_password_hash(
+                    request.form.get("new_password"))
                 # Update DB document with new password
-                mongo.db.users.update_one({"_id": user["_id"]}, {"$set": {"password": update_password}})
+                mongo.db.users.update_one(
+                    {"_id": user["_id"]},
+                    {"$set": {"password": update_password}}
+                )
                 # Feedback success to user and return to profile page
-                return render_template('profile.html', username=username, success=True)
+                return render_template(
+                    'profile.html',
+                    username=username,
+                    success=True
+                )
 
             # If entered old password does not match DB ask to try again
             flash("Incorrect existing password, please try again")
 
         # If request type is GET, render the user profile page
-        return render_template("profile.html", images=images, username=username, form=form)
+        return render_template(
+            "profile.html",
+            images=images,
+            username=username,
+            form=form
+        )
     # If user not logged in flash message and return to login page
     flash("Please login to manage your profile")
     return redirect(url_for("users.login"))
@@ -228,11 +248,13 @@ def delete_profile():
         # If request type is POST, check all fields are validated
         if form.validate_on_submit():
             # Check DB value matches that entered for password in form
-            if check_password_hash(user["password"], request.form.get("old_password")):
+            if check_password_hash(
+                    user["password"], request.form.get("old_password")):
                 # Delete user posts
                 for post in posts:
                     # Remove images from Cloudinary and clear Cloudinary cache
-                    cloudinary.uploader.destroy(post["cloudinary_id"], invalidate=True)
+                    cloudinary.uploader.destroy(
+                        post["cloudinary_id"], invalidate=True)
                     # Remove documents from DB
                     mongo.db.images.remove({"_id": post["_id"]})
                 # Remove session cookie
@@ -275,9 +297,10 @@ def upload():
 
         # If request type is POST, check all fields are validated
         if form.validate_on_submit():
-            # Send image to Cloudinary account and determine upload preset to use
+            # Send image to Cloudinary account and determine upload preset
             photo = request.files['photo']
-            photo_upload = cloudinary.uploader.unsigned_upload(photo, "p6tbiahk")
+            photo_upload = cloudinary.uploader.unsigned_upload(
+                photo, "p6tbiahk")
             # Create dictionary for upload to DB as document
             uploaded = {
                 "location": request.form.get("location"),
@@ -296,7 +319,7 @@ def upload():
         # If request type is GET, render the upload page
         return render_template("upload.html", form=form)
     # If user not logged in flash message and return to login page
-    flash("Please login or register for an account to add images to the Gallery")
+    flash("Please login or register for an account to add Gallery images")
     return redirect(url_for("users.login"))
 
 
@@ -317,7 +340,12 @@ def edit_image(image_id):
         # Check if logged in user owns image or is admin
         if is_logged_in() == image["owner"] or is_admin():
             # Define form to use and populate with existing DB info
-            form = EditImageForm(location=image["location"], decade=image["decade"], details=image["details"], tags=image["tags"])
+            form = EditImageForm(
+                location=image["location"],
+                decade=image["decade"],
+                details=image["details"],
+                tags=image["tags"]
+            )
             # Get location options to populate dropdown in edit form
             all_locations = mongo.db.locations.distinct('location_name')
             form.location.choices = list(all_locations)
@@ -338,12 +366,14 @@ def edit_image(image_id):
                 mongo.db.images.update({"_id": image["_id"]}, updated)
                 # Feedback to user and display changes
                 flash("Post updated succesfully!")
-                return render_template('edit_image.html', image=image, success=True)
+                return render_template(
+                    'edit_image.html', image=image, success=True)
 
             # If request type is GET, render the edit post page
             return render_template("edit_image.html", image=image, form=form)
-        # If user not image owner flash message, log out and return to login page
-        flash("You are not authorised to view this page and have been signed out")
+        # If user not image owner flash message, logout and return login page
+        flash(
+            "You are not authorised to view this page and were signed out")
         session.pop("user")
         return redirect(url_for("users.login"))
     # If user not logged in return to login page
@@ -369,7 +399,8 @@ def delete_image(image_id):
             # Remove document from DB
             mongo.db.images.remove({"_id": image["_id"]})
             # Remove image from Cloudinary and clear Cloudinary cache
-            cloudinary.uploader.destroy(image["cloudinary_id"], invalidate=True)
+            cloudinary.uploader.destroy(
+                image["cloudinary_id"], invalidate=True)
 
             # Find posts made by user and define form for loading profile page
             images = mongo.db.images.find({"owner": username})
@@ -382,10 +413,15 @@ def delete_image(image_id):
             if is_admin():
                 return redirect(url_for("admin.manage_images"))
             # If regular user, return to profile page
-            return render_template("profile.html", images=images, username=username, form=form)
+            return render_template(
+                "profile.html",
+                images=images,
+                username=username,
+                form=form
+            )
 
-        # If user not image owner flash message, log out and return to login page
-        flash("You are not authorised to view this page and have been signed out")
+        # If user not image owner flash message, logout and return login page
+        flash("You are not authorised to view this page and were signed out")
         session.pop("user")
         return redirect(url_for("users.login"))
     # If user not logged in return to login page
