@@ -26,7 +26,9 @@ The project code has been passed through the following code validators:
 * [JS Hint](https://jshint.com/) was used to assess all three Javascript files.  All files return warnings that some code is not compatible prior to ES6, this is not considered an issue as the vast majority of modern browsers are ES6 compatible.  The file containing the maps polygons returns unused variable warnings, but these are used in the maps.js file, so this is not a problem.  The maps.js file shows the same undefined variables as are unused in the map_polygons.js file, and one note on the geolocation error handler.  This is not considered a problem as the code works as expected if the user allows location tracking and the location cannot be retrieved.  The script.js file assessment returns only warnings about $ signs which are used by jQuery.
 
 * The project has been assessed throughout development using [Lighthouse](https://developers.google.com/web/tools/lighthouse).
-![Lighthouse Ratings](readme-files/lighthouse-XXXX.png)
+![Lighthouse Ratings](readme-files/lighthouse-imprint.png)
+  *  As an image heavy website running on Heroku free dynos, Imprint was not expected to do well on performance, so the score 82 is definitely acceptable.  This could potentially be improved in future by setting up 'on the fly' image transitions from Cloudinary to use much smaller images on the Gallery page, but still return high quality images for single image view.
+  *  The best practice issues are not having a robust enough Content Security Policy, and asking for location on page load.  Ideally in the future location request will take place when the Map accordion is expanded for the first time instead, but time constraints prevent this at this moment.  A technically solid CSP is not in place as they generally retrict any interactive or styling nature of a website, since this website is designed to entertain it is necessary to keep those elements in place.  There may be scope to tighten up protection against Cross Site Scripting in future using Talisman, or some other security extension.
 
 ## Logic Error Testing
 1. Check that script to determine form validation and success feedback has no errors.
@@ -34,25 +36,25 @@ The project code has been passed through the following code validators:
 1. Check all pages for appropriate Bootstrap grid component ordering.
 
 ## Client Stories Testing
-1. As a new user, I want to 
+1. As a new tourist user, I want to link what I can see to what has been uploaded - clearly and easily. 
     1. 
     1. 
-    ![User story 1 screenshot](readme-files/user-story-1.png)
-1. As a new user, I want to 
+    ![User story 1 screenshot](readme-files/user-story-1.jpg)
+1. As a new local user, I want to find images of places I know. 
     1. 
     1. 
     ![User story 2 screenshot](readme-files/user-story-2.png)
-1. As a new user, I want to l
+1. As a new business user, I want to be able to find the area which relates to my business.
     1. 
     ![User story 3 screenshot](readme-files/user-story-3.png)
-1. As a returning user, I want to 
+1. As a returning tourist user, I want to upload my own photographs, and easily find them to relive my memories.
     1. 
     ![User story 4 screenshot](readme-files/user-story-4.png)
-1. As a returning user, I want to 
+1. As a returning local user, I want to share images and memories of my past and feel part of a community. 
     1. 
     1. 
     ![User story 5 screenshot](readme-files/user-story-5.png)
-1. As a frequent user, I want to 
+1. As a returning business user I want to be able to add value to the profile of my business and attract custom.
     1. 
     ![User story 6 screenshot](readme-files/user-story-6.png)
 
