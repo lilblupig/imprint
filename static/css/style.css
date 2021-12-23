@@ -189,6 +189,12 @@ nav {
     margin-bottom: 2rem;
 }
 
+.edit-properties {
+    max-height: 40em;
+    object-fit: cover;
+    margin-bottom: 2rem;
+}
+
 
 /* About page */
 div.imprint-about-buttons a {
