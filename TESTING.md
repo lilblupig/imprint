@@ -37,25 +37,25 @@ The project code has been passed through the following code validators:
 
 ## Client Stories Testing
 1. As a new tourist user, I want to link what I can see to what has been uploaded - clearly and easily. 
-    1. 
-    1. 
+    1. The location filter adds a polygon of the rough area the pictures were taken in to a Google map - the user should easily be able to identify landmarks.
+    1. In addition to this, if the user allows location tracking, a pin is added to the map which shows their location.  The polygon and marker will both display at the same time.
     ![User story 1 screenshot](readme-files/user-story-1.jpg)
 1. As a new local user, I want to find images of places I know. 
-    1. 
-    1. 
+    1. The free text search allows users to search for terms in the location, details and tags fields.  If someone has uploaded a photo of the cenotaph, the Kings Arms or the Trinity centre they should be easily found so long as they are tagged correctly.
     ![User story 2 screenshot](readme-files/user-story-2.png)
 1. As a new business user, I want to be able to find the area which relates to my business.
-    1. 
+    1. A business user will know roughly which bit of town their business is in.  They can location filter as above, or search for tags relating to their business, address or previous property holders.
+    1. In the example below, the haberdasher Hine & Parson is shown in both photographs.
     ![User story 3 screenshot](readme-files/user-story-3.png)
 1. As a returning tourist user, I want to upload my own photographs, and easily find them to relive my memories.
-    1. 
+    1. Registering for an account is simple, and the image upload form is designed to be as easy as possible.  The upload function works on computers and mobile devices.
+    1. Once registered, there is a profile area which is easy to find and shows all images uploaded by the logged in user.
     ![User story 4 screenshot](readme-files/user-story-4.png)
 1. As a returning local user, I want to share images and memories of my past and feel part of a community. 
-    1. 
-    1. 
+    1. When uploading, it is possible to select a decade in which it is estimated the picture was taken.  This can be searched, so it should be easy to share memories, and find those of others.
     ![User story 5 screenshot](readme-files/user-story-5.png)
 1. As a returning business user I want to be able to add value to the profile of my business and attract custom.
-    1. 
+    1. Shaftesbury locals love history, it is just a part of who we are.  By finding, uploading and sharing one or more images of their business premises as it was they should be able to start a conversation around their work and attract people to come and see.  In future, comment threads should help promote this.
     ![User story 6 screenshot](readme-files/user-story-6.png)
 
 ## Manual Testing
