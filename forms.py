@@ -47,7 +47,8 @@ class ContactForm(FlaskForm):
         [
             InputRequired(),
             Email(
-                message=('Please enter a valid email address e.g. "username@domain.com".')
+                message=(
+                    'Please use a valid email address e.g. "user@domain.com".')
             )
         ]
     )
