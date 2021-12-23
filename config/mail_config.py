@@ -9,7 +9,7 @@ from flask_mail import Message, Mail
 from app import app
 
 # Create instance of Flask-Mail Mail "class"
-mail = Mail()
+mail = Mail(app)
 
 # Define settings for email sending in dictionary
 email_settings = {
@@ -40,6 +40,7 @@ def send_email(form_content):
     # Set mail subject and recipient
     msg = Message(
         "Imprint contact message",
+        sender=email_settings["ADMIN_EMAIL"],
         recipients=[email_settings["ADMIN_EMAIL"]]
     )
 
