@@ -23,7 +23,7 @@ The project code has been passed through the following code validators:
 ![CSS Validator result](readme-files/css-validation.png)
 ![CSS Validator warning](readme-files/css-validation-warning.png)
 
-* [JS Hint](https://jshint.com/)
+* [JS Hint](https://jshint.com/) was used to assess all three Javascript files.  All files return warnings that some code is not compatible prior to ES6, this is not considered an issue as the vast majority of modern browsers are ES6 compatible.  The file containing the maps polygons returns unused variable warnings, but these are used in the maps.js file, so this is not a problem.  The maps.js file shows the same undefined variables as are unused in the map_polygons.js file, and one note on the geolocation error handler.  This is not considered a problem as the code works as expected if the user allows location tracking and the location cannot be retrieved.  The script.js file assessment returns only warnings about $ signs which are used by jQuery.
 
 * The project has been assessed throughout development using [Lighthouse](https://developers.google.com/web/tools/lighthouse).
 ![Lighthouse Ratings](readme-files/lighthouse-XXXX.png)
