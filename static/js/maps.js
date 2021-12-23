@@ -69,7 +69,7 @@ function initMap() {
     // Get user's location - Uses https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
     if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
-            position => {console.log(`Lat: ${position.coords.latitude} Lng: ${position.coords.longitude}`);
+            position => {
 
             marker.setPosition({
                 lat: position.coords.latitude,
