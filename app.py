@@ -6,6 +6,7 @@ Master module
 # Import dependencies
 import os
 from flask import Flask
+from flask_talisman import Talisman
 
 # Import Blueprints
 from routes.admin import admin
@@ -42,6 +43,9 @@ app.register_blueprint(errors)
 
 # Initialise database
 mongo.init_app(app)
+
+# Wrap Flask app with Talisman
+Talisman(app, content_security_policy=None)
 
 if __name__ == "__main__":
     app.run(
