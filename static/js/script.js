@@ -6,10 +6,9 @@ $( document ).ready(function() {
     /* Allow form submit on enter where no recaptcha */
     $( ".submit-listen" ).keydown(function(event) {
         if (event.key === "Enter") {
-            console.log("Enter was pressed")
             $( "#submit" ).click();
             return false;
         }
-    })
+    });
 
 });

@@ -76,7 +76,7 @@ function initMap() {
                 lng: position.coords.longitude
             });
 
-            err => alert(`Error (${err.code}): We were unable to retrieve your position.`)
+            err => alert(`Error (${err.code}): We were unable to retrieve your position.`);
             });
     } else {
         alert('Geolocation is not supported by your browser.');
