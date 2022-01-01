@@ -133,7 +133,7 @@ def login():
                         existing_user["password"],
                         request.form.get("password")):
                     # Put user and admin status into session
-                    session["user"] = request.form.get("username")
+                    session["user"] = request.form.get("username").lower()
                     session["admin"] = existing_user["is_admin"]
                     # Inform user of succesful login
                     flash(f"Welcome back {request.form.get('username')}")
