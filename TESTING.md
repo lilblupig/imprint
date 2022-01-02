@@ -26,16 +26,19 @@ The project code has been passed through the following code validators:
 * [JS Hint](https://jshint.com/) was used to assess all three Javascript files.  All files return warnings that some code is not compatible prior to ES6, this is not considered an issue as the vast majority of modern browsers are ES6 compatible.  The file containing the maps polygons returns unused variable warnings, but these are used in the maps.js file, so this is not a problem.  The maps.js file shows the same undefined variables as are unused in the map_polygons.js file, and one note on the geolocation error handler.  This is not considered a problem as the code works as expected if the user allows location tracking and the location cannot be retrieved.  The script.js file assessment returns only warnings about $ signs which are used by jQuery.
 
 * The project has been assessed throughout development using [Lighthouse](https://developers.google.com/web/tools/lighthouse).
+
 ![Lighthouse Ratings](readme-files/lighthouse-imprint.png)
   *  As an image heavy website running on Heroku free dynos, Imprint was not expected to do well on performance, so the score 82 is definitely acceptable.  This could potentially be improved in future by setting up 'on the fly' image transitions from Cloudinary to use much smaller images on the Gallery page, but still return high quality images for single image view.
-  *  The best practice issues are not having a robust enough Content Security Policy, and asking for location on page load.  Ideally in the future location request will take place when the Map accordion is expanded for the first time instead, but time constraints prevent this at this moment.  A technically solid CSP is not in place as they generally retrict any interactive or styling nature of a website, since this website is designed to entertain it is necessary to keep those elements in place.  There may be scope to tighten up protection against Cross Site Scripting in future using Talisman, or some other security extension.
+  *  The best practice issues are not having a robust enough Content Security Policy, and asking for location on page load.  Ideally in the future location request will take place when the Map accordion is expanded for the first time instead, but time constraints prevent this at this moment.  A technically solid CSP is not in place as they generally restrict any interactive or styling nature of a website. Since this website is designed to entertain it is necessary to keep those elements in place.  There may be scope to tighten up protection against Cross Site Scripting in future using Talisman, or some other security extension.
 
 ## Logic Error Testing
-1. Check that script to determine form validation and success feedback has no errors.
+1. Relates mainly to forms and gallery page.  All forms were tested for validation and appropriate user feedback.
 
-1. Check all pages for appropriate Bootstrap grid component ordering.
+1. All website functionality which requires adding to/changing/deleting from the database was checked, ensuring that all expected database changes took place accordingly.
 
-## Client Stories Testing
+1. Logic is also used for the majority of the security on the site, the main risk was noted as brute force access to restricted or personal areas via direct entry of the appropriate url.  Ob such pages the website checks for a session cookie and tests the values held within before determining whether to allow the user to view that page.  All restricted and personalised areas were tested both logged out and logged in as a different user to ensure that the appropriate action was taken by the website.  Initially the admin pages threw an error but this was due to the route trying to remove a cookie that did not exist.  This issue has been resolved.
+
+## User Stories Testing
 1. As a new tourist user, I want to link what I can see to what has been uploaded - clearly and easily. 
     1. The location filter adds a polygon of the rough area the pictures were taken in to a Google map - the user should easily be able to identify landmarks.
     1. In addition to this, if the user allows location tracking, a pin is added to the map which shows their location.  The polygon and marker will both display at the same time.
@@ -62,54 +65,43 @@ The project code has been passed through the following code validators:
 
 ### **Common Elements**
 
-These components are present on every page, and each page has been tested.
+These components are present on every page, and each page has been tested.  Testing for this document took place on
+* Windows laptop using Chrome, Edge and Firefox
+* Xiaomi Mi9 Android mobile
+* Tesco Hudl2 Android tablet
+
+Other devices were used to view the page throughout development, including Nexus 10 tablet, Motorola E7 power and Google Pixel XL.
+
+A [spreadsheet](readme-files/documents/testing.xlsx) is included which provides more granular detail on the testing undertaken.
 
 ---
 
 #### Navigation Bar
 
-**Intent** - a navbar which collapses to hamburger on mobile.
+**Intent** - a navbar which collapses to hamburger on tablet and mobile.
 
 * All links are valid and link to the appropriate page.
-* Logo alt displays on hover (added title attribute).
 * Hover effect occurs correctly for each navigation section.
-* Active class is applied correctly for current page.
 * Resize to mobile/tablet and check that navigation bar collapses to hamburger.
 * Expand hamburger menu and check all sections present, and displaying correctly.
 
-**Result** - `Text here to explain what happened when tested`
+**Result** Initially collapse to hamburger at small meant that the nav looped onto two rows on a tablet when expanded.  This was changed such that the hamburger menu remains present until the transition to large viewport.
 
-**Verdict** - XXXX
-
----
-
-#### Hero Images
-
-**Intent** - a full width image relevant to the page content, different for each page.  Primary purpose, to elicit a positive emotional response from the user.  The image should display correctly on all device sizes.  The image should display XXX% height on the home page and XXX% on the 404 page to display redirect information.
-
-* Image fills the viewport as expected depending on page.
-* Resize to mobile/tablet and check that image still displays without distortion.
-* Text remains centered with no overflow at mobile/tablet.
-
-**Result** - `Text here to explain what happened when tested`
-
-**Verdict** - XXXX
+**Verdict** - PASS
 
 ---
 
 #### Footer
 
-**Intent** - The footer should be reflective of the design of the nav to bookend each page and provide familiarity to the user.  This helps with intuitive learning.  Any external links should open in new tabs and provide user feedback when hovered over.
+**Intent** - The footer should be reflective of the design of the nav to bookend each page and provide familiarity to the user.  This helps with intuitive learning.  Any links should provide user feedback when hovered over.
 
-* Footer appears in XXX sections.
-* Social media icons display correctly, and show feedback behaviour on hover.
-* Social links open in new tabs to correct locations.
+* Footer appears in 3 sections on large and above, and two sections on medium and below.
 * Resize to tablet and check for text overflow issues.
 * Resize to mobile and check that sections wrap neatly below one another.
 
-**Result** - `Text here to explain what happened when tested`
+**Result** - All behaviour as expected
 
-**Verdict** - XXXX
+**Verdict** - PASS
 
 ---
 
@@ -127,67 +119,83 @@ These items are specific to each individual page.
 
 ---
 
-#### Contact Us
+#### Gallery and images
 
-**Intent** - Encourage the user to get in touch with the owners, and make it as easy as possible to do so.
+**Intent**
 
-* All text sections display correctly across tested device widths.
-* All buttons display user feedback on hover.
-* All internal links navigate to the correct page.
+Gallery page should display two accordion sections for searches and a map above tiles in columns appropriate for the size of the device in use.
 
-Contact Us Form
-* Form contents align nicely and that there is no overflow of content.
-* Fields display correctly on mobile/tablet and PC.
-* Placeholder text displays in fields.
+Single image displays a full width image cropped according to device size.  Primary purpose, to elicit a positive emotional response from the user.  The image should display correctly on all device sizes.
+
+* Accordions fit page width according to device and content within resizes accordingly.
+* Tiles display 3 wide on large, two on tablet and one on mobile.
+* Single image fills the viewport width as expected depending on page.
+* Resize to mobile/tablet and check that image still displays without distortion.
+* Text remains centered/justified with no overflow at mobile/tablet.
+
+**Result** - Edit image page had significant image overspill on mobile and tablet.  This has been corrected.
+
+**Verdict** - PASS
+
+---
+
+#### Forms
+
+**Intent** - Allow the user to get in touch with the owners, login/register for use and make it as easy as possible to do so.
+
+* All text sections/fields display correctly across tested device widths.
+* All form fields validate content (or lack thereof) and feedback to the user.
+* Edit image form prefills with previously submitted content.
 * Fields and submit button display feedback on hover.
 * Fields display feedback on focus.
 * Try to submit blank form, error messages display with information.
 * Try to submit email in incorrect format, error message displays with information.
 * Try to submit form without question, error message displays with information.
 * Submit correctly completed form, receive success modal.
-* Modal information centers correctly with no overflow on all device widths.
 
-**Result** - `Text here to explain what happened when tested`
+**Result** - Flash messages specific to forms was appearing correctly by the appropriate field but was plain black text.  This was updated to use the same styling as the main flash message container.
 
-**Verdict** - XXXX
+**Verdict** - PASS
 
 ---
-#### 404
+#### 404, 500 and general error handling
 
-**Intent** - Catch users who would normally encounter a browser generated 404 page, and redirect them back to the website as cleanly as possible.
+**Intent** -
 
-* All text sections display correctly across tested device widths.
-* All buttons and links display user feedback on hover.
-* All internal links navigate to the correct page.
-* User is guided back to the home page.
+* Catch users who would normally encounter a browser generated 404 page, and redirect them back to the website as cleanly as possible.
+* Display a simple error page in the instance of 500 or other error which redirects user back to website.
+* Specific try-catch error handling for email contact form which feeds back on success failure to the user.
+
+
 * Mistyped url for website to ensure 404 page displays in such situations.
 * Deliberately broke page link to ensure 404 page will display in this instance too.
+* Generic error message page displayed on keyerror discovered by admin security testing (now fixed).
+* Email feedback tested by changing Gmail app password in Heroku such that Gmail would not recognise the site.  Message displayed correctly.
 
-**Result** - `Text here to explain what happened when tested`
+**Result** - All error types tested produced the expected pages and messages for the user.
 
-**Verdict** - XXXX
+**Verdict** - PASS
 
 ---
 
 ### **Accessibility**
 
 The colourblind feature on Coolors was used to check that the colours appeared sufficiently different, and not jarring for these users.
-![Colourblindness assessment via Coolors](assets/readme-images/colourblindness.png)
+![Colourblindness assessment via Coolors](readme-files/colors-opt-1.png)
 
-As well as the use of the Lighthouse assessments of accessibility, the website was browsed at intervals by two users who may experience difficulty.  A dyslexic user with ASD and a colourblind user both XXXXX.
+As well as the use of the Lighthouse assessments of accessibility, the website was browsed at intervals by two users who may experience difficulty.  A dyslexic user with ASD and a colourblind user both explored the website during deployment.
 
 ## Bugs
 
 Details of any persistent or difficult bugs, and any bugs which remain unresolved.
 
 ### **Fixed Bugs**
-
+After code refactor logged in users sporadically unable to access upload or profile pages.  It was initially suspected that cookie/database read write had been affected and significant time was invested into fixing the issue.  Eventually it transpired that a ".lower()" had been removed from username processing to cookie on login route. As such, the username that was stored in the session cookie would take on whatever case was entered in the login form, where the value checked against the database was forced to lowercase correctly.
 
 ### **Remaining Bugs**
+The Google Map displays inconsistently in the deployed environment and no pattern or common cause can be established.  The map appears and displays correctly approximately 78% of the time when tested, which is far lower than desired.  Refreshing the page generally loads the map as expected.  The map works as expected 100% of the time in the development environment.  The value that the map adds to the experience of using the website, particularly for visitors is considered great enough, and the workaround of refreshing is low impact enough that the map has been included in the final deployed version.
 
-
-
-Testing first completed XX/XX/2021 - AKH
-Testing repeated XX/XX/2021 - AKH
+Testing first completed 27/12/2021 - AKH
+Testing repeated 02/01/2021 - AKH
 
 [Return to Top](#title)
