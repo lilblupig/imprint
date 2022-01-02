@@ -135,7 +135,7 @@ nav {
 }
 
 /* Display/hide Hamburger/Standard nav at tablet breakpoint */
-@media (min-width: 768px) {
+@media (min-width: 992px) {
     #navbarImprint {
         display: block;
     }
