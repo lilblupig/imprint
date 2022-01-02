@@ -40,7 +40,7 @@ def is_logged_in():
 
 def is_admin():
     """
-    Check if user is logged in, return True or False, or none if not logged in
+    Check if user is admin, return True or False, or none if not admin
     """
     return session.get("admin")
 
@@ -57,9 +57,10 @@ def manage_users():
         users = mongo.db.users.find().sort("username", 1)
         return render_template("manage_users.html", users=users)
 
-    # If not admin, log out and return to login page
+    # If not admin, log out as appropriate and return to login page
     flash("You are not authorised to view this page and were logged out")
-    session.pop("user")
+    if is_logged_in():
+        session.pop("user")
     return redirect(url_for("users.login"))
 
 
@@ -89,7 +90,8 @@ def admin_toggle(user_toggle_id):
 
     # If not admin, log out and return to login page
     flash("You are not authorised to view this page and were logged out")
-    session.pop("user")
+    if is_logged_in():
+        session.pop("user")
     return redirect(url_for("users.login"))
 
 
@@ -141,7 +143,8 @@ def admin_delete_profile(delete_user):
             form=form, deleting_user=deleting_user)
     # If not admin, log out and return to login page
     flash("You are not authorised to view this page and were logged out")
-    session.pop("user")
+    if is_logged_in():
+        session.pop("user")
     return redirect(url_for("users.login"))
 
 
@@ -159,5 +162,6 @@ def manage_images():
 
     # If not admin, log out and return to login page
     flash("You are not authorised to view this page and were logged out")
-    session.pop("user")
+    if is_logged_in():
+        session.pop("user")
     return redirect(url_for("users.login"))

@@ -135,7 +135,7 @@ nav {
 }
 
 /* Display/hide Hamburger/Standard nav at tablet breakpoint */
-@media (min-width: 768px) {
+@media (min-width: 992px) {
     #navbarImprint {
         display: block;
     }
@@ -143,7 +143,7 @@ nav {
 
 
 /* Flash message container */
-.main-flash {
+.main-flash, div.flash {
     text-decoration: overline;
     text-decoration-color: #fbb13c;
     margin-bottom: 1.25rem;
@@ -191,6 +191,7 @@ nav {
 
 .edit-properties {
     max-height: 40em;
+    max-width: 100%;
     object-fit: cover;
     margin-bottom: 2rem;
 }
