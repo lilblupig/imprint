@@ -120,16 +120,9 @@ Third increment:
 In line with structure planning.
 
 #### **Wireframes**
-
-##### Original
 1. [Mobile](readme-files/documents/imprint-mobile.pdf) 375px
 1. [Tablet](readme-files/documents/imprint-tablet.pdf) 768px
 1. [PC/Laptop](readme-files/documents/imprint-pc.pdf) 1200px
-
-##### Final
-1. [Mobile](readme-files/documents/imprint-mobile-final.pdf) 375px
-1. [Tablet](readme-files/documents/imprint-tablet-final.pdf) 768px
-1. [PC/Laptop](readme-files/documents/imprint-pc-final.pdf) 1200px
 
 ##### Summary of Changes
 * Primary change is from separate map page as landing page, to gallery page as landing page.  Implementation of the clickable map was going to be very time consuming and tricky to make scaleable.  Additionally, realistically, locals will use it far more than visitors and they want to see the pictures, not the map.
@@ -181,7 +174,6 @@ Changes to design are documented in the [UX section](#ux) under [wireframes](#wi
 The project was deployed using GitHub linked Heroku, once the basic structure of the page was complete.  This allowed for continuous delivery as each major change was made, pushed and merged and enabled testing of the page throughout development on different devices.  It also reduced the pressure towards submission, as all wrinkles relating to config vars and mail app passwords had been addressed.
 
 ### **Reflections on General Approach to Build**
-What would be done differently next time?  What went right?  Overall opinion.
 
 ### **Lessons Learned**
 As always with these projects, understand the languages and frameworks better before starting so that it is known what can be achieved rather than going through various iterations to find something that works.
@@ -193,7 +185,6 @@ Did not anticipate the need to store images as have only worked on standard serv
 Did not understand how Flask routing passes information to and retrieves information from the templates.  This led to enormous confusion trying to get user profiles and single image views to work, however persistence rewarded with understanding, so lots of code refactored throughout the project.
 
 ### **Revised Development Process**
-
 Based on the experience of producing the website, the creator would now take the following approach.
 
 #### Preparation
@@ -203,7 +194,6 @@ Take into account live environment and the limitations it introduces, not just t
 Knowing how the mini framework actually passes and receives information between models and views is critical to an efficient build.  Ideally, smaller projects would be undertaken prior to commencing in order to consolidate understanding gained from tutorials.
 
 ## Deployment
-
 The website was created using [GitPod](https://www.gitpod.io/). Version control was undertaken by committing to [Git](https://git-scm.com/) and pushing to [GitHub](https://github.com/) using the functions within GitPod.  [Heroku]((https://heroku.com/)) was used to deploy the live site.
 
 ### **Deployment of the Page**
