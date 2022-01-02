@@ -143,7 +143,7 @@ nav {
 
 
 /* Flash message container */
-.main-flash {
+.main-flash, div.flash {
     text-decoration: overline;
     text-decoration-color: #fbb13c;
     margin-bottom: 1.25rem;
