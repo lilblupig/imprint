@@ -304,10 +304,13 @@ The following resources provided strong underlying understanding for items withi
 * Force https from blog post recommended by Heroku, [From http to https](https://betterprogramming.pub/from-http-to-https-easily-secure-flask-web-apps-with-talisman-3359692d3eac)
 
 #### Content
-Where did the website content come from?
+
+The website does not really contain any standalone content in terms of imagery, all content is uploaded by users.
 
 #### Media
-* The photographs uploaded to the website as at release were taken by the creator.
+* The 6 black and white photographs uploaded to the website by the admin account were taken from a local news [article published in the Bournemouth Echo](https://www.bournemouthecho.co.uk/news/19381037.pictures-shaftesbury-old-postcards---part-1-2/)
+
+* The other photographs uploaded to the website as at release were taken by the creator.
 
 #### Acknowledgements
 Thank you in particular to:
